@@ -5,11 +5,11 @@ import Sidebar from '../componants/SideBar/Sidebar';
 const MainLayout = () => {
   return (
     <div>
-      <div className='grid'>
-        <div className=''>
+      <div className="grid grid-cols-10">
+        <div className="col-span-2">
           <Sidebar />
         </div>
-        <div className=' grid-cols-9'>
+        <div className="col-span-8">
           <Header />
           <Outlet />
         </div>

@@ -7,10 +7,10 @@ const MainLayout = () => {
     <div>
       <Header />
       <div className="row m-0">
-        <div className=" col-2">
+        <div className=" col-3">
           <Sidebar />
         </div>
-        <div className=" col-10">
+        <div className=" col-9">
           <Outlet />
         </div>
       </div>

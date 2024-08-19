@@ -1,15 +1,15 @@
-import { Outlet } from "react-router-dom";
-import Header from "../componants/Header";
-import Sidebar from "../componants/SideBar/Sidebar";
+import { Outlet } from 'react-router-dom';
+import Header from '../componants/Header';
+import Sidebar from '../componants/SideBar/Sidebar';
 
 const MainLayout = () => {
   return (
     <div>
-      <div className="grid">
-        <div className=" grid-cols-3">
+      <div className='grid'>
+        <div className=''>
           <Sidebar />
         </div>
-        <div className=" col-9">
+        <div className=' grid-cols-9'>
           <Header />
           <Outlet />
         </div>

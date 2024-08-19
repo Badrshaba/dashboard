@@ -1,20 +1,9 @@
-import { Route, Routes } from "react-router-dom";
-import MainLayout from "./Layout/MainLayout";
-import { createIcons, icons } from 'lucide'
+import { RouterProvider } from 'react-router-dom';
+import { createIcons, icons } from 'lucide';
+import router from './utils/Router';
 const App = () => {
-  
-createIcons({ icons });
-  return (
-    <div>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<h3>Home</h3>} />
-          <Route path="about" element={<h3>about</h3>} />
-          <Route path="contact" element={<h3>contact</h3>} />
-        </Route>
-      </Routes>
-    </div>
-  );
+  createIcons({ icons });
+  return <RouterProvider router={router} />;
 };
 
 export default App;

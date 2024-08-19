@@ -1,7 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./Layout/MainLayout";
-
+import { createIcons, icons } from 'lucide'
 const App = () => {
+  
+createIcons({ icons });
   return (
     <div>
       <Routes>

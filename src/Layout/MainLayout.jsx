@@ -1,16 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Header from "../componants/Header";
-import Sidebar from "../componants/Sidebar";
+import Sidebar from "../componants/SideBar/Sidebar";
 
 const MainLayout = () => {
   return (
     <div>
-      <Header />
-      <div className="row m-0">
-        <div className=" col-3">
+      <div className="grid">
+        <div className=" grid-cols-3">
           <Sidebar />
         </div>
         <div className=" col-9">
+          <Header />
           <Outlet />
         </div>
       </div>

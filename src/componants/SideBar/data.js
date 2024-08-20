@@ -4,22 +4,21 @@ export const Data = [
         icon:' house',
         listItems:[
             {
-                title:"item",
+                title:"home",
                 route:'/'
             },
             {
-                title:"item",
+                title:"about",
                 route:'/about'
             },
             {
-                title:"item",
+                title:"contact",
                 route:'/contact'
             },
         ]
     },
     {
         title:"Applications",
-        icon:" ",
         listItems:[
             {
                 title:"item",
@@ -52,5 +51,5 @@ export const Data = [
                 route:'/'
             },
         ]
-    }
+    },
 ]

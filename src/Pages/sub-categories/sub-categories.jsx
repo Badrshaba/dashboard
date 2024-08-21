@@ -1,5 +1,6 @@
+import { TableComp } from '../../componants';
 const SubCategories = () => {
-  return <div>Sub Categories</div>;
+  return <TableComp title='Sub Categories' />;
 };
 
 export default SubCategories;

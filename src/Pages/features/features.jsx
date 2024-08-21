@@ -1,5 +1,6 @@
+import { TableComp } from '../../componants';
 const Features = () => {
-  return <div>Features</div>;
+  return <TableComp title='Features' />;
 };
 
 export default Features;

@@ -14,7 +14,7 @@ const MainLayout = () => {
 
         <div className='col-span-8'>
           <Header />
-          <div className='h-screen'>
+          <div className='min-h-screen p-5 bg-mainBG'>
             <Outlet />
           </div>
         </div>

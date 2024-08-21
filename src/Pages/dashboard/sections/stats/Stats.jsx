@@ -1,5 +1,5 @@
 import { HomeIcon, ReceiptCent, Sailboat, User2Icon } from 'lucide-react';
-import StateCard from '../../componants/state-card/state-card';
+import { StateCard } from '../../../../componants';
 
 const Stats = () => {
   return (

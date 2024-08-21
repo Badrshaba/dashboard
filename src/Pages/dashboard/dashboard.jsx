@@ -1,14 +1,8 @@
-import {
-  Stats,
-  RecentProperites,
-  MostViewed,
-  TotalCategories,
-  FeaturedProducts,
-} from '../../sections';
+import { Stats, RecentProperites, MostViewed, TotalCategories, FeaturedProducts } from './sections';
 
 const Dashboard = () => {
   return (
-    <div className='bg-mainBG min-h-full p-5'>
+    <>
       <h1 className='text-3xl text-black font-Bold mb-5'>Hi, Admin</h1>
       <div className='top-part grid grid-cols-12 gap-5'>
         <div className=' col-span-5'>
@@ -22,7 +16,7 @@ const Dashboard = () => {
         <TotalCategories />
         <FeaturedProducts />
       </div>
-    </div>
+    </>
   );
 };
 

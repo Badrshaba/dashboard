@@ -8,65 +8,47 @@ const DATA = [
     icon: <House size={18} />,
     route: '/',
   },
+
   {
-    title: 'About',
+    title: 'Bunners',
     icon: <Store size={18} />,
-    route: '/about',
+    route: '/bunners',
   },
   {
-    title: 'Contact',
+    title: 'Brookers',
     icon: <Headset size={18} />,
-    route: '/contact',
+    route: '/brookers',
   },
   {
-    title: 'eman',
+    title: 'Developers',
     icon: <Apple size={18} />,
-    route: '/apple',
+    route: '/developers',
   },
   {
-    title: 'About',
+    title: 'Categories',
     icon: <Store size={18} />,
-    route: '/about',
+    route: '/categories',
   },
   {
-    title: 'Contact',
+    title: 'Customers',
     icon: <Headset size={18} />,
-    route: '/contact',
+    route: '/customers',
   },
   {
-    title: 'eman',
+    title: 'Compounds',
     icon: <Apple size={18} />,
-    route: '/apple',
+    route: '/compounds',
   },
   {
-    title: 'About',
+    title: 'Sub Categories',
     icon: <Store size={18} />,
-    route: '/about',
+    route: '/sub-categories',
   },
+
   {
-    title: 'Contact',
-    icon: <Headset size={18} />,
-    route: '/contact',
-  },
-  {
-    title: 'eman',
+    title: 'Features',
     icon: <Apple size={18} />,
-    route: '/apple',
-  },
-  {
-    title: 'About',
-    icon: <Store size={18} />,
-    route: '/about',
-  },
-  {
-    title: 'Contact',
-    icon: <Headset size={18} />,
-    route: '/contact',
-  },
-  {
-    title: 'eman',
-    icon: <Apple size={18} />,
-    route: '/apple',
+    route: '/features',
   },
 ];
 const Sidebar = () => {

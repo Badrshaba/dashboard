@@ -1,7 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../Layout/MainLayout';
-
-import Dashboard from '../Pages/dashboard/dashboard';
+import {
+  Dashboard,
+  SubCategories,
+  Brookers,
+  Bunners,
+  Compounds,
+  Customers,
+  Features,
+  Properites,
+  Developers,
+  Categories,
+} from '../Pages';
 //const Home = lazy(() => import('../Pages/home/Home'));
 
 const router = createBrowserRouter([
@@ -20,28 +30,40 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: 'about',
-        element: (
-          <div className=' bg-blue-600 flex justify-center items-center h-full'>
-            <h2 className='text-blue-700 text-3xl font-bold'>about</h2>
-          </div>
-        ),
+        path: 'bunners',
+        element: <Bunners />,
       },
       {
-        path: 'contact',
-        element: (
-          <div className=' bg-slate-600 flex justify-center items-center h-full '>
-            <h2 className=' text-green-700 text-3xl font-bold'>contact</h2>
-          </div>
-        ),
+        path: 'features',
+        element: <Features />,
       },
       {
-        path: 'apple',
-        element: (
-          <div className=' bg-orange-500 flex justify-center items-center h-full '>
-            <h2 className=' text-green-700 text-3xl font-bold'>eman</h2>
-          </div>
-        ),
+        path: 'compounds',
+        element: <Compounds />,
+      },
+      {
+        path: 'customers',
+        element: <Customers />,
+      },
+      {
+        path: 'brookers',
+        element: <Brookers />,
+      },
+      {
+        path: 'developers',
+        element: <Developers />,
+      },
+      {
+        path: 'properites',
+        element: <Properites />,
+      },
+      {
+        path: 'sub-categories',
+        element: <SubCategories />,
+      },
+      {
+        path: 'categories',
+        element: <Categories />,
       },
     ],
   },

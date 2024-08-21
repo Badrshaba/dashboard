@@ -1,14 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../Layout/MainLayout';
 import { lazy } from 'react';
-
-const Home = lazy(() => import('../Pages/home/Home'));
+import Home from '../Pages/home/Home'
+//const Home = lazy(() => import('../Pages/home/Home'));
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
-    errorElement:<h1 className=' text-red-700 text-3xl font-bold' >Error</h1>,
+    errorElement:<div className='bg-pink-600 flex justify-center items-center h-full' ><h1 className=' text-red-700 text-3xl font-bold' >Error</h1></div>,
     children: [
       {
         index: true,

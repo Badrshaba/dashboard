@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'apple',
-        element: <div className=' bg-slate-600 flex justify-center items-center h-full '><h2 className=' text-green-700 text-3xl font-bold'>contact</h2></div> ,
+        element: <div className=' bg-orange-500 flex justify-center items-center h-full '><h2 className=' text-green-700 text-3xl font-bold'>eman</h2></div> ,
       },
     ],
   },

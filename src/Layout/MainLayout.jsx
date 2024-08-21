@@ -7,7 +7,7 @@ const MainLayout = () => {
   return (
     <div>
       <div className="grid grid-cols-10">
-        <div className="col-span-2 h-screen">
+        <div className="col-span-2 h-screen bg-scroll sticky top-0 left-0 ">
           <Sidebar />
           {/* <TestSidebar/> */}
         </div>

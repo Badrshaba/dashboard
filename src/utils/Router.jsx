@@ -23,6 +23,10 @@ const router = createBrowserRouter([
         path: 'contact',
         element: <div className=' bg-slate-600 flex justify-center items-center h-full '><h2 className=' text-green-700 text-3xl font-bold'>contact</h2></div> ,
       },
+      {
+        path: 'apple',
+        element: <div className=' bg-slate-600 flex justify-center items-center h-full '><h2 className=' text-green-700 text-3xl font-bold'>contact</h2></div> ,
+      },
     ],
   },
 ]);

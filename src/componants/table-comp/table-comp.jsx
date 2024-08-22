@@ -1,10 +1,15 @@
-import { Grid } from 'lucide-react';
+import { Button } from '@chakra-ui/react';
+
+import { Grid, Plus } from 'lucide-react';
+
+import BasicUsage from '../modal/BasicUsage';
 
 const TableComp = ({ title }) => {
+
   return (
     <div className='recent-properites bg-white p-5 rounded-md mt-5'>
       <h3 className='text-3xl '>{title}</h3>
-
+      <BasicUsage/>
       <div className='flex justify-end my-4 border-b pb-2'>
         <input
           type='text'

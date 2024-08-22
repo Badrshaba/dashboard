@@ -1,5 +1,7 @@
+import { TableComp } from '../../componants';
+
 const Users = () => {
-  return <div>Users</div>;
+  return <TableComp title='Users' />;
 };
 
 export default Users;

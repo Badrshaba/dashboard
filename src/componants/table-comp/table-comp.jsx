@@ -1,7 +1,4 @@
-import { Button } from '@chakra-ui/react';
-
 import { Grid } from 'lucide-react';
-
 import BasicUsage from '../modal/BasicUsage';
 
 const TableComp = ({ title , FORMDATA}) => {

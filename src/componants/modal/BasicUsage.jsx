@@ -7,18 +7,24 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Plus } from 'lucide-react';
+import { Phone, Plus } from 'lucide-react';
 import FormModal from '../form/FormModal';
 import { useState } from 'react';
-
+import { api } from '../../utils/api';
+import { FORMDATA } from '../form/formData';
 function BasicUsage({ title }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [formData, setFormData] = useState({
-    nameEN: '',
-    emailEN: '',
-    phoneEN: '',
-    addressEN: '',
-  });
+  // const [formData, setFormData] = useState({
+  //   nameEN: "",
+  //   emailEN: "",
+  //   phoneEN: "",
+  //   addressEN:'',
+  //   nameAR:"",
+  //   emailAR:"",
+  //   phoneAR:"",
+  //   addressAR:""
+  // });
+  const [formData, setFormData] = useState(FORMDATA);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -26,12 +32,17 @@ function BasicUsage({ title }) {
       [name]: value,
     }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = api.post(
+    const res = await api.post(
       '/register',
       {
-        
+        name: formData.nameEN,
+        email: formData.emailEN,
+        Phone: formData.phoneEN,
+        address: formData.addressEN,
+        password: formData.passwordEN,
+        password_confirmation: formData.confirmPasswordEN,
       },
       {
         headers: {
@@ -39,6 +50,7 @@ function BasicUsage({ title }) {
         },
       }
     );
+    console.log(res);
   };
 
   return (

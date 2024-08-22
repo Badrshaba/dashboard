@@ -1,8 +1,17 @@
 import { RouterProvider } from 'react-router-dom';
-import { createIcons, icons } from 'lucide';
 import router from './utils/Router';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser } from './redux/slices/user';
 const App = () => {
-  createIcons({ icons });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (localStorage.getItem('user') != null && localStorage.getItem('userToken') != null) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const userToken = JSON.parse(localStorage.getItem('userToken'));
+      dispatch(setUser({ user: user, userToken: userToken }));
+    }
+  }, [dispatch]);
   return <RouterProvider router={router} />;
 };
 

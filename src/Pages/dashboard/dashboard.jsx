@@ -1,9 +1,12 @@
+import { useSelector } from 'react-redux';
 import { Stats, RecentProperites, MostViewed, TotalCategories, FeaturedProducts } from './sections';
 
 const Dashboard = () => {
+  const { user } = useSelector((state) => state.user);
+
   return (
     <>
-      <h1 className='text-3xl text-black font-Bold mb-5'>Hi, Admin</h1>
+      <h1 className='text-3xl text-black font-Bold mb-5'>Hi, {user?.user?.name}</h1>
       <div className='top-part grid grid-cols-12 gap-5'>
         <div className=' col-span-5'>
           <Stats />

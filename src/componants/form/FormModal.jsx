@@ -11,8 +11,8 @@ const FormModal = ({
   let EnglishItems = Object.keys(formData).filter((key) => key.includes("EN"));
   return (
     <form action="" onSubmit={handleSubmit}>
-      <ModalBody pb={6} className="flex space-x-2">
-        <div className=" flex flex-col">
+      <ModalBody pb={6} className="flex space-x-2 ">
+        <div className=" flex flex-col w-full">
           {EnglishItems.map((item, index) => (
             <label
               key={index}
@@ -24,13 +24,12 @@ const FormModal = ({
                 name={item}
                 value={formData?.name}
                 onChange={handleChange}
-                required
-                className=" border rounded-lg py-1 px-2"
+                className=" border rounded-lg py-1 px-2 w-full"
               />
             </label>
           ))}
         </div>
-        <div className=" flex flex-col">
+{ArabicItems.length&&<div className=" flex flex-col w-full">
           {ArabicItems.map((item, index) => (
             <label key={index} className={" flex flex-col items-end"}>
               :{label_AR[index]}
@@ -39,13 +38,12 @@ const FormModal = ({
                 name={item}
                 value={formData?.name}
                 onChange={handleChange}
-                required
-                className=" border rounded-lg py-1 px-2"
+                className=" border rounded-lg py-1 px-2 w-full"
                 style={{ direction: "rtl" }}
               />
             </label>
           ))}
-        </div>
+        </div>}
       </ModalBody>
       <ModalFooter>
         <Button colorScheme="green" type="submit" mr={3}>

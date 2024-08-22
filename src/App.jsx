@@ -1,5 +1,5 @@
 import { RouterProvider } from 'react-router-dom';
-import router from './utils/Router';
+import router from './route/Router';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser } from './redux/slices/user';

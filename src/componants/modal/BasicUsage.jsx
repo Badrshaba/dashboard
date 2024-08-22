@@ -10,19 +10,21 @@ import {
 import { Plus } from "lucide-react";
 import FormModal from "../form/FormModal";
 import { useState } from "react";
+import { FORMDATA } from "../form/formData";
 
 function BasicUsage({ title }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [formData, setFormData] = useState({
-    nameEN: "",
-    emailEN: "",
-    phoneEN: "",
-    addressEN:'',
-    nameAR:"",
-    emailAR:"",
-    phoneAR:"",
-    addressAR:""
-  });
+  // const [formData, setFormData] = useState({
+  //   nameEN: "",
+  //   emailEN: "",
+  //   phoneEN: "",
+  //   addressEN:'',
+  //   nameAR:"",
+  //   emailAR:"",
+  //   phoneAR:"",
+  //   addressAR:""
+  // });
+  const [formData, setFormData] = useState(FORMDATA)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -46,7 +48,7 @@ function BasicUsage({ title }) {
         <ModalContent>
           <ModalHeader>Add {title}</ModalHeader>
           <ModalCloseButton />
-          <FormModal label_AR={['الاسم','الايميل','تليفون','العنوان']} onClose={onClose} formData={formData} setFormData={setFormData} handleChange={handleChange} handleSubmit={handleSubmit}/>
+          <FormModal label_AR={[]} onClose={onClose} formData={formData} setFormData={setFormData} handleChange={handleChange} handleSubmit={handleSubmit}/>
         </ModalContent>
       </Modal>
     </>

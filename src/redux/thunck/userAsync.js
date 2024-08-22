@@ -1,11 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { api } from '../../utils/api';
 
 
 export const loginAsync = createAsyncThunk('user/login', async ({email, password}) => {
   try {
-    const res = await axios.post(
-      'https://ai.w-manage.org/api/login',
+    const res = await api.post(
+      '/login',
       {
         email,
         password,

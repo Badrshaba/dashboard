@@ -8,6 +8,7 @@ import Customers from './customers/customers'
 import Compounds from './compounds/compounds'
 import Brookers from './brookers/brookers'
 import Categories from './categories/categories'
+import Users from './users/users'
 
 export {
     Dashboard,
@@ -20,5 +21,5 @@ export {
     Customers,
     Compounds,
     Brookers,
- 
+ Users
 }

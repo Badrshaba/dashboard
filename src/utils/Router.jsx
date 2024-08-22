@@ -12,6 +12,7 @@ import {
   Properites,
   Developers,
   Categories,
+  Users,
 } from '../Pages';
 import Login from '../Pages/login/login';
 //const Home = lazy(() => import('../Pages/home/Home'));
@@ -44,6 +45,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Bunners />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'users',
+        element: (
+          <ProtectedRoutes>
+            <Users />
           </ProtectedRoutes>
         ),
       },

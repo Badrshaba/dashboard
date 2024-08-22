@@ -1,4 +1,4 @@
-import { Apple, Headset, House, Store } from 'lucide-react';
+import { Apple, Headset, House, Store, User } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
 import './sidebar.css';
 
@@ -13,6 +13,11 @@ const DATA = [
     title: 'Bunners',
     icon: <Store size={18} />,
     route: '/bunners',
+  },
+  {
+    title: 'Users',
+    icon: <User size={18} />,
+    route: '/users',
   },
   {
     title: 'Brookers',

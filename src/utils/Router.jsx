@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../Layout/MainLayout';
+import ProtectedRoutes from '../componants/protected-routes/protected-routes';
 import {
   Dashboard,
   SubCategories,
@@ -12,58 +13,103 @@ import {
   Developers,
   Categories,
 } from '../Pages';
+import Login from '../Pages/login/login';
 //const Home = lazy(() => import('../Pages/home/Home'));
 
 const router = createBrowserRouter([
   {
+    path: '/login',
+    element: <Login />,
+  },
+  {
     path: '/',
-    element: <MainLayout />,
-    errorElement: (
-      <div className='bg-pink-600 flex justify-center items-center h-full'>
-        <h1 className=' text-red-700 text-3xl font-bold'>Error</h1>
-      </div>
+    element: (
+      <ProtectedRoutes>
+        <MainLayout />
+      </ProtectedRoutes>
     ),
     children: [
       {
         index: true,
         path: '/',
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoutes>
+            <Dashboard />
+          </ProtectedRoutes>
+        ),
       },
+
       {
         path: 'bunners',
-        element: <Bunners />,
+        element: (
+          <ProtectedRoutes>
+            <Bunners />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: 'features',
-        element: <Features />,
+        element: (
+          <ProtectedRoutes>
+            <Features />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: 'compounds',
-        element: <Compounds />,
+        element: (
+          <ProtectedRoutes>
+            <Compounds />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: 'customers',
-        element: <Customers />,
+        element: (
+          <ProtectedRoutes>
+            <Customers />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: 'brookers',
-        element: <Brookers />,
+        element: (
+          <ProtectedRoutes>
+            <Brookers />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: 'developers',
-        element: <Developers />,
+        element: (
+          <ProtectedRoutes>
+            <Developers />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: 'properites',
-        element: <Properites />,
+        element: (
+          <ProtectedRoutes>
+            <Properites />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: 'sub-categories',
-        element: <SubCategories />,
+        element: (
+          <ProtectedRoutes>
+            <SubCategories />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: 'categories',
-        element: <Categories />,
+        element: (
+          <ProtectedRoutes>
+            <Categories />
+          </ProtectedRoutes>
+        ),
       },
     ],
   },

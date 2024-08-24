@@ -1,21 +1,20 @@
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../Layout/MainLayout';
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
-import {
-  Dashboard,
-  SubCategories,
-  Brookers,
-  Bunners,
-  Compounds,
-  Customers,
-  Features,
-  Properites,
-  Developers,
-  Categories,
-  Users,
-} from '../Pages';
-import Login from '../Pages/login/login';
-//const Home = lazy(() => import('../Pages/home/Home'));
+import { Spinner } from '@chakra-ui/react';
+const Login = lazy(() => import('../Pages/login/login'));
+const Dashboard = lazy(() => import('../Pages/dashboard/dashboard'));
+const Users = lazy(() => import('../Pages/users/users'));
+const Bunners = lazy(() => import('../Pages/bunners/bunners'));
+const Brookers = lazy(() => import('../Pages/brookers/brookers'));
+const Developers = lazy(() => import('../Pages/developers/developers'));
+const Customers = lazy(() => import('../Pages/customers/customers'));
+const Compounds = lazy(() => import('../Pages/compounds/compounds'));
+const Categories = lazy(() => import('../Pages/categories/categories'));
+const Features = lazy(() => import('../Pages/features/features'));
+const Properites = lazy(() => import('../Pages/properites/properites'));
+const SubCategories = lazy(() => import('../Pages/sub-categories/sub-categories'));
 
 const router = createBrowserRouter([
   {
@@ -35,7 +34,9 @@ const router = createBrowserRouter([
         path: '/',
         element: (
           <ProtectedRoutes>
-            <Dashboard />
+            <Suspense fallback={<Spinner />}>
+              <Dashboard />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -44,7 +45,9 @@ const router = createBrowserRouter([
         path: 'bunners',
         element: (
           <ProtectedRoutes>
-            <Bunners />
+            <Suspense fallback={<Spinner />}>
+              <Bunners />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -52,7 +55,9 @@ const router = createBrowserRouter([
         path: 'users',
         element: (
           <ProtectedRoutes>
-            <Users />
+            <Suspense fallback={<Spinner />}>
+              <Users />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -60,7 +65,9 @@ const router = createBrowserRouter([
         path: 'features',
         element: (
           <ProtectedRoutes>
-            <Features />
+            <Suspense fallback={<Spinner />}>
+              <Features />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -68,7 +75,9 @@ const router = createBrowserRouter([
         path: 'compounds',
         element: (
           <ProtectedRoutes>
-            <Compounds />
+            <Suspense fallback={<Spinner />}>
+              <Compounds />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -76,7 +85,9 @@ const router = createBrowserRouter([
         path: 'customers',
         element: (
           <ProtectedRoutes>
-            <Customers />
+            <Suspense fallback={<Spinner />}>
+              <Customers />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -84,7 +95,9 @@ const router = createBrowserRouter([
         path: 'brookers',
         element: (
           <ProtectedRoutes>
-            <Brookers />
+            <Suspense fallback={<Spinner />}>
+              <Brookers />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -92,7 +105,9 @@ const router = createBrowserRouter([
         path: 'developers',
         element: (
           <ProtectedRoutes>
-            <Developers />
+            <Suspense fallback={<Spinner />}>
+              <Developers />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -100,7 +115,9 @@ const router = createBrowserRouter([
         path: 'properites',
         element: (
           <ProtectedRoutes>
-            <Properites />
+            <Suspense fallback={<Spinner />}>
+              <Properites />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -108,7 +125,9 @@ const router = createBrowserRouter([
         path: 'sub-categories',
         element: (
           <ProtectedRoutes>
-            <SubCategories />
+            <Suspense fallback={<Spinner />}>
+              <SubCategories />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -116,7 +135,9 @@ const router = createBrowserRouter([
         path: 'categories',
         element: (
           <ProtectedRoutes>
-            <Categories />
+            <Suspense fallback={<Spinner />}>
+              <Categories />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },

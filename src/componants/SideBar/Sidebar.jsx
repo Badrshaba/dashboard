@@ -1,4 +1,4 @@
-import { Apple, Headset, House, Store, User } from 'lucide-react';
+import { Apple, Building, Headset, House, Store, User } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
 import './sidebar.css';
 
@@ -8,31 +8,20 @@ const DATA = [
     icon: <House size={18} />,
     route: '/',
   },
-
-  {
-    title: 'Bunners',
-    icon: <Store size={18} />,
-    route: '/bunners',
-  },
   {
     title: 'Users',
     icon: <User size={18} />,
     route: '/users',
   },
   {
-    title: 'Brookers',
-    icon: <Headset size={18} />,
-    route: '/brookers',
+    title: 'Properites',
+    icon: <Building size={18} />,
+    route: '/properites',
   },
   {
     title: 'Developers',
     icon: <Apple size={18} />,
     route: '/developers',
-  },
-  {
-    title: 'Categories',
-    icon: <Store size={18} />,
-    route: '/categories',
   },
   {
     title: 'Customers',
@@ -45,6 +34,11 @@ const DATA = [
     route: '/compounds',
   },
   {
+    title: 'Categories',
+    icon: <Store size={18} />,
+    route: '/categories',
+  },
+  {
     title: 'Sub Categories',
     icon: <Store size={18} />,
     route: '/sub-categories',
@@ -54,6 +48,17 @@ const DATA = [
     title: 'Features',
     icon: <Apple size={18} />,
     route: '/features',
+  },
+  {
+    title: 'Bunners',
+    icon: <Store size={18} />,
+    route: '/bunners',
+  },
+
+  {
+    title: 'Brookers',
+    icon: <Headset size={18} />,
+    route: '/brookers',
   },
 ];
 const Sidebar = () => {

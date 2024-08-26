@@ -14,8 +14,9 @@ import {
 } from '@chakra-ui/react';
 import { Modal } from '@chakra-ui/react';
 
+
 const PopupModal = ({ isOpen, onClose, error, isLoading, handleSubmit, fildes, addTitle }) => {
-return (
+  return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
@@ -44,7 +45,7 @@ return (
               width='100%'
               isLoading={isLoading}
               type='submit'
-              onClick={(e) => handleSubmit(e)}
+              onClick={(e) => handleSubmit(e, { name: 'amr' })}
             >
               Submit
             </Button>

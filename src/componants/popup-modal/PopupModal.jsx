@@ -15,8 +15,7 @@ import {
 import { Modal } from '@chakra-ui/react';
 
 const PopupModal = ({ isOpen, onClose, error, isLoading, handleSubmit, fildes, addTitle }) => {
-  console.log(fildes);
-  return (
+return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}

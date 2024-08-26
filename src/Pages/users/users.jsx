@@ -1,11 +1,11 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, useDisclosure } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
-import TableComp from '../../componants/table-comp/table-comp';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { getUsersAsync } from '../../redux/thunck/usersAsync';
-import fields from './inputs.json';
+import TableComp from '../../componants/table-comp/table-comp';
 import PopupModal from '../../componants/popup-modal/PopupModal';
+import fields from './inputs.json';
 const Users = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { users, isLoading, error } = useSelector((state) => state.users);

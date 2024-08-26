@@ -1,30 +1,22 @@
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react';
+import { Button, useDisclosure } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import TableComp from '../../componants/table-comp/table-comp';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getUsersAsync } from '../../redux/thunck/usersAsync';
+import fields from './inputs.json';
+import PopupModal from '../../componants/popup-modal/PopupModal';
 const Users = () => {
+  console.log(fields);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { users, isLoading, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const tableHeading = ['id', 'username', 'email', 'role'];
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('Hello');
+  };
   useEffect(() => {
     dispatch(getUsersAsync());
   }, []);
@@ -40,49 +32,14 @@ const Users = () => {
       >
         Add Users
       </Button>
-      <Modal
+      <PopupModal
+        fildes={fields.register}
         isOpen={isOpen}
         onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Add User</ModalHeader>
-          <ModalCloseButton />
-          {error && (
-            <Alert status='error'>
-              <AlertIcon />
-              <AlertTitle>{error.message}</AlertTitle>
-            </Alert>
-          )}
-          <form className='p-5'>
-            <VStack spacing={4}>
-              <FormControl>
-                <FormLabel>Username</FormLabel>
-                <Input type='text' />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Password</FormLabel>
-                <Input type='password' />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Confirm Password</FormLabel>
-                <Input type='password' />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Email</FormLabel>
-                <Input type='email' />
-              </FormControl>
-              <Button
-                colorScheme='teal'
-                width='100%'
-                isLoading={isLoading}
-              >
-                Submit
-              </Button>
-            </VStack>
-          </form>
-        </ModalContent>
-      </Modal>
+        isLoading={isLoading}
+        error={error}
+        handleSubmit={handleSubmit}
+      />
       <TableComp
         headings={tableHeading}
         data={users}

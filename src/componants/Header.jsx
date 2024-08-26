@@ -1,17 +1,13 @@
+import { Avatar } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 const Header = () => {
   const { user } = useSelector((state) => state.user);
-
+let surce = user?.user?.image || 'https://bit.ly/broken-link'
   return (
     <div className='bg-white p-5 flex justify-end'>
       <div className='flex items-center gap-3'>
-        {user?.user?.name}
-        <img
-          src={user?.user?.image}
-          alt='user Image'
-          className='w-10 rounded-full'
-        />
+        <Avatar src={surce} />
       </div>
     </div>
   );

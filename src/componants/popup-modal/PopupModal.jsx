@@ -32,7 +32,7 @@ const PopupModal = ({ isOpen, onClose, error, isLoading, handleSubmit, fields })
         )}
         <form className='p-5'>
           <VStack spacing={4}>
-            {fields.register.map((field) => (
+            {fields?.register.map((field) => (
               <FormControl key={field.label}>
                 <FormLabel>{field.label}</FormLabel>
                 <Input type={field.type} />

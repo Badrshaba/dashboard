@@ -19,7 +19,7 @@
     "required":true
 },
 {
-    "id":"cPassword",
+    "id":"cPassword", 
     "type":"password",
     "label":"Confirm Password",
     "required":true

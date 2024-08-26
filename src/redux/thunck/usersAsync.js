@@ -9,5 +9,6 @@ export const  getUsersAsync= createAsyncThunk('users/get-all-users',async(_,thun
        } catch (error) {
         return thunckApi.rejectWithValue(error)
        }
+       console.log("done");
     
 })

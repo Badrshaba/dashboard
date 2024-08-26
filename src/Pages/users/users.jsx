@@ -6,6 +6,7 @@ import { getUsersAsync } from '../../redux/thunck/usersAsync';
 import TableComp from '../../componants/table-comp/table-comp';
 import PopupModal from '../../componants/popup-modal/PopupModal';
 import fields from './inputs.json';
+import useSearch from '../../hooks/useSearch';
 const Users = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { users, isLoading, error } = useSelector((state) => state.users);
@@ -19,6 +20,7 @@ const Users = () => {
   useEffect(() => {
     dispatch(getUsersAsync());
   }, []);
+ // const [searchHandel,search,setSearch] = useSearch('')
   return (
     <div className='users-page bg-white p-5 rounded-md mt-5'>
       <h3 className='text-3xl'>Users</h3>

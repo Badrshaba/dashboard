@@ -7,7 +7,6 @@ import { getUsersAsync } from '../../redux/thunck/usersAsync';
 import fields from './inputs.json';
 import PopupModal from '../../componants/popup-modal/PopupModal';
 const Users = () => {
-  console.log(fields);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { users, isLoading, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
@@ -32,13 +31,15 @@ const Users = () => {
       >
         Add Users
       </Button>
+
       <PopupModal
-        fildes={fields.register}
+        fildes={fields?.register}
         isOpen={isOpen}
         onClose={onClose}
         isLoading={isLoading}
         error={error}
         handleSubmit={handleSubmit}
+        addTitle='User'
       />
       <TableComp
         headings={tableHeading}

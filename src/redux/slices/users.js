@@ -26,7 +26,7 @@ const usersSlice = createSlice({
       .addCase(getUsersAsync.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        console.log('error')
+        
       });
   },
 });

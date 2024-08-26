@@ -71,7 +71,7 @@ const Properites = () => {
                 </FormControl>
               </div>
               <div style={{ direction: 'rtl' }}  >
-                <FormControl    >
+                <FormControl >
                   <FormLabel >الاسم</FormLabel>
                   <Input type="text" />
                 </FormControl>

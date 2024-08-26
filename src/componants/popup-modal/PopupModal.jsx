@@ -12,9 +12,10 @@ import {
   ModalOverlay,
   VStack,
 } from '@chakra-ui/react';
-import { Modal } from 'antd';
+import { Modal } from '@chakra-ui/react';
 
-const PopupModal = ({ isOpen, onClose, error, isLoading, handleSubmit, fields }) => {
+const PopupModal = ({ isOpen, onClose, error, isLoading, handleSubmit, fildes, addTitle }) => {
+  console.log(fildes);
   return (
     <Modal
       isOpen={isOpen}
@@ -22,7 +23,7 @@ const PopupModal = ({ isOpen, onClose, error, isLoading, handleSubmit, fields })
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add User</ModalHeader>
+        <ModalHeader>Add {addTitle}</ModalHeader>
         <ModalCloseButton />
         {error && (
           <Alert status='error'>
@@ -32,7 +33,7 @@ const PopupModal = ({ isOpen, onClose, error, isLoading, handleSubmit, fields })
         )}
         <form className='p-5'>
           <VStack spacing={4}>
-            {fields?.register.map((field) => (
+            {fildes?.map((field) => (
               <FormControl key={field.label}>
                 <FormLabel>{field.label}</FormLabel>
                 <Input type={field.type} />

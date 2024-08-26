@@ -31,6 +31,7 @@ const Users = () => {
       >
         Add Users
       </Button>
+
       <PopupModal
         fildes={fields?.register}
         isOpen={isOpen}
@@ -38,6 +39,7 @@ const Users = () => {
         isLoading={isLoading}
         error={error}
         handleSubmit={handleSubmit}
+        addTitle='User'
       />
       <TableComp
         headings={tableHeading}

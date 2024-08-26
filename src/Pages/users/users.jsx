@@ -6,16 +6,14 @@ import { getUsersAsync } from '../../redux/thunck/usersAsync';
 import TableComp from '../../componants/table-comp/table-comp';
 import PopupModal from '../../componants/popup-modal/PopupModal';
 import fields from './inputs.json';
+import { user } from '../../utils/functions';
 const Users = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { users, isLoading, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  
   const tableHeading = ['id', 'username', 'email', 'role'];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Hello');
-  };
   useEffect(() => {
     dispatch(getUsersAsync());
   }, []);
@@ -38,7 +36,7 @@ const Users = () => {
         onClose={onClose}
         isLoading={isLoading}
         error={error}
-        handleSubmit={handleSubmit}
+        handleSubmit={user.register}
         addTitle='User'
       />
       <TableComp

@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api, apiRegister } from '../../utils/api';
-import { updateUsersList } from '../slices/users';
 
 export const getUsersAsync = createAsyncThunk('users/all-users', async (pageNumber, thunckApi) => {
   try {

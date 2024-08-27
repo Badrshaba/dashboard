@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './style.css'
 import { Modal, useDisclosure ,  Alert,
   AlertIcon,
   AlertTitle,
@@ -21,10 +20,11 @@ import TableComp from '../../componants/table-comp/table-comp';
 const Compounds = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [border,setBorder] = useState()
+  const [selectedFile, setSelectedFile] = useState(null);
   const [formData,setFormData] = useState({
     name_en:"",
     name_ar:"",
-    img:"",
+    image:"",
     descriotion_en:"",
     descriotion_ar:"",
     area_en:"",
@@ -53,8 +53,16 @@ const Compounds = () => {
     [name]: value
   }));
  }
+ const handleFileChange = (event) => {
+  setSelectedFile(event.target.files[0]);
+  // console.log(selectedFile);
+};
  const handleSubmit = (e) =>{
   e.preventDefault()
+  const formData = new FormData();
+  //  formData2.file = selectedFile
+ // console.log(selectedFile);
+  formData.append('img', '7877');
   console.log(formData);
  }
   return (
@@ -94,10 +102,11 @@ const Compounds = () => {
                   <Input colorScheme={'red'} name='name_en' type="text" value={formData.name_en} onChange={handleChange}  />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>img :</FormLabel>
+                  <FormLabel>image :</FormLabel>
                 <InputGroup>
-                 <InputLeftAddon>+234</InputLeftAddon> 
-                  <Input type="file" name='img' value={formData.img} onChange={handleChange} />
+                 <InputLeftAddon>choose image</InputLeftAddon> 
+                  <Input type="file" name='image' value={formData.image} onChange={handleFileChange} >
+                  </Input>
                 </InputGroup>
                 </FormControl>
                 <FormControl>
@@ -112,9 +121,17 @@ const Compounds = () => {
                   <FormLabel className='focus-visible:border-black' >Location Link :</FormLabel>
                   <Input type="text" name='location_link' value={formData.location_link} onChange={handleChange} />
                 </FormControl>
-                <label>
+                <FormControl>
+                  <FormLabel className='focus-visible:border-black' >Start Price :</FormLabel>
+                  <Input type="number" name='start_price' value={formData.start_price} onChange={handleChange} />
+                </FormControl>
+                <FormControl>
+                  <FormLabel className='focus-visible:border-black' >Max Price :</FormLabel>
+                  <Input type="number" name='max_price' value={formData.max_price} onChange={handleChange} />
+                </FormControl>
+                <label className=' w-full' >
                   <FormLabel> Description :</FormLabel>
-                  <textarea onChange={handleChange}  value={formData.descriotion_en} name='description_en'  className='  p-2 rounded-lg h-28  w-full transition-all focus:outline-blue-500 duration-200 border-2'  type="text" />
+                  <textarea onChange={handleChange}  value={formData.descriotion_en} name='descriotion_en'  className='  p-2 rounded-lg h-28  w-full transition-all focus:outline-blue-500 duration-200 border-2'  type="text" />
                 </label>
         
               </div>
@@ -125,15 +142,15 @@ const Compounds = () => {
                 </FormControl>
                 <FormControl>
                   <FormLabel> المنطقة :</FormLabel>
-                  <Input type="text" name='area_en' value={formData.location_ar} onChange={handleChange} />
+                  <Input type="text" name='area_ar' value={formData.area_ar} onChange={handleChange} />
                 </FormControl>
                 <FormControl>
                   <FormLabel> الموقع : </FormLabel>
-                  <Input type="text" name='location_en' value={formData.location_ar} onChange={handleChange} />
+                  <Input type="text" name='location_ar' value={formData.location_ar} onChange={handleChange} />
                 </FormControl>
                 <label className=' w-full'>
                   <FormLabel> الوصف :</FormLabel>
-                  <textarea name='description_ar' onChange={handleChange} value={formData.descriotion_ar}  className=' p-2 rounded-lg h-28 w-full border-2 transition-all focus:outline-blue-500 duration-200' type="text" size={'lg'} />
+                  <textarea name='descriotion_ar' onChange={handleChange} value={formData.descriotion_ar}  className=' p-2 rounded-lg h-28 w-full border-2 transition-all focus:outline-blue-500 duration-200' type="text" size={'lg'} />
                 </label>
               </div>
               </div>

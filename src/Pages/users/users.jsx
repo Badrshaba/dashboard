@@ -1,23 +1,35 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, useDisclosure } from '@chakra-ui/react';
+import {
+  Button,
+  useDisclosure,
+  Modal,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  VStack,
+} from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import { getUsersAsync } from '../../redux/thunck/usersAsync';
 import TableComp from '../../componants/table-comp/table-comp';
-import PopupModal from '../../componants/popup-modal/PopupModal';
-import fields from './inputs.json';
-import { user } from '../../utils/functions';
+
 const Users = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { users, isLoading, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
-  
   const tableHeading = ['id', 'username', 'email', 'role'];
 
   useEffect(() => {
     dispatch(getUsersAsync());
   }, []);
- // const [searchHandel,search,setSearch] = useSearch('')
+
   return (
     <div className='users-page bg-white p-5 rounded-md mt-5'>
       <h3 className='text-3xl'>Users</h3>
@@ -31,15 +43,59 @@ const Users = () => {
         Add Users
       </Button>
 
-      <PopupModal
-        fildes={fields?.register}
+      <Modal
         isOpen={isOpen}
         onClose={onClose}
-        isLoading={isLoading}
-        error={error}
-        handleSubmit={user.register}
-        addTitle='User'
-      />
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add User</ModalHeader>
+          <ModalCloseButton />
+          {error && (
+            <Alert status='error'>
+              <AlertIcon />
+              <AlertTitle>{error.message}</AlertTitle>
+            </Alert>
+          )}
+          <form className='p-5'>
+            <VStack spacing={4}>
+              <FormControl>
+                <FormLabel>Username</FormLabel>
+                <Input type='text' />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input type='email' />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Password</FormLabel>
+                <Input type='password' />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Confirm Password</FormLabel>
+                <Input type='password' />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Address</FormLabel>
+                <Input type='text' />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Phone</FormLabel>
+                <Input type='text' />
+              </FormControl>
+            </VStack>
+          </form>
+          <Button
+            colorScheme='teal'
+            width='100%'
+            isLoading={isLoading}
+            type='submit'
+            onClick={() => handleSubmit({ name: 'amr' })}
+          >
+            Submit
+          </Button>
+        </ModalContent>
+      </Modal>
       <TableComp
         headings={tableHeading}
         data={users}

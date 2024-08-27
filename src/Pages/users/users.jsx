@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
@@ -15,27 +15,28 @@ import {
   ModalHeader,
   ModalOverlay,
   VStack,
+  Text,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import { createNewUserFromDashboard, getUsersAsync } from '../../redux/thunck/usersAsync';
 import TableComp from '../../componants/table-comp/table-comp';
 
+import { notification, Pagination } from 'antd';
+
 const Users = () => {
+  const [pageNumber, setPageNumber] = useState(1);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { users, isLoading, error } = useSelector((state) => state.users);
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const cPasswordRef = useRef();
-  // const phoneRef=useRef();
-  // const addressRef=useRef();
   const dispatch = useDispatch();
   const tableHeading = ['id', 'username', 'email', 'role'];
-  console.log(error);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     dispatch(
+    dispatch(
       createNewUserFromDashboard({
         name: usernameRef.current.value,
         email: emailRef.current.value,
@@ -43,11 +44,17 @@ const Users = () => {
         password_confirmation: cPasswordRef.current.value,
       })
     );
-    // dispatch(getUsersAsync());
+    notification.success({
+      description: 'Successfully Created New User.!',
+      duration: 2,
+      showProgress: true,
+      message: 'Create User',
+      placement: 'topRight',
+    });
   };
 
   useEffect(() => {
-    dispatch(getUsersAsync());
+    dispatch(getUsersAsync(pageNumber));
   }, []);
 
   return (
@@ -130,7 +137,26 @@ const Users = () => {
       </Modal>
       <TableComp
         headings={tableHeading}
-        data={users}
+        data={users?.data}
+      />
+      <Pagination
+        defaultCurrent={1}
+        total={6}
+        align='center'
+        disabled={pageNumber == users?.last_page}
+        showTotal={() => (
+          <Text
+            fontWeight={500}
+            color='teal'
+            fontSize='1rem'
+          >
+            Total Users: {users?.total}
+          </Text>
+        )}
+        onChange={() => {
+          setPageNumber((prev) => (pageNumber === users?.last_page ? pageNumber : prev + 1));
+          dispatch(getUsersAsync(pageNumber));
+        }}
       />
     </div>
   );

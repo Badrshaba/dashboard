@@ -20,18 +20,18 @@ const Compounds = () => {
     name_ar: "",
     descriotion_en: "",
     descriotion_ar: "",
-    area_en: "",
-    area_ar: "", 
-    location_ar: "",
-    location_en: "",
-    location_link: "",
-    start_price: "",
-    max_price: "",
+    area_max: "",
+    area_min: "", 
+    address_ar: "",
+    address_en: "",
+    price_min: "",
+    price_max: "",
+    zone_id:''
   });
   const [searchHandel,search,setSearch] = useSearch('')
   const { compounds, isLoading, error } = useSelector((state) => state.compounds);
   const dispatch = useDispatch();
-  const tableHeading = ["id","name", "area", "location", "max price",'start price'];
+  const tableHeading = ["id","name", "area min", "area max", "description","zone",'address','price min',"price max"];
   useEffect(() => {
     dispatch(getCompounds());
   }, []);

@@ -24,7 +24,7 @@ const AddUserPopup = ({ error, isLoading }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const cPasswordRef = useRef();
-
+  //console.log(error.response?.data?.data[0]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(
@@ -36,7 +36,7 @@ const AddUserPopup = ({ error, isLoading }) => {
       })
     );
   };
-
+  let erro2 = error?.response || error?.message;
   return (
     <>
       <Button
@@ -54,12 +54,17 @@ const AddUserPopup = ({ error, isLoading }) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader px={5} py={1}>Add User</ModalHeader>
+          <ModalHeader
+            px={5}
+            py={1}
+          >
+            Add User
+          </ModalHeader>
           <ModalCloseButton />
           {error && (
             <Alert status='error'>
               <AlertIcon />
-              <AlertTitle>{error.response?.data?.data[0] || error.message}</AlertTitle>
+              <AlertTitle>{erro2}</AlertTitle>
             </Alert>
           )}
           <form className='px-5 py-2'>

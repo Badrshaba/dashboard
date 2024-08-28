@@ -16,3 +16,6 @@ export const apiRegister = axios.create({
     APP_KEY: import.meta.env.VITE_APP_KEY,
   },
 });
+export const baseURL  = axios.create({
+  baseURL: 'https://ai.w-manage.org/api',
+});

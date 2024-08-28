@@ -1,10 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api, apiRegister } from '../../utils/api';
-<<<<<<< HEAD
-import { updateUsersList } from '../slices/users';
 import { notification } from 'antd';
-=======
->>>>>>> dd3829d689423e8600753d4ee5b073fa72263b61
 
 export const getUsersAsync = createAsyncThunk('users/all-users', async (pageNumber, thunckApi) => {
   try {

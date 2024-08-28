@@ -135,7 +135,7 @@ const Users = () => {
               className='w-full mt-4'
               isLoading={isLoading}
               type='submit'
-              onClick={(e) => handleSubmit(e)}
+              onClick={handleSubmit}
             >
               Submit
             </Button>

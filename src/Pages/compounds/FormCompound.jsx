@@ -18,12 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { baseURL } from "../../utils/api";
-const FormCompound = ({
-  onClose,
-  isOpen,
-  formData,
-  handleChange,
-}) => {
+const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -56,6 +51,7 @@ const FormCompound = ({
       console.log(error);
     }
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
       <ModalOverlay />
@@ -206,7 +202,7 @@ const FormCompound = ({
         </VStack>
       </ModalContent>
     </Modal>
-  ); 
+  );
 };
 
 export default FormCompound;

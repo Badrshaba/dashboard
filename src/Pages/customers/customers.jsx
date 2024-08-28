@@ -1,6 +1,6 @@
-import { TableComp } from '../../componants';
+
 const Customers = () => {
-  return <TableComp title='Customers' />;
+  return <h1>Customers</h1>;
 };
 
 export default Customers;

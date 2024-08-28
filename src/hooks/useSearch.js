@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateUsersList } from "../redux/slices/users";
 import { api } from "../utils/api";
 
 
-const useSearch = (endPoint) => {
+const useSearch = (endPoint,funUpdate) => {
     const [search, setSearch] = useState("");
   const dispatch = useDispatch()
   const searchHandel = async(e) => {
@@ -24,7 +23,7 @@ const useSearch = (endPoint) => {
         }
       );
       if (res.status === 200) {
-        dispatch(updateUsersList(res.data.data))
+        dispatch(funUpdate(res.data.data))
       }
     } catch (error) {
       console.log(error); 

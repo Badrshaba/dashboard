@@ -15,26 +15,31 @@ import {
   VStack,
   InputLeftAddon,
   InputGroup,
+  Select,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { baseURL } from "../../utils/api";
 const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
   const [selectedFile, setSelectedFile] = useState(null);
-
+ const [loading,setLoading] =  useState(false)
+ const [error,setError] =  useState(null)
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
+    setLoading(true)
     const formDataSend = new FormData();
     formDataSend.append("name_ar", formData.name_ar);
     formDataSend.append("name_en", formData.name_en);
-    formDataSend.append("descriotion_ar", formData.descriotion_ar);
-    formDataSend.append("descriotion_en", formData.descriotion_en);
-    formDataSend.append("area_en", formData.area_en);
-    formDataSend.append("area_ar", formData.area_ar);
-    formDataSend.append("location_ar", formData.location_ar);
-    formDataSend.append("location_en", formData.location_en);
-    formDataSend.append("max_price", formData.max_price);
-    formDataSend.append("start_price", formData.start_price);
-    formDataSend.append("location_link", formData.location_link);
+    formDataSend.append("description_en", formData.descriotion_ar);
+    formDataSend.append("description_ar", formData.descriotion_en);
+    formDataSend.append("area_min", formData.area_min);
+    formDataSend.append("area_max", formData.area_max);
+    formDataSend.append("address_ar", formData.address_ar);
+    formDataSend.append("address_en", formData.address_en);
+    formDataSend.append("price_min", formData.price_min);
+    formDataSend.append("price_max", formData.price_max);
+    formDataSend.append("zone_id",formData.zone_id );
+    formDataSend.append("user_id", '1');
     formDataSend.append("image", selectedFile);
     try {
       let { data } = await baseURL({
@@ -47,27 +52,32 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
         },
       });
       console.log(data);
+      setLoading(false)
+      setTimeout(()=>{
+        onClose()
+      },500)
     } catch (error) {
-      console.log(error);
+      setError(error?.response?.data || error?.message);
+      setLoading(false)
     }
   };
-
+console.log(error?.data);
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add Compounds</ModalHeader>
         <ModalCloseButton />
-        {/* {error && (
+        {error && (
       <Alert status='error'>
         <AlertIcon />
-        <AlertTitle>{error.message}</AlertTitle>
+        <AlertTitle>{error?.data[0]}</AlertTitle>
       </Alert>
-    )} */}
+    )}
         <VStack spacing={4}>
           <form className="p-5 w-full" onSubmit={handleSubmit}>
             <div className=" flex space-x-3 w-full">
-              <div className="w-full">
+              <div className="w-full space-y-2">
                 <FormControl>
                   <FormLabel>Name :</FormLabel>
                   <Input
@@ -93,24 +103,39 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                   </InputGroup>
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Area :</FormLabel>
+                <FormLabel>Zone :</FormLabel>
+                <Select name="zone_id" onChange={handleChange}>
+                  <option value='1'>1</option>
+                  </Select>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Area Min :</FormLabel>
                   <Input
                     type="text"
-                    name="area_en"
-                    value={formData.area_en}
+                    name="area_min"
+                    value={formData.area_min}
                     onChange={handleChange}
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Location :</FormLabel>
+                  <FormLabel>Area Max :</FormLabel>
                   <Input
                     type="text"
-                    name="location_en"
+                    name="area_max"
+                    value={formData.area_max}
+                    onChange={handleChange}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Address :</FormLabel>
+                  <Input
+                    type="text"
+                    name="address_en"
                     value={formData.location_en}
                     onChange={handleChange}
                   />
                 </FormControl>
-                <FormControl>
+                {/* <FormControl>
                   <FormLabel className="focus-visible:border-black">
                     Location Link :
                   </FormLabel>
@@ -120,26 +145,26 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     value={formData.location_link}
                     onChange={handleChange}
                   />
-                </FormControl>
+                </FormControl> */}
                 <FormControl>
                   <FormLabel className="focus-visible:border-black">
-                    Start Price :
+                  Price Min :
                   </FormLabel>
                   <Input
                     type="number"
-                    name="start_price"
-                    value={formData.start_price}
+                    name="price_min"
+                    value={formData.price_min}
                     onChange={handleChange}
                   />
                 </FormControl>
                 <FormControl>
                   <FormLabel className="focus-visible:border-black">
-                    Max Price :
+                    Price Max :
                   </FormLabel>
                   <Input
                     type="number"
-                    name="max_price"
-                    value={formData.max_price}
+                    name="price_max"
+                    value={formData.price_max}
                     onChange={handleChange}
                   />
                 </FormControl>
@@ -154,7 +179,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                   />
                 </label>
               </div>
-              <div style={{ direction: "rtl" }} className="w-full">
+              <div style={{ direction: "rtl" }} className="w-full space-y-2">
                 <FormControl>
                   <FormLabel> الاسم :</FormLabel>
                   <Input
@@ -164,7 +189,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     onChange={handleChange}
                   />
                 </FormControl>
-                <FormControl>
+                {/* <FormControl>
                   <FormLabel> المنطقة :</FormLabel>
                   <Input
                     type="text"
@@ -172,13 +197,13 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     value={formData.area_ar}
                     onChange={handleChange}
                   />
-                </FormControl>
+                </FormControl> */}
                 <FormControl>
-                  <FormLabel> الموقع : </FormLabel>
+                  <FormLabel> العنوان : </FormLabel>
                   <Input
                     type="text"
-                    name="location_ar"
-                    value={formData.location_ar}
+                    name="address_ar"
+                    value={formData.address_ar}
                     onChange={handleChange}
                   />
                 </FormControl>
@@ -195,7 +220,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                 </label>
               </div>
             </div>
-            <Button colorScheme="teal" width="100%" type="submit" mt={4}>
+            <Button colorScheme="teal" width="100%" type="submit" isLoading={loading} mt={4}>
               Submit
             </Button>
           </form>

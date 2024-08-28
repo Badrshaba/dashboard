@@ -6,13 +6,13 @@ import Sidebar from '../componants/SideBar/Sidebar';
 const MainLayout = () => {
   return (
     <div>
-      <div className='grid grid-cols-10'>
-        <div className='col-span-2'>
+      <div className='flex justify-between'>
+        <div className='w-1/5'>
           <Sidebar />
         </div>
         {/* <TestSidebar/> */}
 
-        <div className='col-span-8'>
+        <div className=' w-4/5 '>
           <Header />
           <div className='min-h-screen p-5 bg-mainBG'>
             <Outlet />

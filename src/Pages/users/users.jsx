@@ -28,8 +28,10 @@ const Users = () => {
         users={users?.data}
       />
       <Pagination
+        current={1}
         defaultCurrent={1}
-        total={6}
+        pageSize={10}
+        total={users?.total}
         align='center'
         disabled={pageNumber == users?.last_page}
         showTotal={() => (

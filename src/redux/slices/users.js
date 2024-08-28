@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUsersAsync } from '../thunck/usersAsync';
+import { createNewUserFromDashboard, getUsersAsync } from '../thunck/usersAsync';
 
 const initialState = {
   users: [],
@@ -26,12 +26,21 @@ const usersSlice = createSlice({
       .addCase(getUsersAsync.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        
+      })
+      .addCase(createNewUserFromDashboard.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createNewUserFromDashboard.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(createNewUserFromDashboard.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
 
-
-export const {updateUsersList} = usersSlice.actions;
+export const { updateUsersList } = usersSlice.actions;
 
 export default usersSlice.reducer;

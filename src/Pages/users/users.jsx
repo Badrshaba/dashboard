@@ -15,13 +15,14 @@ import {
   ModalHeader,
   ModalOverlay,
   VStack,
+  Select,
   Text,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import { createNewUserFromDashboard, getUsersAsync } from '../../redux/thunck/usersAsync';
 import TableComp from '../../componants/table-comp/table-comp';
 
-import { notification, Pagination } from 'antd';
+import { Pagination } from 'antd';
 
 const Users = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -44,13 +45,6 @@ const Users = () => {
         password_confirmation: cPasswordRef.current.value,
       })
     );
-    notification.success({
-      description: 'Successfully Created New User.!',
-      duration: 2,
-      showProgress: true,
-      message: 'Create User',
-      placement: 'topRight',
-    });
   };
 
   useEffect(() => {
@@ -81,7 +75,7 @@ const Users = () => {
           {error && (
             <Alert status='error'>
               <AlertIcon />
-              <AlertTitle>{error.message}</AlertTitle>
+              <AlertTitle>{error.response?.data?.data[0] || error.message}</AlertTitle>
             </Alert>
           )}
           <form className='p-5'>
@@ -113,6 +107,19 @@ const Users = () => {
                   type='password'
                   ref={cPasswordRef}
                 />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Role</FormLabel>
+                <Select>
+                  <option
+                    value='user'
+                    selected
+                  >
+                    User
+                  </option>
+                  <option value='developer'>Developer</option>
+                  <option value='brookers'>Brookers</option>
+                </Select>
               </FormControl>
               {/* <FormControl>
                 <FormLabel>Address</FormLabel>

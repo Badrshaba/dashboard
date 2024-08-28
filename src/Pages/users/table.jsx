@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Delete, Edit, Trash } from 'lucide-react';
 import {
   useDisclosure,
@@ -16,12 +16,70 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  VStack,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
 } from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteUserFromDashboard, updateUserFromDashboard } from '../../redux/thunck/usersAsync';
+import { getUsersApi } from '../../utils/api';
 
 const UsersTable = ({ tableHeadings, users }) => {
+  const { isLoading, error } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
+  const [userInfo, setUserInfo] = useState({});
+  const usernameRef = useRef();
+  const roleRef = useRef();
   const cancelRef = useRef();
+
+  const getuserData = async (userId) => {
+    try {
+      onOpen();
+      const { data } = await getUsersApi.get('/profile-cc', {
+        params: { id: userId },
+      });
+      usernameRef.current.value = data?.data?.name;
+      roleRef.current.value = data?.data?.role;
+      setUserInfo(data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getuserDataDelete = async (userId) => {
+    onOpenDialog();
+    try {
+      const { data } = await getUsersApi.get('/profile-cc', {
+        params: { id: userId },
+      });
+
+      setUserInfo(data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      updateUserFromDashboard({
+        name: usernameRef.current.value,
+        id: userInfo?.id,
+      })
+    );
+  };
+
+  const deleteUser = async () => {
+    try {
+      dispatch(deleteUserFromDashboard(userInfo.id));
+      onCloseDialog();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (users) {
     return (
       <>
@@ -62,13 +120,13 @@ const UsersTable = ({ tableHeadings, users }) => {
                 <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 '>
                   <button
                     className='bg-red-500 p-2 rounded-md me-3 items-center'
-                    onClick={onOpenDialog}
+                    onClick={() => getuserDataDelete(user.id)}
                   >
                     <Trash className='text-white h-5' />
                   </button>
                   <button
                     className='bg-yellow-500 p-2 rounded-md items-center'
-                    onClick={onOpen}
+                    onClick={() => getuserData(user.id)}
                   >
                     <Edit className='text-white h-5' />
                   </button>
@@ -80,12 +138,41 @@ const UsersTable = ({ tableHeadings, users }) => {
         <Modal
           isOpen={isOpen}
           onClose={onClose}
+          on
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Add User</ModalHeader>
+            <ModalHeader>Update User</ModalHeader>
             <ModalCloseButton />
-            <h1>test</h1>
+            <form className='px-5 py-2'>
+              <VStack spacing={2}>
+                <FormControl>
+                  <FormLabel>Username</FormLabel>
+                  <Input
+                    type='text'
+                    ref={usernameRef}
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>Role</FormLabel>
+                  <Select ref={roleRef}>
+                    <option value='user'>User</option>
+                    <option value='developer'>Developer</option>
+                    <option value='brookers'>Brookers</option>
+                  </Select>
+                </FormControl>
+              </VStack>
+              <Button
+                colorScheme='teal'
+                className='w-full mt-4'
+                isLoading={isLoading}
+                type='submit'
+                onClick={(e) => handleSubmit(e)}
+              >
+                Submit
+              </Button>
+            </form>
           </ModalContent>
         </Modal>
         <AlertDialog
@@ -115,7 +202,7 @@ const UsersTable = ({ tableHeadings, users }) => {
                 </Button>
                 <Button
                   colorScheme='red'
-                  onClick={onCloseDialog}
+                  onClick={deleteUser}
                   ml={3}
                 >
                   Delete

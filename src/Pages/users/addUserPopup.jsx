@@ -24,7 +24,7 @@ const AddUserPopup = ({ error, isLoading }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const cPasswordRef = useRef();
-  //console.log(error.response?.data?.data[0]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createCompounds } from '../thunck/crudCompounds';
+import { getCompounds } from '../thunck/crudCompounds';
 
 const initialState = {
   compounds: [],
@@ -16,14 +16,14 @@ const compoundsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createCompounds.pending, (state) => {
+      .addCase(getCompounds.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createCompounds.fulfilled, (state, action) => {
+      .addCase(getCompounds.fulfilled, (state, action) => {
         state.isLoading = false;
         state.compounds = action.payload;
       })
-      .addCase(createCompounds.rejected, (state, action) => {
+      .addCase(getCompounds.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
         

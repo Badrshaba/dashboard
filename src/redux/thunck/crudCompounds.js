@@ -13,3 +13,15 @@ export const createCompounds = createAsyncThunk(
     }
   }
 );
+
+export const getCompounds = createAsyncThunk(
+  'compounds/get-compounds',
+  async (_, thunckApi) => {
+    try {
+      const { data } = await apiRegister.get('/compounds');
+      return data?.data;
+    } catch (error) {
+      return thunckApi.rejectWithValue(error);
+    }
+  }
+);

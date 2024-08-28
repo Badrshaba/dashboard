@@ -21,7 +21,7 @@ const TableComp = ({ headings, data }) => {
           </tr>
         </thead>
         <tbody>
-          {data?.map((row) => (
+          {data?.map((row,index) => (
             <tr
               key={row.id}
               className='text-center'

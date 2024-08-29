@@ -117,10 +117,10 @@ console.log(error?.data);
                 </FormControl>
                 <FormControl>
                 <FormLabel>Zone :</FormLabel>
-                <Select name="zone_id" onChange={handleChange}>
+                <Select onChange={handleChange}  value={formData.zone_id} >
                   <option value='1'>1</option>
-                  </Select>
-                </FormControl>
+                </Select>
+              </FormControl>
                 <FormControl>
                   <FormLabel>Area Min :</FormLabel>
                   <Input

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Delete, Edit, Trash } from 'lucide-react';
+import { Edit, Trash } from 'lucide-react';
 import {
   useDisclosure,
   Modal,
@@ -21,6 +21,8 @@ import {
   FormLabel,
   Input,
   Select,
+  AlertIcon,
+  AlertTitle,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUserFromDashboard, updateUserFromDashboard } from '../../redux/thunck/usersAsync';
@@ -140,6 +142,12 @@ const UsersTable = ({ tableHeadings, users }) => {
           <ModalContent>
             <ModalHeader>Update User</ModalHeader>
             <ModalCloseButton />
+            {error && (
+              <Alert status='error'>
+                <AlertIcon />
+                <AlertTitle>{error?.message}</AlertTitle>
+              </Alert>
+            )}
             <form className='px-5 py-2'>
               <VStack spacing={2}>
                 <FormControl>

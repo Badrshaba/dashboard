@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createNewBunnerFromDashboard, getBunnersAsync } from '../thunck/bunners';
+import { createNewBunnerFromDashboard, getBunnersAsync } from '../thunck/bunnersAsync';
 
 const initialState = {
   bunners: [],

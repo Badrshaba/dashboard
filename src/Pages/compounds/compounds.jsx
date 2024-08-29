@@ -11,7 +11,7 @@ import { getCompounds } from "../../redux/thunck/crudCompounds";
 import FormCompound from "./FormCompound";
 import TableCompound from "./TableCompound";
 import { Pagination } from "antd";
-import Form from "./Form"
+
 import useSearch from "../../hooks/useSearch";
 const Compounds = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -73,7 +73,7 @@ const Compounds = () => {
         headings={tableHeading}
         data={compounds}
       />
-      {/* <Form/> */}
+   
 <Pagination
         defaultCurrent={1}
         total={6}

@@ -5,7 +5,6 @@ const TestTable = ({ users }) => {
     {
       title: 'Id',
       dataIndex: 'id',
-
       sorter: (a, b) => a.id - b.id,
     },
     {

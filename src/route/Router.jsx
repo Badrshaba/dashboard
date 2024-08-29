@@ -91,26 +91,7 @@ const router = createBrowserRouter([
           </ProtectedRoutes>
         ),
       },
-      {
-        path: 'brookers',
-        element: (
-          <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
-              <Brookers />
-            </Suspense>
-          </ProtectedRoutes>
-        ),
-      },
-      {
-        path: 'developers',
-        element: (
-          <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
-              <Developers />
-            </Suspense>
-          </ProtectedRoutes>
-        ),
-      },
+
       {
         path: 'properites',
         element: (

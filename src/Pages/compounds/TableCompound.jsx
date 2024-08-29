@@ -22,6 +22,7 @@ import { deleteUserFromDashboard } from '../../redux/thunck/usersAsync';
 import { useDispatch } from 'react-redux';
 import { deleteCompounds } from '../../redux/thunck/crudCompounds';
 
+
     const TableCompound = ({ headings, data }) => {
       const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,6 +38,7 @@ import { deleteCompounds } from '../../redux/thunck/crudCompounds';
       console.log(error);
     }
   };
+
   const deleteUser = (compoundID) => {
     dispatch(deleteCompounds(compoundID));
     onCloseDialog();
@@ -44,6 +46,7 @@ import { deleteCompounds } from '../../redux/thunck/crudCompounds';
   if (data?.length > 0) {
     return (
       <>
+  
         <table className='table-auto items-center bg-transparent w-full border-collapse mt-5'>
           <thead>
             <tr className=''>
@@ -171,7 +174,7 @@ import { deleteCompounds } from '../../redux/thunck/crudCompounds';
         <AlertDescription>No Data To Show</AlertDescription>
       </Alert>
     );
-  }
+  } 
 };
 
 export default TableCompound

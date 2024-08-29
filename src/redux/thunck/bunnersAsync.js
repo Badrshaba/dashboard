@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { notification } from 'antd';
-import { api, apiRegister } from '../../utils/api';
+import { api, apiRegister, getUsersApi } from '../../utils/api';
 
-export const getBunnersAsync = createAsyncThunk('bunners/all-bunners', async (pageNumber, thunckApi) => {
+export const getBunnersAsync = createAsyncThunk('bunners/all-bunners', async (_, thunckApi) => {
   try {
-    const { data } = await api.get(`/All-Users?page=${pageNumber}`);
+    const { data } = await getUsersApi.get(`/banner`);
     return data?.data;
   } catch (error) {
     return thunckApi.rejectWithValue(error);

@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import { Pagination } from 'antd';
-import { Text } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
-import BunnersTable from './table';
+import { useEffect } from 'react';
+import { Flex } from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBunnersAsync } from '../../redux/thunck/bunnersAsync';
 import AddBunnerPopup from './addBunnerPopup';
+import BunnerCard from '../../componants/bunner-card/bunner-card';
 const Bunners = () => {
   const { bunners, isLoading, error } = useSelector((state) => state.bunners);
-  const [pageNumber, setPageNumber] = useState(1);
-  const tableHeading = ['id', 'title', 'description', 'image'];
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBunnersAsync());
+  }, []);
   return (
     <div className='bunners-page bg-white p-5 rounded-md mt-5'>
       <h3 className='text-3xl'>Bunners</h3>
@@ -15,11 +17,18 @@ const Bunners = () => {
         error={error}
         isLoading={isLoading}
       />
-      <BunnersTable
-        tableHeadings={tableHeading}
-        bunners={bunners?.data}
-      />
-      <Pagination
+      <Flex
+        gap={5}
+        mt={5}
+      >
+        {bunners?.map((image) => (
+          <BunnerCard
+            image={image}
+            key={image.id}
+          />
+        ))}
+      </Flex>
+      {/* <Pagination
         current={1}
         defaultCurrent={1}
         total={50}
@@ -37,7 +46,7 @@ const Bunners = () => {
         onChange={() => {
           setPageNumber((prev) => prev + 1);
         }}
-      />
+      /> */}
     </div>
   );
 };

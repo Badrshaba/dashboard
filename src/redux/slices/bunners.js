@@ -17,7 +17,7 @@ const bunnersSlice = createSlice({
       })
       .addCase(getBunnersAsync.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.users = action.payload;
+        state.bunners = action.payload;
       })
       .addCase(getBunnersAsync.rejected, (state, action) => {
         state.isLoading = false;

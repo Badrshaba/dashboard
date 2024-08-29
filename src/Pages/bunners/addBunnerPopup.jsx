@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { Upload } from 'antd';
 import { Plus, Trash, UploadCloud, UploadIcon } from 'lucide-react';
-import { createNewBunnerFromDashboard } from '../../redux/thunck/bunners';
+// import { createNewBunnerFromDashboard } from '../../redux/thunck/bunners';
 import { useDispatch } from 'react-redux';
 
 const AddBunnerPopup = ({ error, isLoading }) => {
@@ -53,13 +53,13 @@ const AddBunnerPopup = ({ error, isLoading }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(
-      createNewBunnerFromDashboard({
-        title: titleRef.current.value,
-        description: descriptionRef.current.value,
-        // image: imageFile.current.value,
-      })
-    );
+    // dispatch(
+    //   createNewBunnerFromDashboard({
+    //     title: titleRef.current.value,
+    //     description: descriptionRef.current.value,
+    //     // image: imageFile.current.value,
+    //   })
+    // );
   };
 
   return (
@@ -94,21 +94,6 @@ const AddBunnerPopup = ({ error, isLoading }) => {
           )}
           <form className='px-5 py-2'>
             <VStack spacing={2}>
-              <FormControl>
-                <FormLabel>Title</FormLabel>
-                <Input
-                  type='text'
-                  ref={titleRef}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Description</FormLabel>
-                <Textarea
-                  size='sm'
-                  resize='none'
-                  ref={descriptionRef}
-                />
-              </FormControl>
               <FormControl>
                 <FormLabel>Image</FormLabel>
                 <Upload

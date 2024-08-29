@@ -1,4 +1,4 @@
-import { Button, Space, Table } from 'antd';
+import { Avatar, Button, Space, Table } from 'antd';
 import { Edit, Trash } from 'lucide-react';
 const TestTable = ({ users }) => {
   const columns = [
@@ -13,11 +13,16 @@ const TestTable = ({ users }) => {
       dataIndex: 'name',
       key: 'name',
     },
-
     {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
+    },
+    {
+      title: 'Image',
+      dataIndex: 'image',
+      key: 'image',
+      render: (_, user) => <Avatar src={user.image} />,
     },
     {
       title: 'Role',
@@ -58,14 +63,12 @@ const TestTable = ({ users }) => {
       ),
     },
   ];
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
+
   return (
     <Table
       dataSource={users}
       columns={columns}
-      onChange={onChange}
+      onChange
       rowKey={(user) => user.id}
       style={{ marginTop: '2rem', textAlign: 'center' }}
     />

@@ -23,6 +23,19 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
   const [selectedFile, setSelectedFile] = useState(null);
  const [loading,setLoading] =  useState(false)
  const [error,setError] =  useState(null)
+ const getuserData = async (userId) => {
+  try {
+    onOpen();
+    const { data } = await getUsersApi.get('/profile-cc', {
+      params: { id: userId },
+    });
+    usernameRef.current.value = data?.data?.name;
+    roleRef.current.value = data?.data?.role;
+    setUserInfo(data?.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);

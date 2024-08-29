@@ -1,8 +1,13 @@
+import { useParams } from "react-router-dom"
 
 
 const CompoundPage = () => {
+    const {compoundId} = useParams()
+    
   return (
-    <div>CompoundPage</div>
+    <div>
+<h2>CompoundPage : {compoundId}</h2>
+    </div>
   )
 }
 

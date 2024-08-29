@@ -22,8 +22,10 @@ import { useState } from "react";
 import { baseURL } from "../../utils/api";
 import { getCompounds } from "../../redux/thunck/crudCompounds";
 import { useDispatch } from "react-redux";
+import { Upload } from "antd";
+import { Trash, UploadIcon } from "lucide-react";
 const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState({});
  const [loading,setLoading] =  useState(false)
  const [error,setError] =  useState(null)
  const [select,setSelector] = useState('')
@@ -33,10 +35,10 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
     e.preventDefault();
 
   if(formData.name_en==''){
-     setValidation({...validation,name_en:true})
+    return setValidation({...validation,name_en:true})
   }
   if(formData.name_ar==''){
-     setValidation({...validation,name_ar:true})
+    return setValidation({...validation,name_ar:true})
   }
   if(formData.descriotion_ar==''){
      setValidation({...validation,descriotion_ar:true})
@@ -73,7 +75,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
     formDataSend.append("zone_id",'1');
     formDataSend.append("user_id", '1');
     formDataSend.append("image", selectedFile);
-  
+  console.log(selectedFile);
     try {
       let { data } = await baseURL({
         method: "post",
@@ -93,6 +95,30 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
       setError(error?.response?.data || error?.message);
       setLoading(false)
     }
+  };
+  const props = {
+    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+    onChange({ file, fileList }) {
+      if (file.status !== 'uploading') {
+        setSelectedFile({...selectedFile,file})
+      }
+    },
+
+    showUploadList: {
+      extra: ({ size = 0 }) => (
+        <span
+          style={{
+            color: '#cccccc',
+          }}
+        >
+          ({(size / 1024 / 1024).toFixed(2)}MB)
+        </span>
+      ),
+      showDownloadIcon: true,
+      downloadIcon: 'Download',
+      showRemoveIcon: true,
+      removeIcon: <Trash onClick={(e) => console.log(e, 'custom removeIcon event')} />,
+    },
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
@@ -121,20 +147,6 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                   />
                   <FormErrorMessage>Name is required</FormErrorMessage>
                 </FormControl>
-                <FormControl>
-                  <FormLabel>image :</FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon>choose image</InputLeftAddon>
-                    <Input
-                      type="file"
-                      name="image"
-                      value={formData.image}
-                      onChange={(event) =>
-                        setSelectedFile(event.target.files[0])
-                      }
-                    ></Input>
-                  </InputGroup>
-                </FormControl>
                 <FormControl  >
                 <FormLabel>Zone :</FormLabel>
                 <Select onChange={(event)=>setSelector(event.target.value)}  value={select} >
@@ -149,6 +161,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     value={formData.area_min}
                     onChange={handleChange}
                   />
+                  <FormErrorMessage>Area min is required</FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={validation.area_max} >
                   <FormLabel>Area Max :</FormLabel>
@@ -168,17 +181,6 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     onChange={handleChange}
                   />
                 </FormControl>
-                {/* <FormControl>
-                  <FormLabel className="focus-visible:border-black">
-                    Location Link :
-                  </FormLabel>
-                  <Input
-                    type="text"
-                    name="location_link"
-                    value={formData.location_link}
-                    onChange={handleChange}
-                  />
-                </FormControl> */}
                 <FormControl>
                   <FormLabel className="focus-visible:border-black">
                   Price Min :
@@ -213,7 +215,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                 </label>
               </div>
               <div style={{ direction: "rtl" }} className="w-full space-y-2">
-                <FormControl>
+                <FormControl isInvalid={validation.name_ar} >
                   <FormLabel> الاسم :</FormLabel>
                   <Input
                     type="text"
@@ -221,16 +223,9 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     value={formData.name_ar}
                     onChange={handleChange}
                   />
+                  <FormErrorMessage>Name is required</FormErrorMessage>
+
                 </FormControl>
-                {/* <FormControl>
-                  <FormLabel> المنطقة :</FormLabel>
-                  <Input
-                    type="text"
-                    name="area_ar"
-                    value={formData.area_ar}
-                    onChange={handleChange}
-                  />
-                </FormControl> */}
                 <FormControl>
                   <FormLabel> العنوان : </FormLabel>
                   <Input
@@ -251,6 +246,17 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     size={"lg"}
                   />
                 </label>
+                <FormControl>
+                <FormLabel>Image</FormLabel>
+                <Upload
+                  {...props}
+                  style={{ backgroundColor: 'red' }}
+                >
+                  <Button>
+                    <UploadIcon className='h-6 me-3' /> Upload
+                  </Button>
+                </Upload>
+              </FormControl>
               </div>
             </div>
             <Button colorScheme="teal" width="100%" type="submit" isLoading={loading} mt={4}>

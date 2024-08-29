@@ -1,7 +1,7 @@
-import { RouterProvider } from 'react-router-dom';
-import router from './route/Router';
 import { useEffect } from 'react';
+import { RouterProvider } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import router from './route/Router';
 import { setUser } from './redux/slices/user';
 const App = () => {
   const dispatch = useDispatch();

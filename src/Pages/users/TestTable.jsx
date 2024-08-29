@@ -131,12 +131,13 @@ const TestTable = ({ users }) => {
           <Button
             danger={true}
             onClick={() => getuserDataDelete(user.id)}
-          >
-            <Trash />
-          </Button>
-          <Button onClick={() => getuserData(user.id)}>
-            <Edit />
-          </Button>
+            icon={<Trash />}
+          ></Button>
+          <Button
+            color='red'
+            onClick={() => getuserData(user.id)}
+            icon={<Edit />}
+          ></Button>
         </Space>
       ),
     },

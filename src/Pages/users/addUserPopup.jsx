@@ -49,7 +49,7 @@ const AddUserPopup = ({ error, isLoading }) => {
         size='md'
         onClick={onOpen}
       >
-        Add Users
+        Add User
       </Button>
       <Modal
         isOpen={isOpen}

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBunnersAsync } from '../../redux/thunck/bunnersAsync';
 import AddBunnerPopup from './addBunnerPopup';
@@ -17,17 +17,26 @@ const Bunners = () => {
         error={error}
         isLoading={isLoading}
       />
-      <Flex
-        gap={5}
-        mt={5}
-      >
-        {bunners?.map((image) => (
-          <BunnerCard
-            image={image}
-            key={image.id}
-          />
-        ))}
-      </Flex>
+      {isLoading ? (
+        <Box
+          mt={5}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Spinner />
+        </Box>
+      ) : (
+        <Flex
+          gap={5}
+          mt={5}
+        >
+          {bunners?.map((image) => (
+            <BunnerCard
+              image={image}
+              key={image.id}
+            />
+          ))}
+        </Flex>
+      )}
       {/* <Pagination
         current={1}
         defaultCurrent={1}

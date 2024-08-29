@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import {
   Button,
   useDisclosure,
@@ -8,58 +7,54 @@ import {
   AlertTitle,
   FormControl,
   FormLabel,
-  Input,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
   VStack,
-  Textarea,
 } from '@chakra-ui/react';
-import { Upload } from 'antd';
+import { Upload, message } from 'antd';
 import { Plus, Trash, UploadCloud, UploadIcon } from 'lucide-react';
 // import { createNewBunnerFromDashboard } from '../../redux/thunck/bunners';
 import { useDispatch } from 'react-redux';
+import { getUsersApi } from '../../utils/api';
+import axios from 'axios';
 
 const AddBunnerPopup = ({ error, isLoading }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const titleRef = useRef();
-  const descriptionRef = useRef();
-  // const imageFile = useRef();
-  const props = {
-    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-    onChange({ file, fileList }) {
-      if (file.status !== 'uploading') {
-        console.log(file, fileList);
-      }
-    },
+  const customRequest = async ({ file, onSuccess, onError }) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    console.log(formData.getAll('file')[0]);
+    try {
+      const response = await axios.post(
+        'https://ai.w-manage.org/api/banner',
+        {
+          image: formData.getAll('file')[0],
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
+            APP_KEY: import.meta.env.VITE_APP_KEY,
+          },
+        }
+      );
+      console.log(response);
 
-    showUploadList: {
-      extra: ({ size = 0 }) => (
-        <span
-          style={{
-            color: '#cccccc',
-          }}
-        >
-          ({(size / 1024 / 1024).toFixed(2)}MB)
-        </span>
-      ),
-      showDownloadIcon: true,
-      downloadIcon: 'Download',
-      showRemoveIcon: true,
-      removeIcon: <Trash onClick={(e) => console.log(e, 'custom removeIcon event')} />,
-    },
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // dispatch(
-    //   createNewBunnerFromDashboard({
-    //     title: titleRef.current.value,
-    //     description: descriptionRef.current.value,
-    //     // image: imageFile.current.value,
-    //   })
-    // );
+      if (response.status === 200) {
+        message.success('File uploaded successfully');
+        onSuccess(response.data);
+      } else {
+        message.error('Upload failed');
+        onError(new Error('Upload failed'));
+      }
+    } catch (error) {
+      message.error('Upload error');
+      console.log(error);
+      onError(error);
+    }
   };
 
   return (
@@ -97,8 +92,8 @@ const AddBunnerPopup = ({ error, isLoading }) => {
               <FormControl>
                 <FormLabel>Image</FormLabel>
                 <Upload
-                  {...props}
-                  style={{ backgroundColor: 'red' }}
+                  customRequest={customRequest}
+                  showUploadList={false}
                 >
                   <Button>
                     <UploadIcon className='h-6 me-3' /> Upload

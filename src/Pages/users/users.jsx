@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Text } from '@chakra-ui/react';
 import { Pagination } from 'antd';
 import { getUsersAsync } from '../../redux/thunck/usersAsync';
-import UsersTable from './table';
+// import UsersTable from './table';
+import TestTable from './TestTable';
 import AddUserPopup from './addUserPopup';
 
 const Users = () => {
@@ -23,10 +24,11 @@ const Users = () => {
         error={error}
         isLoading={isLoading}
       />
-      <UsersTable
+      {/* <UsersTable
         tableHeadings={tableHeading}
         users={users?.data}
-      />
+      /> */}
+      <TestTable users={users?.data} />
       <Pagination
         current={1}
         defaultCurrent={1}

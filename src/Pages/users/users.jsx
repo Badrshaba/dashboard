@@ -29,7 +29,7 @@ const Users = () => {
         users={users?.data}
       /> */}
       <TestTable users={users?.data} />
-      <Pagination
+      {/* <Pagination
         current={1}
         defaultCurrent={1}
         pageSize={10}
@@ -49,7 +49,7 @@ const Users = () => {
           setPageNumber((prev) => (pageNumber === users?.last_page ? pageNumber : prev + 1));
           dispatch(getUsersAsync(pageNumber));
         }}
-      />
+      /> */}
     </div>
   );
 };

@@ -13,6 +13,7 @@ import TableCompound from "./TableCompound";
 import { Pagination } from "antd";
 
 import useSearch from "../../hooks/useSearch";
+import TestTable from "./TestTable";
 const Compounds = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pageNumber, setPageNumber] = useState(1);
@@ -69,12 +70,13 @@ const Compounds = () => {
         </form>
       </div>
 <FormCompound onClose={onClose} handleChange={handleChange} isOpen={isOpen} formData={formData}   />
-      <TableCompound
+      {/* <TableCompound
         headings={tableHeading}
         data={compounds}
-      />
+      /> */}
+      <TestTable compounds={compounds}  />
    
-<Pagination
+{/* <Pagination
         defaultCurrent={1}
         total={6}
         align='center'
@@ -91,7 +93,7 @@ const Compounds = () => {
           setPageNumber((prev) => (pageNumber === users?.last_page ? pageNumber : prev + 1));
           dispatch(getUsersAsync(pageNumber));
         }}
-      />
+      /> */}
     </div>
   );
 };

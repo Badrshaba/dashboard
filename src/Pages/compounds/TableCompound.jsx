@@ -24,7 +24,7 @@ import { deleteCompounds } from '../../redux/thunck/crudCompounds';
 
 
     const TableCompound = ({ headings, data }) => {
-      const dispatch = useDispatch();
+   
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const cancelRef = useRef();
@@ -39,10 +39,7 @@ import { deleteCompounds } from '../../redux/thunck/crudCompounds';
     }
   };
 
-  const deleteUser = (compoundID) => {
-    dispatch(deleteCompounds(compoundID));
-    onCloseDialog();
-  };
+
   if (data?.length > 0) {
     return (
       <>

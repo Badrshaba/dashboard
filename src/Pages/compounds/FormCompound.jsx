@@ -94,19 +94,18 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
       setLoading(false)
     }
   };
-console.log(select);
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add Compounds</ModalHeader>
         <ModalCloseButton />
-        {error && (
+        {/* {error && (
       <Alert status='error'>
         <AlertIcon />
         <AlertTitle>{error?.data[0]}</AlertTitle>
       </Alert>
-    )}
+    )} */}
         <VStack spacing={4}>
           <form className="p-5 w-full" onSubmit={handleSubmit}>
             <div className=" flex space-x-3 w-full">

@@ -7,3 +7,6 @@
     box-sizing: border-box;
 }
 
+.ant-table-cell{
+    text-align: center !important;
+}

@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../Layout/MainLayout';
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
 import { Spinner } from '@chakra-ui/react';
+const CompoundPage = lazy(() => import('../Pages/compounds/CompoundPage'));
 const Login = lazy(() => import('../Pages/login/login'));
 const Dashboard = lazy(() => import('../Pages/dashboard/dashboard'));
 const Users = lazy(() => import('../Pages/users/users'));
@@ -77,6 +78,16 @@ const router = createBrowserRouter([
           <ProtectedRoutes>
             <Suspense fallback={<Spinner />}>
               <Compounds />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'compounds/:compoundId',
+        element: (
+          <ProtectedRoutes>
+            <Suspense fallback={<Spinner />}>
+              <CompoundPage />
             </Suspense>
           </ProtectedRoutes>
         ),

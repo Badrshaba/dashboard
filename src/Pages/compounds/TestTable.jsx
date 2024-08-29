@@ -1,18 +1,20 @@
-import { Avatar, Button, Image, Space, Table } from 'antd';
-import { Edit, Trash } from 'lucide-react';
+import { Button, Space, Table } from 'antd';
+import { CircleEllipsis, Edit, Trash } from 'lucide-react';
+import { deleteCompounds } from '../../redux/thunck/crudCompounds';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 const TestTable = ({ compounds }) => {
-      //,"price max"]
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+    const deleteUser = (compoundID) => {
+    dispatch(deleteCompounds(compoundID));
+    onCloseDialog();
+    };
   const columns = [
     {
       title: 'Id',
       dataIndex: 'id',
       sorter: (a, b) => a.id - b.id,
-    },
-    {
-      title: 'Image',
-      dataIndex: 'image',
-      key: 'image',
-      render: (_, user) => <Image src={user.image} alt='logo' width={150}  />,
     },
     {
       title: 'Name',
@@ -30,19 +32,9 @@ const TestTable = ({ compounds }) => {
       key: 'area_max',
     },
     {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-    },
-    {
       title: 'Zone',
       dataIndex: 'zone_id',
       key: 'zone_id',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
     },
     {
       title: 'Price min',
@@ -61,11 +53,13 @@ const TestTable = ({ compounds }) => {
       key: 'actions',
       render: (_, rec) => (
         <Space>
+          <Button color='blue' onClick={()=>navigate(`${rec.id}`)}   icon={<CircleEllipsis color='blue' />} />
           <Button
+          onClick={()=>deleteUser(rec.id)}
             danger={true}
             icon={<Trash />}
           />
-          <Button icon={<Edit />} />
+          <Button  icon={<Edit />} />
         </Space>
       ),
     },

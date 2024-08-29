@@ -73,7 +73,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
     formDataSend.append("zone_id",'1');
     formDataSend.append("user_id", '1');
     formDataSend.append("image", selectedFile);
-    console.log(formDataSend.get('image'));
+  
     try {
       let { data } = await baseURL({
         method: "post",

@@ -19,11 +19,6 @@ const DATA = [
     route: '/properites',
   },
   {
-    title: 'Developers',
-    icon: <Apple size={18} />,
-    route: '/developers',
-  },
-  {
     title: 'Customers',
     icon: <Headset size={18} />,
     route: '/customers',
@@ -55,11 +50,6 @@ const DATA = [
     route: '/bunners',
   },
 
-  {
-    title: 'Brookers',
-    icon: <Headset size={18} />,
-    route: '/brookers',
-  },
 ];
 const Sidebar = () => {
   // const [open, setOpen] = useState("");

@@ -72,13 +72,9 @@ const UsersTable = ({ tableHeadings, users }) => {
     );
   };
 
-  const deleteUser = async () => {
-    try {
-      dispatch(deleteUserFromDashboard(userInfo.id));
-      onCloseDialog();
-    } catch (error) {
-      console.log(error);
-    }
+  const deleteUser = () => {
+    dispatch(deleteUserFromDashboard(userInfo.id));
+    onCloseDialog();
   };
   if (users) {
     return (

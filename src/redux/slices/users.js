@@ -32,7 +32,6 @@ const usersSlice = createSlice({
       })
       .addCase(createNewUserFromDashboard.fulfilled, (state) => {
         state.isLoading = false;
-        state.error = null;
       })
       .addCase(createNewUserFromDashboard.rejected, (state, action) => {
         state.isLoading = false;

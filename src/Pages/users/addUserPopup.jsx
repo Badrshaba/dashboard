@@ -17,9 +17,12 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { createNewUserFromDashboard } from '../../redux/thunck/usersAsync';
 
 const AddUserPopup = ({ error, isLoading }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -36,7 +39,7 @@ const AddUserPopup = ({ error, isLoading }) => {
       })
     );
   };
-  let erro2 = error?.response || error?.message;
+
   return (
     <>
       <Button
@@ -64,7 +67,7 @@ const AddUserPopup = ({ error, isLoading }) => {
           {error && (
             <Alert status='error'>
               <AlertIcon />
-              <AlertTitle>{erro2}</AlertTitle>
+              <AlertTitle>{error?.message}</AlertTitle>
             </Alert>
           )}
           <form className='px-5 py-2'>
@@ -100,12 +103,7 @@ const AddUserPopup = ({ error, isLoading }) => {
               <FormControl>
                 <FormLabel>Role</FormLabel>
                 <Select>
-                  <option
-                    value='user'
-                    selected
-                  >
-                    User
-                  </option>
+                  <option value='user'>User</option>
                   <option value='developer'>Developer</option>
                   <option value='brookers'>Brookers</option>
                 </Select>

@@ -16,7 +16,6 @@ export const createNewUserFromDashboard = createAsyncThunk(
   async (userData, thunckApi) => {
     try {
       const { data } = await apiRegister.post('/register', userData);
-
       notification.success({
         description: 'Successfully Created New User.!',
         duration: 2,

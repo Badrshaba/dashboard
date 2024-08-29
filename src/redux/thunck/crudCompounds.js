@@ -1,6 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { apiRegister } from '../../utils/api';
+import { apiRegister, getUsersApi } from '../../utils/api';
+import { notification } from 'antd';
+// import { useDispatch } from 'react-redux';
 
+// const dispatch = useDispatch();
 
 export const createCompounds = createAsyncThunk(
   'compounds/create-compounds',
@@ -20,6 +23,27 @@ export const getCompounds = createAsyncThunk(
     try {
       const { data } = await apiRegister.get('/compounds');
       return data?.data;
+    } catch (error) {
+      return thunckApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteCompounds = createAsyncThunk(
+  'compounds/delete-compound',
+  async (compoundID, thunckApi) => {
+    try {
+      console.log("done");
+      const { data } = await getUsersApi.delete(`/compounds/${compoundID}`);
+      notification.success({
+        description: 'Successfully Delete Compound.!',
+        duration: 2,
+        showProgress: true,
+        message: 'Delete Compound',
+        placement: 'topRight',
+      });
+
+      thunckApi.dispatch(getCompounds())
     } catch (error) {
       return thunckApi.rejectWithValue(error);
     }

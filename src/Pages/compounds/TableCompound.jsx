@@ -18,11 +18,29 @@ ModalHeader,
 ModalOverlay,
 } from '@chakra-ui/react';
 import { useRef } from 'react';
+import { deleteUserFromDashboard } from '../../redux/thunck/usersAsync';
+import { useDispatch } from 'react-redux';
+import { deleteCompounds } from '../../redux/thunck/crudCompounds';
 
     const TableCompound = ({ headings, data }) => {
+      const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const cancelRef = useRef();
+  const deleteCompounde = async (compoundId) => {
+    try {
+      onOpen();
+      const { data } = await getUsersApi.delete(`/compounds/${compoundId}`, {
+      });
+      setUserInfo(data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteUser = (compoundID) => {
+    dispatch(deleteCompounds(compoundID));
+    onCloseDialog();
+  };
   if (data?.length > 0) {
     return (
       <>
@@ -78,7 +96,7 @@ import { useRef } from 'react';
                 <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 '>
                   <button
                     className='bg-red-500 p-2 rounded-md me-3 items-center'
-                    onClick={onOpenDialog}
+                    onClick={()=>deleteUser(row.id)}
                   >
                     <Trash className='text-white h-5' />
                   </button>
@@ -133,6 +151,7 @@ import { useRef } from 'react';
                   colorScheme='red'
                   onClick={onCloseDialog}
                   ml={3}
+                  
                 >
                   Delete
                 </Button>

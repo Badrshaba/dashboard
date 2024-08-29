@@ -23,7 +23,6 @@ export const baseURL = axios.create({
 
 export const getUsersApi = axios.create({
   baseURL: 'https://ai.w-manage.org/api',
-
   headers: {
     Accept: 'application/json',
     Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),

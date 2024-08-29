@@ -16,29 +16,48 @@ import {
   InputLeftAddon,
   InputGroup,
   Select,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { baseURL } from "../../utils/api";
+import { getCompounds } from "../../redux/thunck/crudCompounds";
+import { useDispatch } from "react-redux";
 const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
   const [selectedFile, setSelectedFile] = useState(null);
  const [loading,setLoading] =  useState(false)
  const [error,setError] =  useState(null)
- const getuserData = async (userId) => {
-  try {
-    onOpen();
-    const { data } = await getUsersApi.get('/profile-cc', {
-      params: { id: userId },
-    });
-    usernameRef.current.value = data?.data?.name;
-    roleRef.current.value = data?.data?.role;
-    setUserInfo(data?.data);
-  } catch (error) {
-    console.log(error);
-  }
-};
+ const [select,setSelector] = useState('')
+ const [validation,setValidation] = useState({})
+ const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+  if(formData.name_en==''){
+     setValidation({...validation,name_en:true})
+  }
+  if(formData.name_ar==''){
+     setValidation({...validation,name_ar:true})
+  }
+  if(formData.descriotion_ar==''){
+     setValidation({...validation,descriotion_ar:true})
+  }
+  if(formData.descriotion_en==''){
+     setValidation({...validation,descriotion_en:true})
+  }
+  if(formData.area_min==''){
+     setValidation({...validation,area_min:true})
+  }
+  if(formData.area_max==''){
+     setValidation({...validation,area_max:true})
+  }
+  if(formData.address_ar==''){
+     setValidation({...validation,address_ar:true})
+  }
+  if(formData.address_en==''){
+     setValidation({...validation,address_en:true})
+  }
+
+
     setLoading(true)
     const formDataSend = new FormData();
     formDataSend.append("name_ar", formData.name_ar);
@@ -51,9 +70,10 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
     formDataSend.append("address_en", formData.address_en);
     formDataSend.append("price_min", formData.price_min);
     formDataSend.append("price_max", formData.price_max);
-    formDataSend.append("zone_id",formData.zone_id );
+    formDataSend.append("zone_id",'1');
     formDataSend.append("user_id", '1');
     formDataSend.append("image", selectedFile);
+    console.log(formDataSend.get('image'));
     try {
       let { data } = await baseURL({
         method: "post",
@@ -64,17 +84,17 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
           APP_KEY: import.meta.env.VITE_APP_KEY,
         },
       });
-      console.log(data);
       setLoading(false)
       setTimeout(()=>{
         onClose()
       },500)
+      dispatch(getCompounds());
     } catch (error) {
       setError(error?.response?.data || error?.message);
       setLoading(false)
     }
   };
-console.log(error?.data);
+console.log(select);
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"5xl"}>
       <ModalOverlay />
@@ -91,7 +111,7 @@ console.log(error?.data);
           <form className="p-5 w-full" onSubmit={handleSubmit}>
             <div className=" flex space-x-3 w-full">
               <div className="w-full space-y-2">
-                <FormControl>
+                <FormControl isInvalid={validation.name_en}>
                   <FormLabel>Name :</FormLabel>
                   <Input
                     colorScheme={"red"}
@@ -100,6 +120,7 @@ console.log(error?.data);
                     value={formData.name_en}
                     onChange={handleChange}
                   />
+                  <FormErrorMessage>Name is required</FormErrorMessage>
                 </FormControl>
                 <FormControl>
                   <FormLabel>image :</FormLabel>
@@ -115,13 +136,13 @@ console.log(error?.data);
                     ></Input>
                   </InputGroup>
                 </FormControl>
-                <FormControl>
+                <FormControl  >
                 <FormLabel>Zone :</FormLabel>
-                <Select onChange={handleChange}  value={formData.zone_id} >
+                <Select onChange={(event)=>setSelector(event.target.value)}  value={select} >
                   <option value='1'>1</option>
                 </Select>
               </FormControl>
-                <FormControl>
+                <FormControl isInvalid={validation.area_min} >
                   <FormLabel>Area Min :</FormLabel>
                   <Input
                     type="text"
@@ -130,7 +151,7 @@ console.log(error?.data);
                     onChange={handleChange}
                   />
                 </FormControl>
-                <FormControl>
+                <FormControl isInvalid={validation.area_max} >
                   <FormLabel>Area Max :</FormLabel>
                   <Input
                     type="text"

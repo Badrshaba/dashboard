@@ -28,14 +28,17 @@ const AddUserPopup = ({ error, isLoading }) => {
   const passwordRef = useRef();
   const cPasswordRef = useRef();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       createNewUserFromDashboard({
-        name: usernameRef.current.value,
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-        password_confirmation: cPasswordRef.current.value,
+        userData: {
+          name: usernameRef.current.value,
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+          password_confirmation: cPasswordRef.current.value,
+        },
+        closePopup: onClose,
       })
     );
   };
@@ -67,10 +70,15 @@ const AddUserPopup = ({ error, isLoading }) => {
           {error && (
             <Alert status='error'>
               <AlertIcon />
-              <AlertTitle>{error?.message}</AlertTitle>
+              <AlertTitle>
+                {(error.response.data.data && error.response.data.data[0]) || error?.message}
+              </AlertTitle>
             </Alert>
           )}
-          <form className='px-5 py-2'>
+          <form
+            className='px-5 py-2'
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <VStack spacing={2}>
               <FormControl>
                 <FormLabel>Username</FormLabel>
@@ -122,7 +130,6 @@ const AddUserPopup = ({ error, isLoading }) => {
               className='w-full mt-4'
               isLoading={isLoading}
               type='submit'
-              onClick={(e) => handleSubmit(e)}
             >
               Submit
             </Button>

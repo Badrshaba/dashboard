@@ -1,25 +1,39 @@
-import { Button, Space, Table } from 'antd';
+import { Space, Table } from 'antd';
 import { CircleEllipsis, Edit, Trash } from 'lucide-react';
 import { deleteCompounds } from '../../redux/thunck/crudCompounds';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {FormControl, FormLabel, Input, Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Select, useDisclosure, VStack } from '@chakra-ui/react';
+import {
+  ButtonGroup,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  useDisclosure,
+  VStack,
+  Button,
+} from '@chakra-ui/react';
 import DeleteAlert from '../../componants/deleteAlert/DeleteAlert';
 import { useState } from 'react';
 const TestTable = ({ compounds }) => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [userInfo,setUserInfo] = useState(null)
-    const navigate = useNavigate()
-    const deleteCompounds = (compoundID) => {
+  const [userInfo, setUserInfo] = useState(null);
+  const navigate = useNavigate();
+  const deleteCompounds = (compoundID) => {
     // dispatch(deleteCompounds(compoundID));
     // onCloseDialog();
     console.log(compoundID);
-    setTimeout(()=>{
-      onCloseDialog()
-    },500)
-    };
+    setTimeout(() => {
+      onCloseDialog();
+    }, 500);
+  };
   const columns = [
     {
       title: 'Id',
@@ -62,49 +76,61 @@ const TestTable = ({ compounds }) => {
       title: 'Actions',
       key: 'actions',
       render: (_, rec) => (
-        <Space className=' space-x-3' >
-          <Button color='blue' onClick={()=>navigate(`${rec.id}`)}   icon={<CircleEllipsis color='blue' />} />
+        <ButtonGroup
+          variant='outline'
+          spacing={4}
+          size='sm'
+        >
           <Button
-          onClick={ ()=>{
-            setUserInfo(rec)
-            onOpenDialog()
-          }  
-        }
-            danger={true}
-            icon={<Trash />}
-          />
-          <Button onClick={
-            ()=>{
-              setUserInfo(rec)
-              onOpen()
-            }
-          } icon={<Edit />} />
-        </Space>
+            colorScheme='blue'
+            onClick={() => navigate(`${rec.id}`)}
+          >
+            <CircleEllipsis size={20} />
+          </Button>
+          <Button
+            colorScheme='red'
+            onClick={() => {
+              setUserInfo(rec);
+              onOpenDialog();
+            }}
+          >
+            <Trash size={20} />
+          </Button>
+          <Button
+            colorScheme='yellow'
+            onClick={() => {
+              setUserInfo(rec);
+              onOpen();
+            }}
+          >
+            <Edit size={20} />
+          </Button>
+        </ButtonGroup>
       ),
     },
   ];
 
   return (
     <>
-    
-    <Table
-      dataSource={compounds}
-      columns={columns}
-      rowKey={(compound) => compound.id}
-      className=' pt-8'
-      pagination={{
-        position: ['bottomCenter'],
-      }}
-    />
-      <DeleteAlert 
-      userInfo={userInfo} 
-      deleteCompounds={deleteCompounds} 
-      onClose={onCloseDialog} 
-      isOpen={isOpenDialog} 
-      head='Delete Compound' 
-      body='Do you want delete compound'  />
+      <Table
+        dataSource={compounds}
+        columns={columns}
+        rowKey={(compound) => compound.id}
+        className=' pt-8'
+        pagination={{
+          position: ['bottomCenter'],
+        }}
+      />
+      <DeleteAlert
+        userInfo={userInfo}
+        deleteCompounds={deleteCompounds}
+        onClose={onCloseDialog}
+        isOpen={isOpenDialog}
+        head='Delete Compound'
+        body='Do you want delete compound'
+      />
 
-<Modal
+      <Modal
         isOpen={isOpen}
         onClose={onClose}
         on
@@ -121,15 +147,12 @@ const TestTable = ({ compounds }) => {
           )} */}
           <form className='px-5 py-2'>
             <VStack spacing={2}>
-              {userInfo&&
-               <FormControl>
-               <FormLabel>{userInfo?.id}</FormLabel>
-               <Input
-                 type='text'
-               />
-             </FormControl>
-              }
-             
+              {userInfo && (
+                <FormControl>
+                  <FormLabel>{userInfo?.id}</FormLabel>
+                  <Input type='text' />
+                </FormControl>
+              )}
 
               {/* <FormControl>
                 <FormLabel>Role</FormLabel>
@@ -151,11 +174,8 @@ const TestTable = ({ compounds }) => {
           </form>
         </ModalContent>
       </Modal>
-
-
     </>
   );
 };
 
 export default TestTable;
-

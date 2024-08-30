@@ -19,8 +19,10 @@ import {
   Select,
   AlertIcon,
   AlertTitle,
+  Button,
+  ButtonGroup,
 } from '@chakra-ui/react';
-import { Avatar, Space, Table, Button } from 'antd';
+import { Avatar, Space, Table } from 'antd';
 import { Edit, Trash } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { deleteUserFromDashboard, updateUserFromDashboard } from '../../redux/thunck/usersAsync';
@@ -127,18 +129,24 @@ const TestTable = ({ users }) => {
       title: 'Actions',
       key: 'actions',
       render: (_, user) => (
-        <Space>
+        <ButtonGroup
+          variant='outline'
+          size='sm'
+          spacing={4}
+        >
           <Button
-            danger={true}
+            colorScheme='red'
             onClick={() => getuserDataDelete(user.id)}
-            icon={<Trash />}
-          ></Button>
+          >
+            <Trash size={20} />
+          </Button>
           <Button
-            color='red'
+            colorScheme='yellow'
             onClick={() => getuserData(user.id)}
-            icon={<Edit />}
-          ></Button>
-        </Space>
+          >
+            <Edit size={20} />
+          </Button>
+        </ButtonGroup>
       ),
     },
   ];

@@ -14,7 +14,7 @@ const MainLayout = () => {
 
         <div className=' w-4/5 '>
           <Header />
-          <div className='min-h-screen p-5 bg-mainBG'>
+          <div className='min-h-screen p-3 bg-mainBG'>
             <Outlet />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { Space, Table } from 'antd';
 import { CircleEllipsis, Edit, Trash } from 'lucide-react';
 import { deleteCompounds } from '../../redux/thunck/crudCompounds';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   ButtonGroup,
@@ -21,6 +21,7 @@ import {
 import DeleteAlert from '../../componants/deleteAlert/DeleteAlert';
 import { useState } from 'react';
 const TestTable = ({ compounds }) => {
+  const { isLoading } = useSelector((state) => state.compounds);
   const dispatch = useDispatch();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -113,6 +114,7 @@ const TestTable = ({ compounds }) => {
   return (
     <>
       <Table
+        loading={isLoading}
         dataSource={compounds}
         columns={columns}
         rowKey={(compound) => compound.id}

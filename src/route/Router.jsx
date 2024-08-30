@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../Layout/MainLayout';
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
 import { Spinner } from '@chakra-ui/react';
+import LoadingSkeleton from '../componants/loading-skeleton/LoadingSkeleton';
 const CompoundPage = lazy(() => import('../Pages/compounds/CompoundPage'));
 const Login = lazy(() => import('../Pages/login/login'));
 const Dashboard = lazy(() => import('../Pages/dashboard/dashboard'));
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
         path: '/',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <Dashboard />
             </Suspense>
           </ProtectedRoutes>
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
         path: 'bunners',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <Bunners />
             </Suspense>
           </ProtectedRoutes>
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
         path: 'users',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <Users />
             </Suspense>
           </ProtectedRoutes>
@@ -66,7 +67,7 @@ const router = createBrowserRouter([
         path: 'features',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <Features />
             </Suspense>
           </ProtectedRoutes>
@@ -76,7 +77,7 @@ const router = createBrowserRouter([
         path: 'compounds',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <Compounds />
             </Suspense>
           </ProtectedRoutes>
@@ -86,7 +87,7 @@ const router = createBrowserRouter([
         path: 'compounds/:compoundId',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <CompoundPage />
             </Suspense>
           </ProtectedRoutes>
@@ -96,7 +97,7 @@ const router = createBrowserRouter([
         path: 'customers',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <Customers />
             </Suspense>
           </ProtectedRoutes>
@@ -107,7 +108,7 @@ const router = createBrowserRouter([
         path: 'properites',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <Properites />
             </Suspense>
           </ProtectedRoutes>
@@ -117,7 +118,7 @@ const router = createBrowserRouter([
         path: 'sub-categories',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <SubCategories />
             </Suspense>
           </ProtectedRoutes>
@@ -127,7 +128,7 @@ const router = createBrowserRouter([
         path: 'categories',
         element: (
           <ProtectedRoutes>
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={<LoadingSkeleton />}>
               <Categories />
             </Suspense>
           </ProtectedRoutes>

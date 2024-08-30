@@ -154,12 +154,16 @@ const TestTable = ({ users }) => {
   return (
     <>
       <Table
+        loading={isLoading}
         dataSource={users}
         columns={columns}
         rowKey={(user) => user.id}
         className=' pt-8'
         pagination={{
           position: ['bottomCenter'],
+          total: 1000,
+          pageSize: 50,
+          showTotal: () => 1000,
         }}
       />
       <AlertDialog

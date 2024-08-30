@@ -5,7 +5,7 @@ const Dashboard = () => {
   const { user } = useSelector((state) => state.user);
 
   return (
-    <>
+    <div className='dashboard p-3'>
       <h1 className='text-3xl text-black font-Bold mb-5'>Hi, {user?.user?.name}</h1>
       <div className='top-part grid grid-cols-12 gap-5'>
         <div className=' col-span-5'>
@@ -19,7 +19,7 @@ const Dashboard = () => {
         <TotalCategories />
         <FeaturedProducts />
       </div>
-    </>
+    </div>
   );
 };
 

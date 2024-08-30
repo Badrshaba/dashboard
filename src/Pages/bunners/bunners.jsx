@@ -11,7 +11,7 @@ const Bunners = () => {
     dispatch(getBunnersAsync());
   }, []);
   return (
-    <div className='bunners-page bg-white p-5 rounded-md mt-5'>
+    <div className='bunners-page bg-white p-3 rounded-md '>
       <h3 className='text-3xl'>Bunners</h3>
       <AddBunnerPopup
         error={error}

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Spinner, Text } from '@chakra-ui/react';
 import { getUsersAsync } from '../../redux/thunck/usersAsync';
@@ -14,7 +14,7 @@ const Users = () => {
   }, []);
 
   return (
-    <div className='users-page bg-white p-5 rounded-md mt-5'>
+    <div className='users-page bg-white p-3 rounded-md'>
       <h3 className='text-3xl'>Users</h3>
       {/* <UsersTable
         tableHeadings={tableHeading}
@@ -24,16 +24,9 @@ const Users = () => {
         error={error}
         isLoading={isLoading}
       />
-      {isLoading ? (
-        <Box
-          mt={5}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          <Spinner />
-        </Box>
-      ) : (
-        <TestTable users={users?.data} />
-      )}
+
+      <TestTable users={users?.data} />
+
       {/* <Pagination
         current={1}
         defaultCurrent={1}

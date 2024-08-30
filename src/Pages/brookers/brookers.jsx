@@ -1,7 +1,5 @@
-import { TableComp } from '../../componants';
-
 const Brookers = () => {
-  return <TableComp title='Brookers' />;
+  return <h1>Brookers</h1>;
 };
 
 export default Brookers;

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { notification } from 'antd';
-import { api, apiRegister, getUsersApi } from '../../utils/api';
+import { api, apiRegister, bannersApi, getUsersApi } from '../../utils/api';
 
 export const getBunnersAsync = createAsyncThunk('bunners/all-bunners', async (_, thunckApi) => {
   try {
@@ -12,21 +12,40 @@ export const getBunnersAsync = createAsyncThunk('bunners/all-bunners', async (_,
 });
 
 export const createNewBunnerFromDashboard = createAsyncThunk(
-  'bunners/create-new-bunner',
-  async (userData, thunckApi) => {
+  'bunners/create-new-banner',
+  async ({ file, onSuccess, onError }, thunckApi) => {
     try {
-      const { data } = await apiRegister.post('/register', userData);
-
+      const { data } = await bannersApi.post('/banner', { image: file });
       notification.success({
-        description: 'Successfully Created New Bunner.!',
+        description: 'Successfully Created New Banner.!',
         duration: 2,
         showProgress: true,
-        message: 'Create User',
+        message: 'Create Banner',
+        placement: 'topRight',
+      });
+      onSuccess(data);
+      thunckApi.dispatch(getBunnersAsync(1));
+    } catch (error) {
+      onError(error);
+      return thunckApi.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteBannerFromDashboard = createAsyncThunk(
+  'bunners/delete-banner',
+  async (bannerId, thunckApi) => {
+    try {
+      const { data } = await bannersApi.delete(`/banner/${bannerId}`);
+      notification.success({
+        description: 'Successfully Delete  Banner.!',
+        duration: 2,
+        showProgress: true,
+        message: 'Delete Banner',
         placement: 'topRight',
       });
 
       thunckApi.dispatch(getBunnersAsync(1));
-      return data?.data?.data;
     } catch (error) {
       return thunckApi.rejectWithValue(error);
     }

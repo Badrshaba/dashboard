@@ -1,20 +1,27 @@
 import { Box, Button } from '@chakra-ui/react';
 import { Image } from 'antd';
 import { Trash } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { deleteBannerFromDashboard } from '../../redux/thunck/bunnersAsync';
 
-const BunnerCard = ({ image }) => {
+const BunnerCard = ({ image, loading }) => {
+  const dispatch = useDispatch();
+
   return (
     <Box
       bg='gray.200'
-      p={1}
-      rounded={5}
+      border='1px solid gray'
+      rounded={true}
     >
-      <Image src={image.image} />
+      <Image
+        src={image.image}
+        style={{ margin: '0' }}
+      />
       <Button
         colorScheme='red'
-        mt={1}
-        style={{ display: 'flex', justifyContent: 'center' }}
-        width={'100%'}
+        width='100%'
+        rounded={false}
+        onClick={() => dispatch(deleteBannerFromDashboard(image?.id))}
       >
         <Trash />
       </Button>

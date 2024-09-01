@@ -11,51 +11,15 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  VStack,
 } from '@chakra-ui/react';
-import { Upload, message } from 'antd';
-import { Plus, Trash, UploadCloud, UploadIcon } from 'lucide-react';
-// import { createNewBunnerFromDashboard } from '../../redux/thunck/bunners';
+import { Upload } from 'antd';
+import { Plus, UploadIcon } from 'lucide-react';
 import { useDispatch } from 'react-redux';
-import { getUsersApi } from '../../utils/api';
-import axios from 'axios';
+import { createNewBunnerFromDashboard } from '../../redux/thunck/bunnersAsync';
 
-const AddBunnerPopup = ({ error, isLoading }) => {
+const AddBunnerPopup = ({ error }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const customRequest = async ({ file, onSuccess, onError }) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    console.log(formData.getAll('file')[0]);
-    try {
-      const response = await axios.post(
-        'https://ai.w-manage.org/api/banner',
-        {
-          image: formData.getAll('file')[0],
-        },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
-            APP_KEY: import.meta.env.VITE_APP_KEY,
-          },
-        }
-      );
-      console.log(response);
-
-      if (response.status === 200) {
-        message.success('File uploaded successfully');
-        onSuccess(response.data);
-      } else {
-        message.error('Upload failed');
-        onError(new Error('Upload failed'));
-      }
-    } catch (error) {
-      message.error('Upload error');
-      console.log(error);
-      onError(error);
-    }
-  };
 
   return (
     <>
@@ -66,7 +30,7 @@ const AddBunnerPopup = ({ error, isLoading }) => {
         size='md'
         onClick={onOpen}
       >
-        Add Bunner
+        Add Banner
       </Button>
       <Modal
         isOpen={isOpen}
@@ -87,30 +51,21 @@ const AddBunnerPopup = ({ error, isLoading }) => {
               <AlertTitle>{error.response?.data?.data[0] || error.message}</AlertTitle>
             </Alert>
           )}
-          <form className='px-5 py-2'>
-            <VStack spacing={2}>
-              <FormControl>
-                <FormLabel>Image</FormLabel>
-                <Upload
-                  customRequest={customRequest}
-                  showUploadList={false}
-                >
-                  <Button>
-                    <UploadIcon className='h-6 me-3' /> Upload
-                  </Button>
-                </Upload>
-              </FormControl>
-            </VStack>
-            <Button
-              colorScheme='teal'
-              className='w-full mt-4'
-              isLoading={isLoading}
-              type='submit'
-              onClick={(e) => handleSubmit(e)}
+
+          <FormControl p={5}>
+            <FormLabel>Image</FormLabel>
+            <Upload
+              showUploadList={true}
+              multiple={false}
+              customRequest={({ file, onSuccess, onError }) =>
+                dispatch(createNewBunnerFromDashboard({ file, onSuccess, onError }))
+              }
             >
-              Submit
-            </Button>
-          </form>
+              <Button>
+                <UploadIcon className='h-6 me-3 w-full' /> Upload
+              </Button>
+            </Upload>
+          </FormControl>
         </ModalContent>
       </Modal>
     </>

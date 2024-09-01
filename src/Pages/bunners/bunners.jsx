@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { Box, Flex, Spinner } from '@chakra-ui/react';
+import { Box, Grid, GridItem, SimpleGrid, Spinner } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBunnersAsync } from '../../redux/thunck/bunnersAsync';
 import AddBunnerPopup from './addBunnerPopup';
 import BunnerCard from '../../componants/bunner-card/bunner-card';
+
 const Bunners = () => {
   const { bunners, isLoading, error } = useSelector((state) => state.bunners);
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const Bunners = () => {
   }, []);
   return (
     <div className='bunners-page bg-white p-3 rounded-md '>
-      <h3 className='text-3xl'>Bunners</h3>
+      <h3 className='text-3xl'>Banners</h3>
       <AddBunnerPopup
         error={error}
         isLoading={isLoading}
@@ -25,17 +26,19 @@ const Bunners = () => {
           <Spinner />
         </Box>
       ) : (
-        <Flex
-          gap={5}
-          mt={5}
+        <SimpleGrid
+          columns={4}
+          gap={10}
+          mt={8}
         >
           {bunners?.map((image) => (
             <BunnerCard
               image={image}
+              loading={isLoading}
               key={image.id}
             />
           ))}
-        </Flex>
+        </SimpleGrid>
       )}
       {/* <Pagination
         current={1}

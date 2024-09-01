@@ -29,3 +29,12 @@ export const getUsersApi = axios.create({
     APP_KEY: import.meta.env.VITE_APP_KEY,
   },
 });
+
+export const bannersApi = axios.create({
+  baseURL: 'https://ai.w-manage.org/api',
+  headers: {
+    'Content-Type': 'multipart/form-data',
+    Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
+    APP_KEY: import.meta.env.VITE_APP_KEY,
+  },
+});

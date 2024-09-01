@@ -123,6 +123,7 @@ const TestTable = ({ compounds }) => {
           position: ['bottomCenter'],
         }}
       />
+      {console.log(compounds)}
       <DeleteAlert
         userInfo={userInfo}
         deleteCompounds={deleteCompounds}

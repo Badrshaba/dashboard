@@ -8,7 +8,6 @@ import AddSubCategoryPopup from './addSubCategoryPopup';
 const SubCategories = () => {
   const { subCategories, isLoading, error } = useSelector((state) => state.subCategories);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getAllSubCategories());
   }, []);

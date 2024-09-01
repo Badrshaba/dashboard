@@ -17,11 +17,11 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createNewUserFromDashboard } from '../../redux/thunck/usersAsync';
 import { createNewSubCategoryFromDashboard } from '../../redux/thunck/subCategoriesAsync';
 
-const AddSubCategoryPopup = ({ error, isLoading }) => {
+const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const nameRef = useRef();

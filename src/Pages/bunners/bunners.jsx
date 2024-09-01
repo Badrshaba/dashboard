@@ -36,6 +36,7 @@ const Bunners = () => {
               image={image}
               loading={isLoading}
               key={image.id}
+              
             />
           ))}
         </SimpleGrid>

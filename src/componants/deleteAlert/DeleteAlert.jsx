@@ -2,7 +2,7 @@ import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, Al
 import { useRef } from "react"
 
 
-function DeleteAlert({isOpen,onClose,head,body,userInfo,deleteCompounds}) {
+function DeleteAlert({isOpen,onClose,head,body,userInfo,deleteFun}) {
     const cancelRef = useRef()
   
     return (
@@ -26,7 +26,7 @@ function DeleteAlert({isOpen,onClose,head,body,userInfo,deleteCompounds}) {
                 <Button ref={cancelRef} onClick={onClose}>
                   Cancel
                 </Button>
-                <Button colorScheme='red' onClick={()=>deleteCompounds(userInfo)} ml={3}>
+                <Button colorScheme='red' onClick={()=>deleteFun(userInfo)} ml={3}>
                   Delete
                 </Button>
               </AlertDialogFooter>

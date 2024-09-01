@@ -100,6 +100,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
     action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
     onChange({ file, fileList }) {
       if (file.status !== 'uploading') {
+        console.log(file);
         setSelectedFile({...selectedFile,file})
       }
     },

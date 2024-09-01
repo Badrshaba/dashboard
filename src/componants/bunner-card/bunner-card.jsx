@@ -12,6 +12,7 @@ const BunnerCard = ({ image, loading }) => {
       bg='gray.200'
       border='1px solid gray'
       rounded={true}
+      className=' h-fit'
     >
       <Image
         src={image.image}

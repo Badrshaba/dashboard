@@ -22,7 +22,6 @@ import DeleteAlert from '../../componants/deleteAlert/DeleteAlert';
 import { useState } from 'react';
 const TestTable = ({ compounds }) => {
   const { isLoading } = useSelector((state) => state.compounds);
-  const dispatch = useDispatch();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userInfo, setUserInfo] = useState(null);
@@ -126,7 +125,7 @@ const TestTable = ({ compounds }) => {
       {console.log(compounds)}
       <DeleteAlert
         userInfo={userInfo}
-        deleteCompounds={deleteCompounds}
+        deleteFun={deleteCompounds}
         onClose={onCloseDialog}
         isOpen={isOpenDialog}
         head='Delete Compound'

@@ -1,53 +1,44 @@
 import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Spinner, Text } from '@chakra-ui/react';
+import { Box, Button, Input, Spinner, Text } from '@chakra-ui/react';
 import { getUsersAsync } from '../../redux/thunck/usersAsync';
 import TestTable from './TestTable';
 import AddUserPopup from './addUserPopup';
+import useSearch from '../../hooks/useSearch';
 
 const Users = () => {
   const { users, isLoading, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  const [searchHandel, search, setSearch] = useSearch('');
 
   useEffect(() => {
     dispatch(getUsersAsync(1));
   }, []);
-
+ 
   return (
-    <div className='users-page bg-white p-3 rounded-md'>
+    <div className='bg-white p-3 rounded-md'>
       <h3 className='text-3xl'>Users</h3>
-      {/* <UsersTable
-        tableHeadings={tableHeading}
-        users={users?.data}
-      /> */}
+      <div className=' flex justify-between items-center' >
       <AddUserPopup
         error={error}
         isLoading={isLoading}
       />
-
+              <form
+          action=''
+          className=' flex items-center space-x-2'
+          onSubmit={searchHandel}
+        >
+          <Input
+            type='text'
+            name='area_en'
+            placeholder='Search'
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          <Button> Search </Button>
+        </form>
+      </div>
       <TestTable users={users?.data} />
-
-      {/* <Pagination
-        current={1}
-        defaultCurrent={1}
-        pageSize={10}
-        total={users?.total}
-        align='center'
-        disabled={pageNumber == users?.last_page}
-        showTotal={() => (
-          <Text
-            fontWeight={500}
-            color='teal'
-            fontSize='1rem'
-          >
-            Total Users: {users?.total}
-          </Text>
-        )}
-        onChange={() => {
-          setPageNumber((prev) => (pageNumber === users?.last_page ? pageNumber : prev + 1));
-          dispatch(getUsersAsync(pageNumber));
-        }}
-      /> */}
     </div>
   );
 };

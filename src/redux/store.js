@@ -4,6 +4,7 @@ import properitesReducer from './slices/properites';
 import usersReducers from './slices/users';
 import compoundReducers from './slices/compounds';
 import bunnersReducers from './slices/bunners';
+import subCategoriesReducers from './slices/subCategories';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     users: usersReducers,
     compounds: compoundReducers,
     bunners: bunnersReducers,
+    subCategories: subCategoriesReducers,
   },
 });
 

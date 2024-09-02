@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { api } from "../utils/api";
 
 
+
 const useSearch = (endPoint,funUpdate) => {
     const [search, setSearch] = useState("");
   const dispatch = useDispatch()
@@ -12,7 +13,7 @@ const useSearch = (endPoint,funUpdate) => {
       const res = await api.post(
         endPoint,
         {
-          key:search,
+          keword:search,
         },
         {
           headers: {
@@ -22,9 +23,8 @@ const useSearch = (endPoint,funUpdate) => {
           },
         }
       );
-      if (res.status === 200) {
+    
         dispatch(funUpdate(res.data.data))
-      }
     } catch (error) {
       console.log(error); 
     }

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getProperites } from "../thunck/crudProperites";
 
 
 const initialState={
@@ -13,9 +14,23 @@ const properitesSLice=createSlice({
     initialState,
     reducers:{
         setProperites:(state,action)=>{
-            state.properites=action.payload
+           state.properites=action.payload
         }
-    }
+    },
+    extraReducers: (builder) => {
+        builder
+          .addCase(getProperites.pending, (state) => {
+            state.isLoading = true;
+          })
+          .addCase(getProperites.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.properites = action.payload;
+          })
+          .addCase(getProperites.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+          });
+      },
 })
 
 

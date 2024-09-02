@@ -5,6 +5,7 @@ import usersReducers from './slices/users';
 import compoundReducers from './slices/compounds';
 import bunnersReducers from './slices/bunners';
 import featuresReducers from './slices/features';
+import categoriesReducer from './slices/categories';
 import subCategoriesReducers from './slices/subCategories';
 
 const store = configureStore({
@@ -15,6 +16,7 @@ const store = configureStore({
     compounds: compoundReducers,
     bunners: bunnersReducers,
     features: featuresReducers,
+    categories: categoriesReducer,
     subCategories: subCategoriesReducers,
   },
 });

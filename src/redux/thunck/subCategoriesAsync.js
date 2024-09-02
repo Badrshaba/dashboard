@@ -54,3 +54,23 @@ export const updateSubCategoryFromDashboard = createAsyncThunk(
     }
   }
 );
+
+export const deleteSubCategoryFromDashboard = createAsyncThunk(
+  'subCategories/update-subCategory',
+  async ({ ID, onClose }, thunckApi) => {
+    try {
+      await api.delete(`/sub-categories/${ID}`);
+      notification.success({
+        description: 'Successfully Delete Sub Category.!',
+        duration: 2,
+        showProgress: true,
+        message: 'Delete Sub Category',
+        placement: 'topRight',
+      });
+      thunckApi.dispatch(getAllSubCategories());
+      onClose();
+    } catch (error) {
+      return thunckApi.rejectWithValue(error);
+    }
+  }
+);

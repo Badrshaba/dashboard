@@ -14,28 +14,25 @@ import {
   ModalHeader,
   ModalOverlay,
   VStack,
-  Select,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createNewUserFromDashboard } from '../../redux/thunck/usersAsync';
-import { createNewSubCategoryFromDashboard } from '../../redux/thunck/subCategoriesAsync';
+import { useDispatch } from 'react-redux';
+import { createNewCategoryFromDashboard } from '../../redux/thunck/crudCategories';
 
-const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
+const AddCategoryPopup = ({ error, isLoading }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(error)
   const dispatch = useDispatch();
-  const nameRef = useRef();
-  const nameArRef = useRef();
+  const titleRef = useRef();
+  const titleArRef = useRef();
+  const fileRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      createNewSubCategoryFromDashboard({
-        sCateData: {
-          name_en: nameRef.current.value,
-          name_ar: nameArRef.current.value,
-          cat_id: 1,
+      createNewCategoryFromDashboard({
+        cateDate: {
+          title_en: titleRef.current.value,
+          title_ar: titleArRef.current.value,
         },
         closePopup: onClose,
       })
@@ -51,7 +48,7 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
         size='md'
         onClick={onOpen}
       >
-        Add Sub Category
+        Add Category
       </Button>
       <Modal
         isOpen={isOpen}
@@ -63,7 +60,7 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
             px={5}
             py={1}
           >
-            Add User
+            Add Category
           </ModalHeader>
           <ModalCloseButton />
           {error && (
@@ -80,17 +77,18 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
           >
             <VStack spacing={2}>
               <FormControl>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Title</FormLabel>
                 <Input
                   type='text'
-                  ref={nameRef}
+                  ref={titleRef}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>الأسم</FormLabel>
+                <FormLabel>العنوان</FormLabel>
                 <Input
+                  dir='rtl'
                   type='text'
-                  ref={nameArRef}
+                  ref={titleArRef}
                 />
               </FormControl>
             </VStack>
@@ -109,4 +107,4 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
   );
 };
 
-export default AddSubCategoryPopup;
+export default AddCategoryPopup;

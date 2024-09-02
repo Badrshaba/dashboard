@@ -1,5 +1,11 @@
 import {
   Alert,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   AlertIcon,
   AlertTitle,
   Box,
@@ -24,11 +30,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateSubCategoryFromDashboard } from '../../redux/thunck/subCategoriesAsync';
 const SubCategoryCard = ({ subCate }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isLoading, error } = useSelector((state) => state.subCategories);
   const dispatch = useDispatch();
   const nameRef = useRef();
   const nameArRef = useRef();
- 
+  const cancelRef = useRef();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -58,6 +66,7 @@ const SubCategoryCard = ({ subCate }) => {
           <Button
             icon={<Trash />}
             danger
+            onClick={onOpenDialog}
           ></Button>,
           <Button
             icon={<Edit />}
@@ -71,6 +80,40 @@ const SubCategoryCard = ({ subCate }) => {
           </Box>
         </Flex>
       </Card>
+      <AlertDialog
+        isOpen={isOpenDialog}
+        leastDestructiveRef={cancelRef}
+        onClose={onCloseDialog}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader
+              fontSize='lg'
+              fontWeight='bold'
+            >
+              Delete Sub Category
+            </AlertDialogHeader>
+
+            <AlertDialogBody>Are you sure? You can't undo this action afterwards.</AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                ref={cancelRef}
+                onClick={onCloseDialog}
+              >
+                Cancel
+              </Button>
+              <Button
+                colorScheme='red'
+                onClick={() => dispatch(deleteSubCategoryFromDashboard(subCate.id))}
+                ml={3}
+              >
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
       <Modal
         isOpen={isOpen}
         onClose={onClose}

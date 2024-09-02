@@ -1,77 +1,68 @@
-import { useRef } from 'react';
 import {
-  Button,
-  useDisclosure,
-  Modal,
   Alert,
   AlertIcon,
   AlertTitle,
   FormControl,
   FormLabel,
-  Input,
+  Modal,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  useDisclosure,
+  Button as CButton,
   VStack,
-  Select,
+  Input,
 } from '@chakra-ui/react';
-import { Plus } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createNewUserFromDashboard } from '../../redux/thunck/usersAsync';
-import { createNewSubCategoryFromDashboard } from '../../redux/thunck/subCategoriesAsync';
+import { Button, Card } from 'antd';
+import { Edit, Trash } from 'lucide-react';
+import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
-const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
+const CategoryCard = ({ cate, isLoading, error }) => {
+  const dispatch=useDispatch()
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(error)
-  const dispatch = useDispatch();
   const nameRef = useRef();
   const nameArRef = useRef();
-
   const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(
-      createNewSubCategoryFromDashboard({
-        sCateData: {
-          name_en: nameRef.current.value,
-          name_ar: nameArRef.current.value,
-          cat_id: 1,
-        },
-        closePopup: onClose,
-      })
-    );
+    dispatch()
   };
 
   return (
     <>
-      <Button
-        colorScheme='teal'
-        leftIcon={<Plus />}
-        mt={5}
-        size='md'
-        onClick={onOpen}
-      >
-        Add Sub Category
-      </Button>
+      <Card
+        hoverable
+        title={cate.title}
+        extra={
+          <img
+            src={cate.image}
+            alt={cate.title}
+          />
+        }
+        actions={[
+          <Button
+            icon={<Trash />}
+            danger
+          ></Button>,
+          <Button
+            icon={<Edit />}
+            onClick={onOpen}
+          ></Button>,
+        ]}
+      ></Card>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
+        on
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader
-            px={5}
-            py={1}
-          >
-            Add User
-          </ModalHeader>
+          <ModalHeader>Update Category </ModalHeader>
           <ModalCloseButton />
           {error && (
             <Alert status='error'>
               <AlertIcon />
-              <AlertTitle>
-                {(error.response.data.data && error.response.data.data[0]) || error?.message}
-              </AlertTitle>
+              <AlertTitle>{error?.message}</AlertTitle>
             </Alert>
           )}
           <form
@@ -89,19 +80,20 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
               <FormControl>
                 <FormLabel>الأسم</FormLabel>
                 <Input
+                  dir='rtl'
                   type='text'
                   ref={nameArRef}
                 />
               </FormControl>
             </VStack>
-            <Button
+            <CButton
               colorScheme='teal'
               className='w-full mt-4'
               isLoading={isLoading}
               type='submit'
             >
               Submit
-            </Button>
+            </CButton>
           </form>
         </ModalContent>
       </Modal>
@@ -109,4 +101,4 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
   );
 };
 
-export default AddSubCategoryPopup;
+export default CategoryCard;

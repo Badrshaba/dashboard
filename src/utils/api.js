@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export const api = axios.create({
   baseURL: 'https://ai.w-manage.org/api',
-
   headers: {
     Accept: 'application/json',
     APP_KEY: import.meta.env.VITE_APP_KEY,

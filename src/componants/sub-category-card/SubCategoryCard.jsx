@@ -28,7 +28,7 @@ const SubCategoryCard = ({ subCate }) => {
   const dispatch = useDispatch();
   const nameRef = useRef();
   const nameArRef = useRef();
-  const arabicInfo = subCate?.translations[0];
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -67,7 +67,7 @@ const SubCategoryCard = ({ subCate }) => {
       >
         <Flex flexDirection='row-reverse'>
           <Box dir='rtl'>
-            <Text textAlign='right'>{arabicInfo?.name}</Text>
+            <Text textAlign='right'>{}</Text>
           </Box>
         </Flex>
       </Card>

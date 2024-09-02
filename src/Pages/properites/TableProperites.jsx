@@ -23,12 +23,13 @@ import {
     ButtonGroup,
   } from '@chakra-ui/react';
   import { Avatar, Space, Table } from 'antd';
-  import { Edit, Trash } from 'lucide-react';
+  import { CircleEllipsis, Edit, Trash } from 'lucide-react';
   import { useRef, useState } from 'react';
   import { deleteUserFromDashboard, updateUserFromDashboard } from '../../redux/thunck/usersAsync';
   import { useDispatch, useSelector } from 'react-redux';
   import { getUsersApi } from '../../utils/api';
 import DeleteAlert from '../../componants/deleteAlert/DeleteAlert';
+import { useNavigate } from 'react-router-dom';
   const TableProperites = ({ properites }) => {
     const { isLoading, error } = useSelector((state) => state.properites);
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ import DeleteAlert from '../../componants/deleteAlert/DeleteAlert';
     const usernameRef = useRef();
     const roleRef = useRef();
     const cancelRef = useRef();
-  
+    const navigate = useNavigate();
     const getuserData = async (userId) => {
       try {
         onOpen();
@@ -108,11 +109,17 @@ import DeleteAlert from '../../componants/deleteAlert/DeleteAlert';
         title: 'Actions',
         key: 'actions',
         render: (_, rec) => (
-          <ButtonGroup
+            <ButtonGroup
             variant='outline'
-            size='sm'
             spacing={4}
+            size='sm'
           >
+            <Button
+              colorScheme='blue'
+              onClick={() => navigate(`${rec.id}`)}
+            >
+              <CircleEllipsis size={20} />
+            </Button>
             <Button
               colorScheme='red'
               onClick={() => {
@@ -124,7 +131,10 @@ import DeleteAlert from '../../componants/deleteAlert/DeleteAlert';
             </Button>
             <Button
               colorScheme='yellow'
-              onClick={() => getuserData(user.id)}
+              onClick={() => {
+                setUserInfo(rec);
+                onOpen();
+              }}
             >
               <Edit size={20} />
             </Button>

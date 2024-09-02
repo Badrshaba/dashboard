@@ -25,64 +25,74 @@ import { useDispatch } from "react-redux";
 import { Upload } from "antd";
 import { Trash, UploadIcon } from "lucide-react";
 const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
-  const [selectedFile, setSelectedFile] = useState({});
+  const [selectedFile, setSelectedFile] = useState([]);
  const [loading,setLoading] =  useState(false)
  const [error,setError] =  useState(null)
  const [select,setSelector] = useState('')
  const [validation,setValidation] = useState({})
  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
-    e.preventDefault();
+e.preventDefault();
 
-  if(formData.name_en==''){
-    return setValidation({...validation,name_en:true})
-  }
-  if(formData.name_ar==''){
-    return setValidation({...validation,name_ar:true})
-  }
-  if(formData.descriotion_ar==''){
-     setValidation({...validation,descriotion_ar:true})
-  }
-  if(formData.descriotion_en==''){
-     setValidation({...validation,descriotion_en:true})
-  }
-  if(formData.area_min==''){
-     setValidation({...validation,area_min:true})
-  }
-  if(formData.area_max==''){
-     setValidation({...validation,area_max:true})
-  }
-  if(formData.address_ar==''){
-     setValidation({...validation,address_ar:true})
-  }
-  if(formData.address_en==''){
-     setValidation({...validation,address_en:true})
-  }
+  // if(formData.name_en==''){
+  //   return setValidation({...validation,name_en:true})
+  // }
+  // if(formData.name_ar==''){
+  //   return setValidation({...validation,name_ar:true})
+  // }
+  // if(formData.descriotion_ar==''){
+  //    setValidation({...validation,descriotion_ar:true})
+  // }
+  // if(formData.descriotion_en==''){
+  //    setValidation({...validation,descriotion_en:true})
+  // }
+  // if(formData.area_min==''){
+  //    setValidation({...validation,area_min:true})
+  // }
+  // if(formData.area_max==''){
+  //    setValidation({...validation,area_max:true})
+  // }
+  // if(formData.address_ar==''){
+  //    setValidation({...validation,address_ar:true})
+  // }
+  // if(formData.address_en==''){
+  //    setValidation({...validation,address_en:true})
+  // }
 
 
     setLoading(true)
     const formDataSend = new FormData();
-    formDataSend.append("name_ar", formData.name_ar);
-    formDataSend.append("name_en", formData.name_en);
-    formDataSend.append("description_en", formData.descriotion_ar);
-    formDataSend.append("description_ar", formData.descriotion_en);
-    formDataSend.append("area_min", formData.area_min);
-    formDataSend.append("area_max", formData.area_max);
-    formDataSend.append("address_ar", formData.address_ar);
-    formDataSend.append("address_en", formData.address_en);
-    formDataSend.append("price_min", formData.price_min);
-    formDataSend.append("price_max", formData.price_max);
-    formDataSend.append("zone_id",'1');
-    formDataSend.append("user_id", '1');
-    formDataSend.append("image", selectedFile);
-  console.log(selectedFile);
+    // formDataSend.append("name_ar", formData.name_ar);
+    // formDataSend.append("name_en", formData.name_en);
+    // formDataSend.append("description_en", formData.descriotion_ar);
+    // formDataSend.append("description_ar", formData.descriotion_en);
+    // formDataSend.append("area_min", formData.area_min);
+    // formDataSend.append("area_max", formData.area_max);
+    // formDataSend.append("address_ar", formData.address_ar);
+    // formDataSend.append("address_en", formData.address_en);
+    // formDataSend.append("price_min", formData.price_min);
+    // formDataSend.append("price_max", formData.price_max);
+    // formDataSend.append("zone_id",'1');
+    // formDataSend.append("user_id", '1');
+     formDataSend.append("compound_id", '1');
+    //  selectedFile.forEach((file)=>{
+      for (let index = 0; index < selectedFile.length; index++) {
+      
+        
+        formDataSend.append("image[]", selectedFile[index]);
+        
+      }
+     console.log(formDataSend.getAll('image[]'));
+    //  })
+  
     try {
       let { data } = await baseURL({
         method: "post",
-        url: "/compounds",
+        url: "/compound/image",
         data: formDataSend,
         headers: {
-          "Content-Type": "multipart/form-data",
+           "Content-Type": "multipart/form-data",
+         //  "Accept": "application/json",
           APP_KEY: import.meta.env.VITE_APP_KEY,
         },
       });
@@ -90,18 +100,19 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
       setTimeout(()=>{
         onClose()
       },500)
-      dispatch(getCompounds());
+console.log(data);
+     // dispatch(getCompounds());
     } catch (error) {
+      console.log(error);
       setError(error?.response?.data || error?.message);
       setLoading(false)
     }
   };
   const props = {
-    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+    action: 'https://ai.w-manage.org/api/compound/image',
     onChange({ file, fileList }) {
       if (file.status !== 'uploading') {
-        console.log(file);
-        setSelectedFile({...selectedFile,file})
+        setSelectedFile(fileList)
       }
     },
 
@@ -134,7 +145,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
       </Alert>
     )} */}
         <VStack spacing={4}>
-          <form className="p-5 w-full" onSubmit={handleSubmit}>
+          <form className="p-5 w-full" onSubmit={(e)=>handleSubmit(e)} >
             <div className=" flex space-x-3 w-full">
               <div className="w-full space-y-2">
                 <FormControl isInvalid={validation.name_en}>
@@ -249,14 +260,18 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                 </label>
                 <FormControl>
                 <FormLabel>Image</FormLabel>
-                <Upload
-                  {...props}
+                {/* <Upload
+                  // {...props}
+                  showUploadList={true}
+                  customRequest={(info)=>handleSubmit(info)}
+                  multiple={true}
                   style={{ backgroundColor: 'red' }}
                 >
                   <Button>
                     <UploadIcon className='h-6 me-3' /> Upload
                   </Button>
-                </Upload>
+                </Upload> */}
+                <input type="file" multiple onChange={(event)=>setSelectedFile(event.target.files)} name="" id="" />
               </FormControl>
               </div>
             </div>

@@ -64,7 +64,7 @@ const AddFeatures = ({ error, isLoading }) => {
             px={5}
             py={1}
           >
-            Add User
+            Add Features
           </ModalHeader>
           <ModalCloseButton />
           {error && (
@@ -81,35 +81,7 @@ const AddFeatures = ({ error, isLoading }) => {
           >
             <VStack spacing={2}>
               <FormControl>
-                <FormLabel>Username</FormLabel>
-                <Input
-                  type='text'
-                  ref={usernameRef}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  type='email'
-                  ref={emailRef}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Password</FormLabel>
-                <Input
-                  type='password'
-                  ref={passwordRef}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Confirm Password</FormLabel>
-                <Input
-                  type='password'
-                  ref={cPasswordRef}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Role</FormLabel>
+                <FormLabel>Apartment id</FormLabel>
                 <Select>
                   <option value='user'>User</option>
                   <option value='developer'>Developer</option>

@@ -1,33 +1,59 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Plus } from 'lucide-react';
 import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
   Button,
-  FormControl,
-  FormLabel,
   Input,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
   useDisclosure,
-  VStack,
 } from '@chakra-ui/react';
+import AddProperites from './AddProperites';
+import TableProperites from './TableProperites';
+import { getProperites } from '../../redux/thunck/crudProperites';
+import useSearch from '../../hooks/useSearch';
+import { setProperites } from '../../redux/slices/properites';
 const Properites = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { users, isLoading, error } = useSelector((state) => state.users);
+  const { properites, isLoading, error } = useSelector((state) => state.properites);
   const dispatch = useDispatch();
-  const tableHeading = ['id', 'username', 'email', 'role'];
+  const [searchHandel, search, setSearch] = useSearch('apartments/search',setProperites);
+  const [formData, setFormData] = useState({
+    title_en: '',
+    title_ar: '',
+    description_en: '',
+    description_ar: '',
+    address_ar: '',
+    address_en: '',
+    area:"",
+    price:"",
+    bedrooms:"",
+    bathrooms:"",
+    delivery_in:"",
+    longitude:"",
+    balconies:"",
+    grage:"",
+    zone_id: '1',
+    user_id: '1',
+    compound_id:"1",
+    sub_id:"1",
+    status_id:"1",
+    type_id:"1",
 
-  useEffect(() => {}, []);
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))};
+  useEffect(() => {
+    dispatch(getProperites())
+  }, []);
+ 
   return (
-    <div className='users-page bg-white p-5 rounded-md mt-5'>
+    <div className=' bg-white p-5 rounded-md mt-5'>
       <h3 className='text-3xl'>Properites</h3>
-      <Button
+     <div className=' flex justify-between' >
+     <Button
         colorScheme='teal'
         leftIcon={<Plus />}
         mt={5}
@@ -36,93 +62,23 @@ const Properites = () => {
       >
         Add Properites
       </Button>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Add Properites</ModalHeader>
-          <ModalCloseButton />
-          {error && (
-            <Alert status='error'>
-              <AlertIcon />
-              <AlertTitle>{error.message}</AlertTitle>
-            </Alert>
-          )}
-          <form className='p-5'>
-            <VStack spacing={4}>
-              <div className=' flex space-x-3'>
-                <div>
-                  <FormControl>
-                    <FormLabel>Username</FormLabel>
-                    <Input type='text' />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Password</FormLabel>
-                    <Input type='password' />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <Input type='password' />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Email</FormLabel>
-                    <Input type='email' />
-                  </FormControl>
-                </div>
-                <div style={{ direction: 'rtl' }}>
-                  <FormControl>
-                    <FormLabel>الاسم</FormLabel>
-                    <Input type='text' />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>الايميل</FormLabel>
-                    <Input type='email' />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>باسورد</FormLabel>
-                    <Input type='password' />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>تأكيد الباسورد</FormLabel>
-                    <Input type='password' />
-                  </FormControl>
-                </div>
-              </div>
-              <Button
-                colorScheme='teal'
-                width='100%'
-                isLoading={isLoading}
-              >
-                Submit
-              </Button>
-            </VStack>
-          </form>
-        </ModalContent>
-      </Modal>
-
-      {/* <Pagination
-        current={1}
-        defaultCurrent={1}
-        pageSize={10}
-        total={users?.total}
-        align='center'
-        disabled={pageNumber == users?.last_page}
-        showTotal={() => (
-          <Text
-            fontWeight={500}
-            color='teal'
-            fontSize='1rem'
-          >
-            Total Users: {users?.total}
-          </Text>
-        )}
-        onChange={() => {
-          setPageNumber((prev) => (pageNumber === users?.last_page ? pageNumber : prev + 1));
-          dispatch(getUsersAsync(pageNumber));
-        }}
-      /> */}
+      <form
+          action=''
+          className=' flex items-center space-x-2'
+          onSubmit={searchHandel}
+        >
+          <Input
+            type='text'
+            name='area_en'
+            placeholder='Search'
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          <button > Search </button>
+        </form>
+     </div>
+<AddProperites formData={formData} setFormData={setFormData} handleChange={handleChange} isOpen={isOpen} onClose={onClose}  />
+<TableProperites properites={properites} />
     </div>
   );
 };

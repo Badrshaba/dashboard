@@ -5,6 +5,7 @@ import { useCheckConnection } from '../hooks';
 
 const MainLayout = () => {
   const isOnLine = useCheckConnection();
+  console.log(isOnLine)
 
   return (
     <div>

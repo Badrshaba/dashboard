@@ -127,7 +127,6 @@ const TestTable = ({ compounds }) => {
       console.log(error);
     }
   };
-  console.log(userInfo?.trans);
   return (
     <>
       <Table

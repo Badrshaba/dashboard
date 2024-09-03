@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   useDisclosure,
@@ -17,10 +18,7 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createNewUserFromDashboard } from '../../redux/thunck/usersAsync';
-import { createNewSubCategoryFromDashboard } from '../../redux/thunck/subCategoriesAsync';
-import { getAllCategories } from '../../redux/thunck/crudCategories';
+import { getAllCategories, createNewSubCategoryFromDashboard } from '../../redux';
 
 const AddSubCategoryPopup = ({ error, isLoading }) => {
   const { categories } = useSelector((state) => state.categories);

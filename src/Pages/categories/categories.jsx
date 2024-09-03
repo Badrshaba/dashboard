@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SimpleGrid } from '@chakra-ui/react';
-import { getAllCategories } from '../../redux/thunck/crudCategories';
-import CategoryCard from '../../componants/category-card/CategoryCard';
-import LoadingSkeleton from '../../componants/loading-skeleton/LoadingSkeleton';
+import { getAllCategories } from '../../redux';
+import { CategoryCard, LoadingSkeleton } from '../../componants';
 import AddCategoryPopup from './addCategoryPopup';
 
 const Categories = () => {

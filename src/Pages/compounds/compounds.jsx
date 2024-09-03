@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDisclosure, Button, Input, Text } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
-import { getCompounds } from '../../redux/thunck/crudCompounds';
+import { getCompounds } from '../../redux';
 import FormCompound from './FormCompound';
 import useSearch from '../../hooks/useSearch';
 import TestTable from './TestTable';

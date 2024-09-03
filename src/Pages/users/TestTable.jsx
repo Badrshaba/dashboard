@@ -1,3 +1,5 @@
+import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   useDisclosure,
   Modal,
@@ -24,20 +26,17 @@ import {
 } from '@chakra-ui/react';
 import { Avatar, Space, Table, Button as AButton } from 'antd';
 import { Edit, Search, Trash } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { deleteUserFromDashboard, updateUserFromDashboard } from '../../redux/thunck/usersAsync';
-import { useDispatch, useSelector } from 'react-redux';
+import { deleteUserFromDashboard, updateUserFromDashboard } from '../../redux';
 import { getUsersApi } from '../../utils/api';
 const TestTable = ({ users }) => {
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const searchInput = useRef(null);
   const { isLoading, error } = useSelector((state) => state.users);
-  console.log(users);
   const dispatch = useDispatch();
-  const [userInfo, setUserInfo] = useState({});
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [userInfo, setUserInfo] = useState({});
+  const searchInput = useRef(null);
   const usernameRef = useRef();
   const roleRef = useRef();
   const cancelRef = useRef();
@@ -246,7 +245,7 @@ const TestTable = ({ users }) => {
         pagination={{
           position: ['bottomCenter'],
           total: users?.total,
-          pageSize: 50,
+          pageSize: 10,
         }}
       />
       <AlertDialog

@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import {
   Button,
   useDisclosure,
@@ -14,8 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { Upload } from 'antd';
 import { Plus, UploadIcon } from 'lucide-react';
-import { useDispatch } from 'react-redux';
-import { createNewBunnerFromDashboard } from '../../redux/thunck/bunnersAsync';
+import { createNewBunnerFromDashboard } from '../../redux';
 
 const AddBunnerPopup = ({ error }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

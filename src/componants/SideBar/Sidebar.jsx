@@ -49,17 +49,10 @@ const DATA = [
     icon: <Store size={18} />,
     route: '/bunners',
   },
-
 ];
 const Sidebar = () => {
-  // const [open, setOpen] = useState("");
   return (
     <div className='flex justify-start flex-col items-start fixed overflow-y-auto h-full w-1/5  '>
-      {/* <div className="flex mx-auto pt-10 space-x- 1 items-center">
-  <img src={img} width={45} alt="logo" />
-  <h2 className="text-black font-bold text-3xl">Rizz</h2>
-</div>
-  <li className="uppercase text-gray-600 text-xs pt-8 text-center pl-6">Main Menu</li> */}
       <div className=' mx-auto pt-8 '>
         <Link to={'/'}>
           <img

@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Button,
   useDisclosure,
@@ -16,8 +17,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
-import { useDispatch } from 'react-redux';
-import { createNewCategoryFromDashboard } from '../../redux/thunck/crudCategories';
+import { createNewCategoryFromDashboard } from '../../redux';
 
 const AddCategoryPopup = ({ error, isLoading }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

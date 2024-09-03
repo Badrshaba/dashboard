@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { notification } from 'antd';
-import { api, apiRegister, bannersApi, getUsersApi } from '../../utils/api';
+import { bannersApi, getUsersApi } from '../../utils/api';
 
 export const getBunnersAsync = createAsyncThunk('bunners/all-bunners', async (_, thunckApi) => {
   try {

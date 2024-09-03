@@ -18,21 +18,27 @@ import {
   Select,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { baseURL } from "../../utils/api";
 import { getCompounds } from "../../redux/thunck/crudCompounds";
 import { useDispatch } from "react-redux";
 import { Upload } from "antd";
 import { Trash, UploadIcon } from "lucide-react";
+import useGetZone from "../../hooks/useGetZone";
 const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
-  const [selectedFile, setSelectedFile] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
  const [loading,setLoading] =  useState(false)
  const [error,setError] =  useState(null)
- const [select,setSelector] = useState('')
  const [validation,setValidation] = useState({})
  const dispatch = useDispatch();
-  const handleSubmit = async (e) => {
-e.preventDefault();
+ const selectRef = useRef();
+ const [getZone,zones] = useGetZone()
+ useEffect(()=>{
+getZone()
+ },[])
+ const handleSubmit = async (e) => {
+   e.preventDefault();
 
   // if(formData.name_en==''){
   //   return setValidation({...validation,name_en:true})
@@ -62,51 +68,45 @@ e.preventDefault();
 
     setLoading(true)
     const formDataSend = new FormData();
-    // formDataSend.append("name_ar", formData.name_ar);
-    // formDataSend.append("name_en", formData.name_en);
-    // formDataSend.append("description_en", formData.descriotion_ar);
-    // formDataSend.append("description_ar", formData.descriotion_en);
-    // formDataSend.append("area_min", formData.area_min);
-    // formDataSend.append("area_max", formData.area_max);
-    // formDataSend.append("address_ar", formData.address_ar);
-    // formDataSend.append("address_en", formData.address_en);
-    // formDataSend.append("price_min", formData.price_min);
-    // formDataSend.append("price_max", formData.price_max);
-    // formDataSend.append("zone_id",'1');
-    // formDataSend.append("user_id", '1');
-     formDataSend.append("compound_id", '1');
-    //  selectedFile.forEach((file)=>{
-      for (let index = 0; index < selectedFile.length; index++) {
-      
-        
-        formDataSend.append("image[]", selectedFile[index]);
-        
+    formDataSend.append("name_ar", formData.name_ar);
+    formDataSend.append("name_en", formData.name_en);
+    formDataSend.append("description_en", formData.descriotion_ar);
+    formDataSend.append("description_ar", formData.descriotion_en);
+    formDataSend.append("area_min", formData.area_min);
+    formDataSend.append("area_max", formData.area_max);
+    formDataSend.append("address_ar", formData.address_ar);
+    formDataSend.append("address_en", formData.address_en);
+    formDataSend.append("price_min", formData.price_min);
+    formDataSend.append("price_max", formData.price_max);
+    formDataSend.append("zone_id",selectRef?.current?.value);
+    formDataSend.append("user_id", '1');
+    formDataSend.append("image", selectedFile[0]);
+      for (let index = 0; index < selectedFiles.length; index++) {
+        formDataSend.append("images", selectedFiles[index]);
       }
-     console.log(formDataSend.getAll('image[]'));
-    //  })
-  
-    try {
-      let { data } = await baseURL({
-        method: "post",
-        url: "/compound/image",
-        data: formDataSend,
-        headers: {
-           "Content-Type": "multipart/form-data",
-         //  "Accept": "application/json",
-          APP_KEY: import.meta.env.VITE_APP_KEY,
-        },
-      });
-      setLoading(false)
-      setTimeout(()=>{
-        onClose()
-      },500)
-console.log(data);
-     // dispatch(getCompounds());
-    } catch (error) {
-      console.log(error);
-      setError(error?.response?.data || error?.message);
-      setLoading(false)
-    }
+     console.log(formDataSend.getAll('images'));
+  console.log(formDataSend.get('image'));
+//     try {
+//       let { data } = await baseURL({
+//         method: "post",
+//         url: "/compounds",
+//         data: formDataSend,
+//         headers: {
+//            "Content-Type": "multipart/form-data",
+//           APP_KEY: import.meta.env.VITE_APP_KEY,
+//         },
+//       });
+//       setLoading(false)
+//       setTimeout(()=>{
+//         onClose()
+//       },500)
+// console.log(data);
+//       dispatch(getCompounds());
+//     } catch (error) {
+//       console.log(error);
+//       setError(error?.response?.data || error?.message);
+//       setLoading(false)
+//     }
   };
   const props = {
     action: 'https://ai.w-manage.org/api/compound/image',
@@ -159,10 +159,17 @@ console.log(data);
                   />
                   <FormErrorMessage>Name is required</FormErrorMessage>
                 </FormControl>
-                <FormControl  >
+                <FormControl>
+                <FormLabel>Image bunner :</FormLabel>
+                <Input type="file" className=" pt-1" onChange={(e)=>setSelectedFile(e.target.files)} />
+              </FormControl>
+                <FormControl>
                 <FormLabel>Zone :</FormLabel>
-                <Select onChange={(event)=>setSelector(event.target.value)}  value={select} >
-                  <option value='1'>1</option>
+                <Select ref={selectRef} >
+                  {zones.length&&zones.map((ele)=>(
+                    <option key={ele.id} value={ele.id}>{ele.id}</option>
+                  ))}
+                  
                 </Select>
               </FormControl>
                 <FormControl isInvalid={validation.area_min} >
@@ -259,7 +266,7 @@ console.log(data);
                   />
                 </label>
                 <FormControl>
-                <FormLabel>Image</FormLabel>
+                <FormLabel>Images</FormLabel>
                 {/* <Upload
                   // {...props}
                   showUploadList={true}
@@ -269,9 +276,9 @@ console.log(data);
                 >
                   <Button>
                     <UploadIcon className='h-6 me-3' /> Upload
-                  </Button>
-                </Upload> */}
-                <input type="file" multiple onChange={(event)=>setSelectedFile(event.target.files)} name="" id="" />
+                  </Button> */}
+                {/* </Upload> */}
+                <input type="file" multiple onChange={(event)=>setSelectedFiles(event.target.files)} name="" id="" />
               </FormControl>
               </div>
             </div>

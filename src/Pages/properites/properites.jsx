@@ -37,7 +37,6 @@ const Properites = () => {
     sub_id:"1",
     status_id:"1",
     type_id:"1",
-
   });
   const handleChange = (e) => {
     const { name, value } = e.target;

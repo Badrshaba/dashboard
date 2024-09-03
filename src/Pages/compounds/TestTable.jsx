@@ -19,16 +19,20 @@ import {
   Button,
 } from '@chakra-ui/react';
 import DeleteAlert from '../../componants/deleteAlert/DeleteAlert';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import axios from 'axios';
+import { api } from '../../utils/api';
 const TestTable = ({ compounds }) => {
   const { isLoading } = useSelector((state) => state.compounds);
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userInfo, setUserInfo] = useState(null);
+  const [formData,setFormData] = useState({})
+ const selectRef = useRef();
   const navigate = useNavigate();
-  const deleteCompounds = (compoundID) => {
-    // dispatch(deleteCompounds(compoundID));
-    // onCloseDialog();
+ const dispatch = useDispatch();
+  const deleteCompound = (compoundID) => {
+    dispatch(deleteCompounds(compoundID?.id));
     console.log(compoundID);
     setTimeout(() => {
       onCloseDialog();
@@ -98,10 +102,7 @@ const TestTable = ({ compounds }) => {
           </Button>
           <Button
             colorScheme='yellow'
-            onClick={() => {
-              setUserInfo(rec);
-              onOpen();
-            }}
+            onClick={() => getCompoundById(rec.id)}
           >
             <Edit size={20} />
           </Button>
@@ -109,7 +110,24 @@ const TestTable = ({ compounds }) => {
       ),
     },
   ];
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
 
+  const getCompoundById = async(compoundID)=>{
+    try {
+      let {data} = await api.get(`/compounds/${compoundID}`)
+      setUserInfo(data?.data);
+      onOpen()
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  console.log(userInfo?.trans);
   return (
     <>
       <Table
@@ -124,7 +142,7 @@ const TestTable = ({ compounds }) => {
       />
       <DeleteAlert
         userInfo={userInfo}
-        deleteFun={deleteCompounds}
+        deleteFun={deleteCompound}
         onClose={onCloseDialog}
         isOpen={isOpenDialog}
         head='Delete Compound'
@@ -134,11 +152,11 @@ const TestTable = ({ compounds }) => {
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        on
+        size={"5xl"}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Update User</ModalHeader>
+          <ModalHeader>Update Compound</ModalHeader>
           <ModalCloseButton />
           {/* {error && (
             <Alert status='error'>
@@ -149,20 +167,120 @@ const TestTable = ({ compounds }) => {
           <form className='px-5 py-2'>
             <VStack spacing={2}>
               {userInfo && (
-                <FormControl>
-                  <FormLabel>{userInfo?.id}</FormLabel>
-                  <Input type='text' />
-                </FormControl>
+          <div className=" flex space-x-3 w-full">
+          <div className="w-full space-y-2">
+            <FormControl >
+              <FormLabel>Name :</FormLabel>
+              <Input
+                colorScheme={"red"}
+                name="name_en"
+                type="text"
+                value={userInfo?.trans?.en?.name}
+                onChange={handleChange}
+              />
+            </FormControl>
+            {/* <FormControl>
+            <FormLabel>Zone :</FormLabel>
+            <Select ref={selectRef} >
+              {zones.length&&zones.map((ele)=>(
+                <option key={ele.id} value={ele.id}>{ele.id}</option>
+              ))}
+              
+            </Select>
+          </FormControl> */}
+            <FormControl  >
+              <FormLabel>Area Min :</FormLabel>
+              <Input
+                type="text"
+                name="area_min"
+                value={userInfo?.area_min}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl  >
+              <FormLabel>Area Max :</FormLabel>
+              <Input
+                type="text"
+                name="area_max"
+                value={userInfo?.area_max}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Address :</FormLabel>
+              <Input
+                type="text"
+                name="address_en"
+                value={userInfo?.trans?.en?.address}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel className="focus-visible:border-black">
+              Price Min :
+              </FormLabel>
+              <Input
+                type="number"
+                name="price_min"
+                value={userInfo?.price_min}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel className="focus-visible:border-black">
+                Price Max :
+              </FormLabel>
+              <Input
+                type="number"
+                name="price_max"
+                value={userInfo?.price_max}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <label className=" w-full">
+              <FormLabel> Description :</FormLabel>
+              <textarea
+                onChange={handleChange}
+                value={userInfo?.trans?.en?.description}
+                name="descriotion_en"
+                className="  p-2 rounded-lg h-28  w-full transition-all focus:outline-blue-500 duration-200 border-2"
+                type="text"
+              />
+            </label>
+          </div>
+          <div style={{ direction: "rtl" }} className="w-full space-y-2">
+            <FormControl  >
+              <FormLabel> الاسم :</FormLabel>
+              <Input
+                type="text"
+                name="name_ar"
+                value={userInfo?.trans?.ar?.name}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel> العنوان : </FormLabel>
+              <Input
+                type="text"
+                name="address_ar"
+                value={userInfo?.trans?.ar?.address}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <label className=" w-full">
+              <FormLabel> الوصف :</FormLabel>
+              <textarea
+                name="descriotion_ar"
+                onChange={handleChange}
+                value={userInfo?.trans?.ar?.description}
+                className=" p-2 rounded-lg h-28 w-full border-2 transition-all focus:outline-blue-500 duration-200"
+                type="text"
+                size={"lg"}
+              />
+            </label>
+          </div>
+        </div>
               )}
-
-              {/* <FormControl>
-                <FormLabel>Role</FormLabel>
-                <Select >
-                  <option value='user'>User</option>
-                  <option value='developer'>Developer</option>
-                  <option value='brookers'>Brookers</option>
-                </Select>
-              </FormControl> */}
             </VStack>
             <Button
               colorScheme='teal'

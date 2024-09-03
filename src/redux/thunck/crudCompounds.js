@@ -45,6 +45,7 @@ export const deleteCompounds = createAsyncThunk(
 
       thunckApi.dispatch(getCompounds())
     } catch (error) {
+      console.log(error);
       return thunckApi.rejectWithValue(error);
     }
   }

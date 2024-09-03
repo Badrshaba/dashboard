@@ -25,7 +25,8 @@ import {
   import { Upload } from "antd";
   import { Trash, UploadIcon } from "lucide-react";
   const AddProperites = ({ onClose, isOpen, formData, handleChange }) => {
-    const [selectedFile, setSelectedFile] = useState([]);
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
    const [loading,setLoading] =  useState(false)
    const [error,setError] =  useState(null)
    const [select,setSelector] = useState('')
@@ -33,49 +34,62 @@ import {
    const dispatch = useDispatch();
     const handleSubmit = async (e) => {
       e.preventDefault();
-  console.log(formData);
-    if(formData.name_en==''){
-      return setValidation({...validation,name_en:true})
-    }
-    if(formData.name_ar==''){
-      return setValidation({...validation,name_ar:true})
-    }
-    if(formData.descriotion_ar==''){
-       setValidation({...validation,descriotion_ar:true})
-    }
-    if(formData.descriotion_en==''){
-       setValidation({...validation,descriotion_en:true})
-    }
-    if(formData.area_min==''){
-       setValidation({...validation,area_min:true})
-    }
-    if(formData.area_max==''){
-       setValidation({...validation,area_max:true})
-    }
-    if(formData.address_ar==''){
-       setValidation({...validation,address_ar:true})
-    }
-    if(formData.address_en==''){
-       setValidation({...validation,address_en:true})
-    }
+   console.log(formData);
+  //   if(formData.name_en==''){
+  //     return setValidation({...validation,name_en:true})
+  //   }
+  //   if(formData.name_ar==''){
+  //     return setValidation({...validation,name_ar:true})
+  //   }
+  //   if(formData.descriotion_ar==''){
+  //      setValidation({...validation,descriotion_ar:true})
+  //   }
+  //   if(formData.descriotion_en==''){
+  //      setValidation({...validation,descriotion_en:true})
+  //   }
+  //   if(formData.area_min==''){
+  //      setValidation({...validation,area_min:true})
+  //   }
+  //   if(formData.area_max==''){
+  //      setValidation({...validation,area_max:true})
+  //   }
+  //   if(formData.address_ar==''){
+  //      setValidation({...validation,address_ar:true})
+  //   }
+  //   if(formData.address_en==''){
+  //      setValidation({...validation,address_en:true})
+  //   }
   
   
       setLoading(true)
       const formDataSend = new FormData();
-      formDataSend.append("name_ar", formData.name_ar);
-      formDataSend.append("name_en", formData.name_en);
-      formDataSend.append("description_en", formData.descriotion_ar);
-      formDataSend.append("description_ar", formData.descriotion_en);
-      formDataSend.append("area_min", formData.area_min);
-      formDataSend.append("area_max", formData.area_max);
+      formDataSend.append("title_en", formData.title_en);
+      formDataSend.append("title_ar", formData.title_ar);
+      formDataSend.append("description_en", formData.description_en);
+      formDataSend.append("description_ar", formData.description_ar);
+      formDataSend.append("area", formData.area);
+      formDataSend.append("price", formData.price);
+      formDataSend.append("bedrooms", formData.bedrooms);
+      formDataSend.append("bathrooms", formData.bathrooms);
+      formDataSend.append("delivery_in", formData.delivery_in);
+      formDataSend.append("longitude", formData.longitude);
+      formDataSend.append("balconies", formData.balconies);
+      formDataSend.append("grage", formData.grage);
       formDataSend.append("address_ar", formData.address_ar);
       formDataSend.append("address_en", formData.address_en);
-      formDataSend.append("price_min", formData.price_min);
-      formDataSend.append("price_max", formData.price_max);
-      formDataSend.append("zone_id",'1');
-      formDataSend.append("user_id", '1');
-      formDataSend.append("image", selectedFile);
-    console.log(selectedFile);
+      formDataSend.append("zone_id",formData.zone_id);
+      formDataSend.append("user_id",formData.user_id );
+      formDataSend.append("compound_id",formData.compound_id );
+      formDataSend.append("sub_id",formData.sub_id );
+      formDataSend.append("status_id",formData.status_id );
+      formDataSend.append("type_id",formData.type_id );
+      formDataSend.append("image", selectedFile[0]);
+      for (let index = 0; index < selectedFiles.length; index++) {
+        formDataSend.append("images", selectedFiles[index]);
+      }
+
+    console.log(console.log(formDataSend.getAll('images')));
+    console.log(console.log(formDataSend.get('image')));
     //   try {
     //     let { data } = await baseURL({
     //       method: "post",
@@ -147,6 +161,10 @@ import {
                     />
                     <FormErrorMessage>Name is required</FormErrorMessage>
                   </FormControl>
+                  <FormControl>
+                <FormLabel>Image bunner :</FormLabel>
+                <Input type="file" className=" pt-1" onChange={(e)=>setSelectedFile(e.target.files)} />
+              </FormControl>
                   {/* <FormControl  >
                   <FormLabel>Zone :</FormLabel>
                   <Select onChange={(event)=>setSelector(event.target.value)}  value={select} >
@@ -290,7 +308,7 @@ import {
                       size={"lg"}
                     />
                   </label>
-                  <FormControl>
+                  {/* <FormControl>
                   <FormLabel>Image</FormLabel>
                   <Upload
                     {...props}
@@ -300,7 +318,11 @@ import {
                       <UploadIcon className='h-6 me-3' /> Upload
                     </Button>
                   </Upload>
-                </FormControl>
+                </FormControl> */}
+                              <FormControl>
+                <FormLabel>Images</FormLabel>
+                <input type="file" multiple onChange={(event)=>setSelectedFiles(event.target.files)} name="" id="" />
+              </FormControl>
                 </div>
               </div>
               <Button colorScheme="teal" width="100%" type="submit" isLoading={loading} mt={4}>

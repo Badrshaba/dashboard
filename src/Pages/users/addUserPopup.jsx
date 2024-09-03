@@ -27,6 +27,7 @@ const AddUserPopup = ({ error, isLoading }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const cPasswordRef = useRef();
+  const selectRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -110,7 +111,7 @@ const AddUserPopup = ({ error, isLoading }) => {
               </FormControl>
               <FormControl>
                 <FormLabel>Role</FormLabel>
-                <Select>
+                <Select ref={selectRef}>
                   <option value='user'>User</option>
                   <option value='developer'>Developer</option>
                   <option value='brookers'>Brookers</option>

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getAllSubCategories } from '../thunck/subCategoriesAsync';
-import { getAllCategories } from '../thunck/crudCategories';
+import { createNewCategoryFromDashboard, getAllCategories } from '../thunck/crudCategories';
 
 const initialState = {
   categories: [],
@@ -21,6 +21,16 @@ const categoriesSlice = createSlice({
         state.categories = action.payload;
       })
       .addCase(getAllCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(createNewCategoryFromDashboard.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createNewCategoryFromDashboard.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(createNewCategoryFromDashboard.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

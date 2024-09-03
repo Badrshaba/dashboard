@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   Button,
   useDisclosure,
@@ -20,12 +20,15 @@ import { Plus } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNewUserFromDashboard } from '../../redux/thunck/usersAsync';
 import { createNewSubCategoryFromDashboard } from '../../redux/thunck/subCategoriesAsync';
+import { getAllCategories } from '../../redux/thunck/crudCategories';
 
-const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const AddSubCategoryPopup = ({ error, isLoading }) => {
+  const { categories } = useSelector((state) => state.categories);
   const dispatch = useDispatch();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const nameRef = useRef();
   const nameArRef = useRef();
+  const cateRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,12 +37,16 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
         sCateData: {
           name_en: nameRef.current.value,
           name_ar: nameArRef.current.value,
-          cat_id: 1,
+          cat_id: cateRef.current.value,
         },
         closePopup: onClose,
       })
     );
   };
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
 
   return (
     <>
@@ -62,14 +69,14 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
             px={5}
             py={1}
           >
-            Add User
+            Add Sub Category
           </ModalHeader>
           <ModalCloseButton />
           {error && (
             <Alert status='error'>
               <AlertIcon />
               <AlertTitle>
-                {(error.response.data.data && error.response.data.data[0]) || error?.message}
+                {error?.response ? error.response.data.data[0] : error?.message}
               </AlertTitle>
             </Alert>
           )}
@@ -92,6 +99,19 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
                   ref={nameArRef}
                 />
               </FormControl>
+              <FormControl>
+                <FormLabel>Main Category</FormLabel>
+                <Select ref={cateRef}>
+                  {categories?.map((cate) => (
+                    <option
+                      key={cate.id}
+                      value={cate.id}
+                    >
+                      {cate.title}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
             </VStack>
             <Button
               colorScheme='teal'
@@ -99,6 +119,7 @@ const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
               isLoading={isLoading}
               type='submit'
             >
+              {' '}
               Submit
             </Button>
           </form>

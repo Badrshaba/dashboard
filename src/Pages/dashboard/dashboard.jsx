@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Stats, RecentProperites, MostViewed, TotalCategories, FeaturedProducts } from './sections';
+import ChartsDoughnt from './sections/Charts/ChartsDoughnt';
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.user);
@@ -11,7 +12,9 @@ const Dashboard = () => {
         <div className=' col-span-5'>
           <Stats />
         </div>
-        <div className='charts col-span-7 bg-white p-3'>chartss</div>
+        <div className='charts col-span-7 bg-white p-3'>
+          <ChartsDoughnt />
+        </div>
       </div>
       <RecentProperites />
       <MostViewed />

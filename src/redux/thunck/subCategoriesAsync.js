@@ -6,11 +6,10 @@ export const getAllSubCategories = createAsyncThunk(
   'subCategories/get-all',
   async (_, thunkApi) => {
     try {
-      const { data } = await api.get('/sub-categories');
-      return data?.data;
+      const response = await api.get('/sub-categories');
+      return response?.data?.data;
     } catch (error) {
-      console.log(error);
-      thunkApi.rejectWithValue(error);
+      return thunkApi.rejectWithValue(error);
     }
   }
 );

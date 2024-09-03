@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSubCategories } from '../../redux/thunck/subCategoriesAsync';
+import { getAllCategories } from '../../redux/thunck/crudCategories';
 import LoadingSkeleton from '../../componants/loading-skeleton/LoadingSkeleton';
 import SubCategoryCard from '../../componants/sub-category-card/SubCategoryCard';
 import { SimpleGrid } from '@chakra-ui/react';
@@ -8,7 +9,6 @@ import AddSubCategoryPopup from './addSubCategoryPopup';
 
 const SubCategories = () => {
   const { subCategories, isLoading, error } = useSelector((state) => state.subCategories);
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllSubCategories());

@@ -22,6 +22,7 @@ const BunnerCard = ({ image, loading }) => {
         colorScheme='red'
         width='100%'
         rounded={false}
+        isLoading={loading}
         onClick={() => dispatch(deleteBannerFromDashboard(image?.id))}
       >
         <Trash />

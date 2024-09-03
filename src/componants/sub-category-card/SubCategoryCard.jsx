@@ -25,9 +25,12 @@ import {
 } from '@chakra-ui/react';
 import { Button, Card } from 'antd';
 import { Edit, Trash } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateSubCategoryFromDashboard } from '../../redux/thunck/subCategoriesAsync';
+import {
+  deleteSubCategoryFromDashboard,
+  updateSubCategoryFromDashboard,
+} from '../../redux/thunck/subCategoriesAsync';
 const SubCategoryCard = ({ subCate }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
@@ -97,19 +100,21 @@ const SubCategoryCard = ({ subCate }) => {
             <AlertDialogBody>Are you sure? You can't undo this action afterwards.</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button
+              <CButton
                 ref={cancelRef}
                 onClick={onCloseDialog}
               >
                 Cancel
-              </Button>
-              <Button
+              </CButton>
+              <CButton
                 colorScheme='red'
-                onClick={() => dispatch(deleteSubCategoryFromDashboard(subCate.id))}
+                onClick={() =>
+                  dispatch(deleteSubCategoryFromDashboard({ ID: subCate.id, onClose: onClose }))
+                }
                 ml={3}
               >
                 Delete
-              </Button>
+              </CButton>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>

@@ -13,19 +13,41 @@ import {
   Button as CButton,
   VStack,
   Input,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
 } from '@chakra-ui/react';
 import { Button, Card } from 'antd';
 import { Edit, Trash } from 'lucide-react';
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import {
+  deleteCategoryFromDashboard,
+  updateCategoryFromDashboard,
+} from '../../redux/thunck/crudCategories';
 
 const CategoryCard = ({ cate, isLoading, error }) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const nameRef = useRef();
   const nameArRef = useRef();
+  const cancelRef = useRef();
   const handleSubmit = (e) => {
-    dispatch()
+    e.preventDefault();
+    dispatch(
+      updateCategoryFromDashboard({
+        cateDate: {
+          id: cate.id,
+          title_en: nameRef.current.value,
+          title_ar: nameArRef.current.value,
+        },
+        closePopup: onClose,
+      })
+    );
   };
 
   return (
@@ -43,6 +65,7 @@ const CategoryCard = ({ cate, isLoading, error }) => {
           <Button
             icon={<Trash />}
             danger
+            onClick={onOpenDialog}
           ></Button>,
           <Button
             icon={<Edit />}
@@ -97,6 +120,43 @@ const CategoryCard = ({ cate, isLoading, error }) => {
           </form>
         </ModalContent>
       </Modal>
+      <AlertDialog
+        isOpen={isOpenDialog}
+        leastDestructiveRef={cancelRef}
+        onClose={onCloseDialog}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader
+              fontSize='lg'
+              fontWeight='bold'
+            >
+              Delete Category
+            </AlertDialogHeader>
+
+            <AlertDialogBody>Are you sure? You can't undo this action afterwards.</AlertDialogBody>
+
+            <AlertDialogFooter>
+              <CButton
+                ref={cancelRef}
+                onClick={onCloseDialog}
+              >
+                Cancel
+              </CButton>
+              <CButton
+                colorScheme='red'
+                onClick={() => {
+                  dispatch(deleteCategoryFromDashboard(cate.id));
+                  onCloseDialog();
+                }}
+                ml={3}
+              >
+                Delete
+              </CButton>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 };

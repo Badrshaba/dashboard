@@ -5,7 +5,6 @@ import { useCheckConnection } from '../hooks';
 
 const MainLayout = () => {
   const isOnLine = useCheckConnection();
-
   return (
     <div>
       <div className='flex justify-between'>

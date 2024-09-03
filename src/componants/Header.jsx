@@ -6,9 +6,9 @@ const Header = () => {
 
   let surce = user?.user?.image || 'https://bit.ly/broken-link';
   return (
-    <div className='bg-white py-2 px-5 flex justify-end'>
+    <div className='flex justify-end'>
       <div className='flex items-center gap-3'>
-        <h4>{user?.user?.name}</h4>
+        <h4 className='text-white'>{user?.user?.name}</h4>
         <Avatar
           src={surce}
           width={10}

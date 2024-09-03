@@ -25,7 +25,7 @@ import {
   import { Upload } from "antd";
   import { Trash, UploadIcon } from "lucide-react";
   const AddProperites = ({ onClose, isOpen, formData, handleChange }) => {
-    const [selectedFile, setSelectedFile] = useState({});
+    const [selectedFile, setSelectedFile] = useState([]);
    const [loading,setLoading] =  useState(false)
    const [error,setError] =  useState(null)
    const [select,setSelector] = useState('')
@@ -33,7 +33,7 @@ import {
    const dispatch = useDispatch();
     const handleSubmit = async (e) => {
       e.preventDefault();
-  
+  console.log(formData);
     if(formData.name_en==''){
       return setValidation({...validation,name_en:true})
     }
@@ -76,32 +76,31 @@ import {
       formDataSend.append("user_id", '1');
       formDataSend.append("image", selectedFile);
     console.log(selectedFile);
-      try {
-        let { data } = await baseURL({
-          method: "post",
-          url: "/compounds",
-          data: formDataSend,
-          headers: {
-            "Content-Type": "multipart/form-data",
-            APP_KEY: import.meta.env.VITE_APP_KEY,
-          },
-        });
-        setLoading(false)
-        setTimeout(()=>{
-          onClose()
-        },500)
-        dispatch(getCompounds());
-      } catch (error) {
-        setError(error?.response?.data || error?.message);
-        setLoading(false)
-      }
+    //   try {
+    //     let { data } = await baseURL({
+    //       method: "post",
+    //       url: "/compounds",
+    //       data: formDataSend,
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //         APP_KEY: import.meta.env.VITE_APP_KEY,
+    //       },
+    //     });
+    //     setLoading(false)
+    //     setTimeout(()=>{
+    //       onClose()
+    //     },500)
+    //     dispatch(getCompounds());
+    //   } catch (error) {
+    //     setError(error?.response?.data || error?.message);
+    //     setLoading(false)
+    //   }
     };
     const props = {
       action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
       onChange({ file, fileList }) {
         if (file.status !== 'uploading') {
-          console.log(file);
-          setSelectedFile({...selectedFile,file})
+          setSelectedFile(fileList)
         }
       },
   
@@ -154,7 +153,7 @@ import {
                     <option value='1'>1</option>
                   </Select>
                 </FormControl> */}
-                  <FormControl isInvalid={validation} >
+                  <FormControl isInvalid={!validation} >
                     <FormLabel>Area :</FormLabel>
                     <Input
                       type="text"

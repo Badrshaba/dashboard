@@ -23,7 +23,6 @@ import { createNewSubCategoryFromDashboard } from '../../redux/thunck/subCategor
 
 const AddSubCategoryPopup = ({ error, isLoading, cateId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(error)
   const dispatch = useDispatch();
   const nameRef = useRef();
   const nameArRef = useRef();

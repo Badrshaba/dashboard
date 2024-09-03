@@ -5,7 +5,7 @@ import LoadingSkeleton from '../../componants/loading-skeleton/LoadingSkeleton';
 import SubCategoryCard from '../../componants/sub-category-card/SubCategoryCard';
 import { SimpleGrid } from '@chakra-ui/react';
 import AddSubCategoryPopup from './addSubCategoryPopup';
-import { notification } from 'antd';
+
 const SubCategories = () => {
   const { subCategories, isLoading, error } = useSelector((state) => state.subCategories);
 

@@ -6,6 +6,7 @@ import { getCompounds } from '../../redux';
 import FormCompound from './FormCompound';
 import useSearch from '../../hooks/useSearch';
 import TestTable from './TestTable';
+import { updatecompoundsList } from '../../redux/slices/compounds';
 const Compounds = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const Compounds = () => {
     price_max: '',
     zone_id: '',
   });
-  const [searchHandel, search, setSearch] = useSearch('');
+  const [searchHandel, search, setSearch] = useSearch('/search-compound',updatecompoundsList);
   const { compounds, isLoading, error } = useSelector((state) => state.compounds);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,7 +32,7 @@ const Compounds = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value, 
     }));
   };
   return (
@@ -59,7 +60,7 @@ const Compounds = () => {
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
-          <Button> Search </Button>
+          <button> Search </button>
         </form>
       </div>
       <FormCompound

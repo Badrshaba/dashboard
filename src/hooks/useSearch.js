@@ -10,10 +10,11 @@ const useSearch = (endPoint,funUpdate) => {
   const searchHandel = async(e) => {
     e.preventDefault();
     try {
+       console.log("done");
       const res = await api.post(
         endPoint,
         {
-          keword:search,
+          keyword:search,
         },
         {
           headers: {
@@ -23,7 +24,6 @@ const useSearch = (endPoint,funUpdate) => {
           },
         }
       );
-    
         dispatch(funUpdate(res.data.data))
     } catch (error) {
       console.log(error); 

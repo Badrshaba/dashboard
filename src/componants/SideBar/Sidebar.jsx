@@ -19,11 +19,6 @@ const DATA = [
     route: '/properites',
   },
   {
-    title: 'Customers',
-    icon: <Headset size={18} />,
-    route: '/customers',
-  },
-  {
     title: 'Compounds',
     icon: <Apple size={18} />,
     route: '/compounds',

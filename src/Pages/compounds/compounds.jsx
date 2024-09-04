@@ -48,20 +48,7 @@ const Compounds = () => {
         >
           Add Compounds
         </Button>
-        <form
-          action=''
-          className=' flex items-center space-x-2'
-          onSubmit={searchHandel}
-        >
-          <Input
-            type='text'
-            name='area_en'
-            placeholder='Search'
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-          <button> Search </button>
-        </form>
+   
       </div>
       <FormCompound
         onClose={onClose}
@@ -69,7 +56,7 @@ const Compounds = () => {
         isOpen={isOpen}
         formData={formData}
       />
-      {compounds.length&&<TestTable compounds={compounds} />}
+      {!!compounds.length&&<TestTable compounds={compounds} />}
       
     </div>
   );

@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Space, Table } from 'antd';
-import { CircleEllipsis, Edit, Trash } from 'lucide-react';
-import { deleteCompounds } from '../../redux';
+import { CircleEllipsis, Edit, Images, Trash } from 'lucide-react';
+import { deleteCompounds, getCompounds } from '../../redux';
 import {
   ButtonGroup,
   FormControl,
@@ -21,19 +21,19 @@ import {
 import DeleteAlert from '../../componants/deleteAlert/DeleteAlert';
 import { useRef, useState } from 'react';
 import axios from 'axios';
-import { api } from '../../utils/api';
+import { api, apiRegister } from '../../utils/api';
 const TestTable = ({ compounds }) => {
   const { isLoading } = useSelector((state) => state.compounds);
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userInfo, setUserInfo] = useState(null);
   const [formData, setFormData] = useState({});
+  const [loading,setLoading] = useState(false)
   const selectRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const deleteCompound = (compoundID) => {
     dispatch(deleteCompounds(compoundID?.id));
-    console.log(compoundID);
     setTimeout(() => {
       onCloseDialog();
     }, 500);
@@ -87,6 +87,12 @@ const TestTable = ({ compounds }) => {
         >
           <Button
             colorScheme='blue'
+            onClick={console.log("bl7")}
+          >
+            <Images size={20} />
+          </Button>
+          <Button
+            colorScheme='blue'
             onClick={() => navigate(`${rec.id}`)}
           >
             <CircleEllipsis size={20} />
@@ -112,12 +118,11 @@ const TestTable = ({ compounds }) => {
   ];
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setUserInfo((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-
   const getCompoundById = async (compoundID) => {
     try {
       let { data } = await api.get(`/compounds/${compoundID}`);
@@ -127,6 +132,30 @@ const TestTable = ({ compounds }) => {
       console.log(error);
     }
   };
+const handelSubmit = async(e) =>{
+  e.preventDefault();
+  delete userInfo.images;
+  delete userInfo.image;
+  setLoading(true)
+  try {
+    let { data } = await apiRegister({
+      method: "post",
+      url: `/compounds/${userInfo?.id}?_method=PUT`,
+      data: userInfo,
+    });
+     setLoading(false)
+    setTimeout(()=>{
+      onClose()
+    },500)
+console.log(data);
+     dispatch(getCompounds());
+  } catch (error) {
+    console.log(error);
+  //  setError(error?.response?.data || error?.message);
+     setLoading(false)
+  }
+console.log(userInfo);
+ }
   return (
     <>
       <Table
@@ -163,7 +192,7 @@ const TestTable = ({ compounds }) => {
               <AlertTitle>{error?.message}</AlertTitle>
             </Alert>
           )} */}
-          <form className='px-5 py-2'>
+          <form className='px-5 py-2' onSubmit={handelSubmit}>
             <VStack spacing={2}>
               {userInfo && (
                 <div className=' flex space-x-3 w-full'>
@@ -174,19 +203,10 @@ const TestTable = ({ compounds }) => {
                         colorScheme={'red'}
                         name='name_en'
                         type='text'
-                        value={userInfo?.trans?.en?.name}
+                        value={userInfo?.name_en}
                         onChange={handleChange}
                       />
                     </FormControl>
-                    {/* <FormControl>
-            <FormLabel>Zone :</FormLabel>
-            <Select ref={selectRef} >
-              {zones.length&&zones.map((ele)=>(
-                <option key={ele.id} value={ele.id}>{ele.id}</option>
-              ))}
-              
-            </Select>
-          </FormControl> */}
                     <FormControl>
                       <FormLabel>Area Min :</FormLabel>
                       <Input
@@ -210,7 +230,7 @@ const TestTable = ({ compounds }) => {
                       <Input
                         type='text'
                         name='address_en'
-                        value={userInfo?.trans?.en?.address}
+                        value={userInfo?.address_en}
                         onChange={handleChange}
                       />
                     </FormControl>
@@ -236,8 +256,8 @@ const TestTable = ({ compounds }) => {
                       <FormLabel> Description :</FormLabel>
                       <textarea
                         onChange={handleChange}
-                        value={userInfo?.trans?.en?.description}
-                        name='descriotion_en'
+                        value={userInfo?.description_en}
+                        name='description_en'
                         className='  p-2 rounded-lg h-28  w-full transition-all focus:outline-blue-500 duration-200 border-2'
                         type='text'
                       />
@@ -252,7 +272,7 @@ const TestTable = ({ compounds }) => {
                       <Input
                         type='text'
                         name='name_ar'
-                        value={userInfo?.trans?.ar?.name}
+                        value={userInfo?.name_ar}
                         onChange={handleChange}
                       />
                     </FormControl>
@@ -261,16 +281,16 @@ const TestTable = ({ compounds }) => {
                       <Input
                         type='text'
                         name='address_ar'
-                        value={userInfo?.trans?.ar?.address}
+                        value={userInfo?.address_ar}
                         onChange={handleChange}
                       />
                     </FormControl>
                     <label className=' w-full'>
                       <FormLabel> الوصف :</FormLabel>
                       <textarea
-                        name='descriotion_ar'
+                        name='description_ar'
                         onChange={handleChange}
-                        value={userInfo?.trans?.ar?.description}
+                        value={userInfo?.description_ar}
                         className=' p-2 rounded-lg h-28 w-full border-2 transition-all focus:outline-blue-500 duration-200'
                         type='text'
                         size={'lg'}
@@ -284,7 +304,7 @@ const TestTable = ({ compounds }) => {
               colorScheme='teal'
               className='w-full mt-4'
               type='submit'
-              onClick={(e) => editUser(e)}
+              isLoading={loading}
             >
               Submit
             </Button>

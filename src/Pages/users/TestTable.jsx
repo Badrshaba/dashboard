@@ -29,7 +29,6 @@ import { Edit, Search, Trash } from 'lucide-react';
 import { deleteUserFromDashboard, updateUserFromDashboard } from '../../redux';
 import { getUsersApi } from '../../utils/api';
 const TestTable = ({ users }) => {
-  const { isLoading, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -237,7 +236,6 @@ const TestTable = ({ users }) => {
   return (
     <>
       <Table
-        loading={isLoading}
         dataSource={users?.data}
         columns={columns}
         rowKey={(user) => user.id}
@@ -248,7 +246,7 @@ const TestTable = ({ users }) => {
           pageSize: 10,
         }}
       />
-      <AlertDialog
+      {/* <AlertDialog
         isOpen={isOpenDialog}
         leastDestructiveRef={cancelRef}
         onClose={onCloseDialog}
@@ -327,7 +325,7 @@ const TestTable = ({ users }) => {
             </Button>
           </form>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

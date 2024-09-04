@@ -5,6 +5,7 @@ import ProtectedRoutes from '../componants/protected-routes/protected-routes';
 import { Spinner } from '@chakra-ui/react';
 import LoadingSkeleton from '../componants/loading-skeleton/LoadingSkeleton';
 import TestLayout from '../Layout/TestLayout';
+import ErrorBoundary from '../componants/ErrorBoundry';
 const ProperitePage = lazy(() => import('../Pages/properites/ProperitePage'));
 const CompoundPage = lazy(() => import('../Pages/compounds/CompoundPage'));
 const Login = lazy(() => import('../Pages/login/login'));
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
         <MainLayout />
       </ProtectedRoutes>
     ),
+    // ErrorBoundary: <ErrorBoundary />,
     children: [
       {
         index: true,
@@ -58,11 +60,13 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: (
+          // <ErrorBoundary>
           <ProtectedRoutes>
             <Suspense fallback={<LoadingSkeleton />}>
               <Users />
             </Suspense>
           </ProtectedRoutes>
+          // </ErrorBoundary>
         ),
       },
       {

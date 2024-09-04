@@ -3,6 +3,8 @@ import { RouterProvider } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import router from './route/Router';
 import { setUser } from './redux/slices/user';
+import { ErrorBoundry } from './componants';
+import ErrorBoundary from './componants/ErrorBoundry';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -12,7 +14,12 @@ const App = () => {
       dispatch(setUser({ user: user, userToken: userToken }));
     }
   }, [dispatch]);
-  return <RouterProvider router={router} />;
+
+  return (
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  );
 };
 
 export default App;

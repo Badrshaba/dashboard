@@ -5,6 +5,7 @@ import CategoryCard from './category-card/CategoryCard';
 import LoadingSkeleton from './loading-skeleton/LoadingSkeleton';
 import SubCategoryCard from './sub-category-card/SubCategoryCard';
 import Header from './Header';
+import ErrorBoundry from './ErrorBoundry';
 import ProtectedRoutes from './protected-routes/protected-routes';
 
 export {
@@ -16,4 +17,5 @@ export {
   Header,
   SubCategoryCard,
   ProtectedRoutes,
+  ErrorBoundry,
 };

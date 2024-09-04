@@ -86,27 +86,27 @@ getZone()
       }
      console.log(formDataSend.getAll('images'));
   console.log(formDataSend.get('image'));
-//     try {
-//       let { data } = await baseURL({
-//         method: "post",
-//         url: "/compounds",
-//         data: formDataSend,
-//         headers: {
-//            "Content-Type": "multipart/form-data",
-//           APP_KEY: import.meta.env.VITE_APP_KEY,
-//         },
-//       });
-//       setLoading(false)
-//       setTimeout(()=>{
-//         onClose()
-//       },500)
-// console.log(data);
-//       dispatch(getCompounds());
-//     } catch (error) {
-//       console.log(error);
-//       setError(error?.response?.data || error?.message);
-//       setLoading(false)
-//     }
+    try {
+      let { data } = await baseURL({
+        method: "post",
+        url: "/compounds",
+        data: formDataSend,
+        headers: {
+           "Content-Type": "multipart/form-data",
+          APP_KEY: import.meta.env.VITE_APP_KEY,
+        },
+      });
+      setLoading(false)
+      setTimeout(()=>{
+        onClose()
+      },500)
+console.log(data);
+      dispatch(getCompounds());
+    } catch (error) {
+      console.log(error);
+      setError(error?.response?.data || error?.message);
+      setLoading(false)
+    }
   };
   const props = {
     action: 'https://ai.w-manage.org/api/compound/image',

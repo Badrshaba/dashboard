@@ -93,6 +93,7 @@ const TestLayout = () => {
       }}
     >
       <Sider
+        theme='dark'
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
@@ -115,7 +116,7 @@ const TestLayout = () => {
         />
       </Sider>
       <Layout>
-        <Header theme='dark'>
+        <Header theme='light'>
           <CHeader />
         </Header>
         <Content>

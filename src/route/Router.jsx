@@ -30,10 +30,10 @@ const router = createBrowserRouter([
     path: '/',
     element: (
       <ProtectedRoutes>
-        <MainLayout />
+        <TestLayout />
       </ProtectedRoutes>
     ),
-    // ErrorBoundary: <ErrorBoundary />,
+
     children: [
       {
         index: true,
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: 'bunners',
+        path: 'banners',
         element: (
           <ProtectedRoutes>
             <Suspense fallback={<LoadingSkeleton />}>
@@ -60,13 +60,11 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: (
-          // <ErrorBoundary>
           <ProtectedRoutes>
             <Suspense fallback={<LoadingSkeleton />}>
               <Users />
             </Suspense>
           </ProtectedRoutes>
-          // </ErrorBoundary>
         ),
       },
       {

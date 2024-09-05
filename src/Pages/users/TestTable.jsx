@@ -28,7 +28,8 @@ import { Avatar, Space, Table, Button as AButton } from 'antd';
 import { Edit, Search, Trash } from 'lucide-react';
 import { deleteUserFromDashboard, updateUserFromDashboard } from '../../redux';
 import { getUsersApi } from '../../utils/api';
-const TestTable = ({ users }) => {
+const TestTable = () => {
+  const { users, isLoading, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -237,6 +238,7 @@ const TestTable = ({ users }) => {
     <>
       <Table
         dataSource={users?.data}
+        loading={isLoading}
         columns={columns}
         rowKey={(user) => user.id}
         className=' pt-8'
@@ -246,7 +248,7 @@ const TestTable = ({ users }) => {
           pageSize: 10,
         }}
       />
-      {/* <AlertDialog
+      <AlertDialog
         isOpen={isOpenDialog}
         leastDestructiveRef={cancelRef}
         onClose={onCloseDialog}
@@ -325,7 +327,7 @@ const TestTable = ({ users }) => {
             </Button>
           </form>
         </ModalContent>
-      </Modal> */}
+      </Modal>
     </>
   );
 };

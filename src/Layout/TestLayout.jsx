@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { Header as CHeader } from '../componants';
 import {
-  DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
-  TeamOutlined,
+  FileJpgOutlined,
   UserOutlined,
+  GroupOutlined,
+  HomeOutlined,
+  AppstoreOutlined,
+  FireOutlined,
+  StarOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
+
 const { Header, Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -33,6 +38,48 @@ const items = [
       <UserOutlined />
     </Link>
   ),
+  getItem(
+    'Categories',
+    '3',
+    <Link to={'/categories'}>
+      <GroupOutlined />
+    </Link>
+  ),
+  getItem(
+    'Sub Category',
+    '4',
+    <Link to={'/sub-categories'}>
+      <FileOutlined />
+    </Link>
+  ),
+  getItem(
+    'Appartments',
+    '5',
+    <Link to={'/properites'}>
+      <HomeOutlined />
+    </Link>
+  ),
+  getItem(
+    'Compounds',
+    '6',
+    <Link to={'/compounds'}>
+      <AppstoreOutlined />
+    </Link>
+  ),
+  getItem(
+    'Banners',
+    '7',
+    <Link to={'/banners'}>
+      <FileJpgOutlined />
+    </Link>
+  ),
+  getItem(
+    'Featured',
+    '8',
+    <Link to={'/features'}>
+      <StarOutlined />
+    </Link>
+  ),
 ];
 const TestLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -50,12 +97,21 @@ const TestLayout = () => {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
-        <div className='demo-logo-vertical' />
+        <div className='p-5 flex justify-center'>
+          <Link to={'/'}>
+            <img
+              src='https://resido.w-manage.org/assets/images/logo/logo.png'
+              width={120}
+              alt='logo'
+            />
+          </Link>
+        </div>
         <Menu
           theme='dark'
           defaultSelectedKeys={['1']}
           mode='inline'
           items={items}
+          className=''
         />
       </Sider>
       <Layout>
@@ -63,16 +119,7 @@ const TestLayout = () => {
           <CHeader />
         </Header>
         <Content>
-          {/* <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          > */}
           <Outlet />
-          {/* </div> */}
         </Content>
       </Layout>
     </Layout>

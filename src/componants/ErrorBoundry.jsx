@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Result } from 'antd';
+import TestLayout from '../Layout/TestLayout';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {

@@ -9,12 +9,11 @@ import {
   GroupOutlined,
   HomeOutlined,
   AppstoreOutlined,
-  FireOutlined,
   StarOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 
-const { Header, Content, Sider } = Layout;
+const {  Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
     key,
@@ -80,6 +79,8 @@ const items = [
       <StarOutlined />
     </Link>
   ),
+
+
 ];
 const TestLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -93,6 +94,7 @@ const TestLayout = () => {
       }}
     >
       <Sider
+      theme='light'
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
@@ -107,7 +109,7 @@ const TestLayout = () => {
           </Link>
         </div>
         <Menu
-          theme='dark'
+          theme='light'
           defaultSelectedKeys={['1']}
           mode='inline'
           items={items}
@@ -115,12 +117,10 @@ const TestLayout = () => {
         />
       </Sider>
       <Layout>
-        <Header theme='dark'>
+      
           <CHeader />
-        </Header>
-        <Content>
+       
           <Outlet />
-        </Content>
       </Layout>
     </Layout>
   );

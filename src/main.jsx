@@ -48,7 +48,7 @@ createRoot(document.getElementById('root')).render(
       <ConfigProvider
         direction='ltr'
         theme={theme}
-        com
+        
       >
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>

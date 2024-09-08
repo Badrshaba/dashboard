@@ -20,6 +20,8 @@ const Inbox = lazy(() => import('../Pages/brookers/pages/Inbox'));
 const Customers = lazy(() => import('../Pages/customers/customers'));
 const Compounds = lazy(() => import('../Pages/compounds/compounds'));
 const Categories = lazy(() => import('../Pages/categories/categories'));
+const Marketing = lazy(() => import('../Pages/marketers/Marketing'));
+const Sales = lazy(() => import('../Pages/sales/Sales'));
 const Features = lazy(() => import('../Pages/features/features'));
 const Properites = lazy(() => import('../Pages/properites/properites'));
 const SubCategories = lazy(() => import('../Pages/sub-categories/sub-categories'));
@@ -139,6 +141,26 @@ const router = createBrowserRouter([
           <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Categories />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'market',
+        element: (
+          <ProtectedRoutes allowedRoles={['user']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <Marketing />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'sales',
+        element: (
+          <ProtectedRoutes allowedRoles={['user']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <Sales />
             </Suspense>
           </ProtectedRoutes>
         ),

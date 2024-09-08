@@ -208,7 +208,7 @@ const TestTable = () => {
       ],
       onFilter: (value, record) => record.role.startsWith(value.toLowerCase()),
       filterSearch: true,
-      width: '40%',
+      width: '20%',
     },
     {
       title: 'Actions',

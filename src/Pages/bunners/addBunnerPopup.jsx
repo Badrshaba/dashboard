@@ -62,7 +62,7 @@ const AddBunnerPopup = ({ error }) => {
               }
             > */}
             <label
-              for='file-upload'
+              htmlFor='file-upload'
               class='custom-file-upload'
             >
               <UploadIcon size={20} />

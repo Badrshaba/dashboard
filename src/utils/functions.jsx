@@ -102,7 +102,7 @@ export const genrateSidebarLinks = (role) => {
       return adminItems;
     case 'broker':
       return brokerItems;
-    case 'sales':
+    case 'user':
       return adminItems;
     default:
       break;

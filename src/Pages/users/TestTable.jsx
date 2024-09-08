@@ -73,7 +73,7 @@ const TestTable = () => {
           <AButton
             type='primary'
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<Search size={15} />}
+            icon={<Search size={5} />}
             size='small'
             style={{
               width: 90,
@@ -108,6 +108,7 @@ const TestTable = () => {
         style={{
           color: filtered ? '#1677ff' : undefined,
         }}
+        size={15}
       />
     ),
     onFilter: (value, record) =>
@@ -186,6 +187,7 @@ const TestTable = () => {
     {
       title: 'Role',
       dataIndex: 'role',
+
       filters: [
         {
           text: 'Admin',
@@ -248,8 +250,7 @@ const TestTable = () => {
           pageSize: 10,
           hideOnSinglePage: true,
         }}
-        
-      />
+      ></Table>
       <AlertDialog
         isOpen={isOpenDialog}
         leastDestructiveRef={cancelRef}

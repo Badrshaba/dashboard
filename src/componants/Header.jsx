@@ -1,6 +1,6 @@
-import { Avatar } from '@chakra-ui/react';
-import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from 'antd';
+import { Avatar } from '@chakra-ui/react';
 import { logout } from '../redux/thunck/userAsync';
 
 const Header = () => {
@@ -17,7 +17,7 @@ const Header = () => {
           width={10}
           height={10}
         />
-        <Button onClick={() => dispatch(logout())}>Logout</Button>
+        {user && <Button onClick={() => dispatch(logout())}>Logout</Button>}
       </div>
     </div>
   );

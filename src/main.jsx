@@ -27,18 +27,28 @@ const queryClient = new QueryClient({
 // borderColor=E3D9D9
 const theme = {
   token: {
-    colorPrimary: 'white', // Change the primary color
-    colorText: 'white',
+    colorPrimary: 'teal',
   },
   components: {
     Table: {
-      headerBg: 'white',
+      headerBg: 'rgba(250, 249, 246,1)',
       headerSplitColor: '#E3D9D9',
-      rowHoverBg: 'red',
+      rowHoverBg: 'rgba(250, 249, 246,1)',
     },
     Layout: {
       lightSiderBg: 'teal',
       headerBg: 'red',
+      triggerBg: 'rgba(250, 249, 246,.2)',
+      lightTriggerBg: 'rgba(250, 249, 246,.2)',
+      lightTriggerColor: 'white',
+    },
+    Menu: {
+      itemActiveBg: 'rgba(250, 249, 246,.2)',
+      itemBg: 'teal',
+      itemSelectedBg: 'rgba(250, 249, 246,.2)',
+      itemColor: 'white',
+      itemHoverBg: 'rgba(250, 249, 246,.2)',
+      itemHoverColor: 'white',
     },
   },
 };

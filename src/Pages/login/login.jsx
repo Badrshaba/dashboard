@@ -4,7 +4,7 @@ import { FormControl, FormLabel, Input, Box, Button, Spinner } from '@chakra-ui/
 import { loginAsync } from '../../redux/thunck/userAsync';
 
 const Login = () => {
-  const user = useSelector((state) => state.user);
+  const { error, isLoading } = useSelector((state) => state.user);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -45,9 +45,9 @@ const Login = () => {
           <Button
             colorScheme='teal'
             onClick={() => dispatch(loginAsync({ email, password }))}
-            disabled={user.isLoading ? true : false}
+            isLoading={isLoading}
           >
-            {user.isLoading ? <Spinner color='white' /> : 'Login'}
+            Login
           </Button>
         </FormControl>
       </div>

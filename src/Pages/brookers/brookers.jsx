@@ -71,7 +71,7 @@ const Brookers = () => {
     },
   ];
   return (
-    <div className='bg-white min-h-full'>
+    <div>
       <Table
         columns={columns}
         dataSource={compounds}

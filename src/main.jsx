@@ -53,7 +53,7 @@ const theme = {
   },
 };
 createRoot(document.getElementById('root')).render(
-  <ErrorBoundry>
+
     <ChakraProvider>
       <ConfigProvider
         direction='ltr'
@@ -67,5 +67,5 @@ createRoot(document.getElementById('root')).render(
         </Provider>
       </ConfigProvider>
     </ChakraProvider>
-  </ErrorBoundry>
+
 );

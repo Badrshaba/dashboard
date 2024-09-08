@@ -26,12 +26,7 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')).render(
   <ErrorBoundry>
     <ChakraProvider>
-      <ConfigProvider theme={{
-    '@primary-color': '#fffff',
-    '@table-header-bg': '#1d1d1d',
-    '@table-bg': '#141414',
-    '@text-color': '#fff',
-  }} direction='ltr'>
+      <ConfigProvider  direction='ltr'>
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
             <App />

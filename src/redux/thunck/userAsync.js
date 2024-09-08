@@ -17,14 +17,15 @@ export const loginAsync = createAsyncThunk('user/login', async ({email, password
         },
       }
     );
-    if (res.status === 200) {
+    
       localStorage.setItem('user', JSON.stringify(res.data.data?.user));
       localStorage.setItem('userToken', JSON.stringify(res.data.data?.token));
+      
       window.location = '/';
     
       return res.data.data;
-    }
-    return {}
+    
+    
   } catch (error) {
     return error
   }

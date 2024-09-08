@@ -13,6 +13,7 @@ const Dashboard = lazy(() => import('../Pages/dashboard/dashboard'));
 const Users = lazy(() => import('../Pages/users/users'));
 const Bunners = lazy(() => import('../Pages/bunners/bunners'));
 const Brookers = lazy(() => import('../Pages/brookers/brookers'));
+const Inbox = lazy(() => import('../Pages/brookers/pages/Inbox'));
 const Developers = lazy(() => import('../Pages/developers/developers'));
 const Customers = lazy(() => import('../Pages/customers/customers'));
 const Compounds = lazy(() => import('../Pages/compounds/compounds'));

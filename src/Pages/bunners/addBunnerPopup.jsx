@@ -54,17 +54,28 @@ const AddBunnerPopup = ({ error }) => {
 
           <FormControl p={5}>
             <FormLabel>Image</FormLabel>
-            <Upload
+            {/* <Upload
               showUploadList={true}
               multiple={false}
               customRequest={({ file, onSuccess, onError }) =>
                 dispatch(createNewBunnerFromDashboard({ file, onSuccess, onError }))
               }
+            > */}
+            <label
+              htmlFor='file-upload'
+              class='custom-file-upload'
             >
-              <Button>
-                <UploadIcon className='h-6 me-3 w-full' /> Upload
-              </Button>
-            </Upload>
+              <UploadIcon size={20} />
+              Upload
+            </label>
+            <input
+              id='file-upload'
+              type='file'
+            />
+            {/* <Button>
+              <UploadIcon className='h-6 me-3 w-full' /> Upload
+            </Button> */}
+            {/* </Upload> */}
           </FormControl>
         </ModalContent>
       </Modal>

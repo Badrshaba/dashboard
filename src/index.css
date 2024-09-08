@@ -1,12 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.ant-table-cell{
-    text-align: center !important;
+.ant-table-cell {
+  text-align: center !important;
+}
+
+input[type='file'] {
+display: none;
+}
+.custom-file-upload {
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  cursor: pointer;
+  background-color: #edf2f7;
+  color: #333;
+  font-weight: 700;
+  transition: .5s;
+}
+.custom-file-upload:hover {
+  
+  background-color: #e1e6eb;
+  
 }

@@ -11,6 +11,7 @@ import TableProperites from './TableProperites';
 import { getProperites } from '../../redux/thunck/crudProperites';
 import useSearch from '../../hooks/useSearch';
 import { setProperites } from '../../redux/slices/properites';
+import { Link } from 'react-router-dom';
 const Properites = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { properites, isLoading, error } = useSelector((state) => state.properites);
@@ -52,15 +53,16 @@ const Properites = () => {
     <div className=' bg-white p-5 rounded-md mt-5'>
       <h3 className='text-3xl'>Properites</h3>
      <div className=' flex justify-between' >
+     <Link to={'addproperite'} >
      <Button
         colorScheme='teal'
         leftIcon={<Plus />}
         mt={5}
         size='md'
-        onClick={onOpen}
-      >
+      >  
         Add Properites
       </Button>
+      </Link>
       <form
           action=''
           className=' flex items-center space-x-2'

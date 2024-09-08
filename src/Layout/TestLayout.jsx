@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { Header as CHeader } from '../componants';
 import {
   FileOutlined,
@@ -14,10 +14,10 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
-import { useSelector } from 'react-redux';
+import img from '../../logo-removebg-preview.png'
 
 const { Sider } = Layout;
-function getItem(label, key, icon, children, role) {
+function getItem(label, key, icon, children) {
   return {
     key,
     icon,
@@ -29,89 +29,71 @@ const adminItems = [
   getItem(
     'Dashboard',
     '1',
-    <Link to={'/'}>
+    <NavLink to={'/'}>
       <PieChartOutlined />
-    </Link>
+    </NavLink>
   ),
   getItem(
     'Users',
     '2',
-    <Link to={'/users'}>
+    <NavLink to={'/users'}>
       <UserOutlined />
-    </Link>
+    </NavLink>
   ),
   getItem(
     'Categories',
     '3',
-    <Link to={'/categories'}>
+    <NavLink to={'/categories'}>
       <GroupOutlined />
-    </Link>
+    </NavLink>
   ),
   getItem(
     'Sub Category',
     '4',
-    <Link to={'/sub-categories'}>
+    <NavLink to={'/sub-categories'}>
       <FileOutlined />
-    </Link>
+    </NavLink>
   ),
   getItem(
     'Appartments',
     '5',
-    <Link to={'/properites'}>
+    <NavLink to={'/properites'}>
       <HomeOutlined />
-    </Link>
+    </NavLink>
   ),
   getItem(
     'Compounds',
     '6',
-    <Link to={'/compounds'}>
+    <NavLink to={'/compounds'}>
       <AppstoreOutlined />
-    </Link>
+    </NavLink>
   ),
   getItem(
     'Banners',
     '7',
-    <Link to={'/banners'}>
+    <NavLink to={'/banners'}>
       <FileJpgOutlined />
-    </Link>
+    </NavLink>
   ),
   getItem(
     'Featured',
     '8',
-    <Link to={'/features'}>
+    <NavLink to={'/features'}>
       <StarOutlined />
-    </Link>
+    </NavLink>
   ),
+
+
 ];
-const brookersItems = [
-  getItem(
-    'E-Brooker',
-    '1',
-    <Link to={'/brooker'}>
-      <PieChartOutlined />
-    </Link>
-  ),
-  getItem(
-    'Inbox',
-    '2',
-    <Link to={'/brooker/inbox'}>
-      <MessageOutlined />
-    </Link>
-  ),
-  getItem(
-    'Settings',
-    '3',
-    <Link to={'/brooker/settings'}>
-      <SettingOutlined />
-    </Link>
-  ),
-];
+
 const TestLayout = () => {
   const { user } = useSelector((state) => state.user);
   const [collapsed, setCollapsed] = useState(false);
+  const [logoSize,setLogoSize] = useState(false)
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
   return (
     <Layout
       style={{
@@ -122,13 +104,18 @@ const TestLayout = () => {
         theme='light'
         collapsible
         collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
+        onCollapse={(value) => {
+          setCollapsed(value)
+          setTimeout(()=>{
+            setLogoSize(!logoSize)
+          },logoSize?0:500)
+        }}
       >
         <div className='p-5 flex justify-center'>
           <Link to={'/'}>
             <img
-              src='https://resido.w-manage.org/assets/images/logo/logo.png'
-              width={120}
+              src={img}
+              width={logoSize? 120:60}
               alt='logo'
             />
           </Link>
@@ -147,8 +134,8 @@ const TestLayout = () => {
         />
       </Sider>
       <Layout>
-        <CHeader />
-        <Outlet />
+          <CHeader />
+          <Outlet />
       </Layout>
     </Layout>
   );

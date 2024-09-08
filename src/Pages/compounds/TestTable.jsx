@@ -14,7 +14,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Select,
   useDisclosure,
   VStack,
   Button,

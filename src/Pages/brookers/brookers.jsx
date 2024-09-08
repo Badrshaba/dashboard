@@ -72,54 +72,15 @@ const Brookers = () => {
   ];
   return (
     <div className='bg-white min-h-full'>
-      <div className='flex justify-between items-center p-5'>
-        <div className='flex items-center gap-5'>
-          <Select
-            defaultValue='lucy'
-            style={{ width: 120 }}
-            options={[
-              { value: 'jack', label: 'Jack' },
-              { value: 'lucy', label: 'Lucy' },
-              { value: 'Yiminghe', label: 'yiminghe' },
-              { value: 'disabled', label: 'Disabled', disabled: true },
-            ]}
-          />
-          <Select
-            defaultValue='lucy'
-            style={{ width: 120 }}
-            options={[
-              { value: 'jack', label: 'Jack' },
-              { value: 'lucy', label: 'Lucy' },
-              { value: 'Yiminghe', label: 'yiminghe' },
-              { value: 'disabled', label: 'Disabled', disabled: true },
-            ]}
-          />
-        </div>
-        <div className='w-64'>
-          <Input
-            type='text'
-            size='default size'
-            placeholder='Search'
-            prefix={
-              <Search
-                size={15}
-                color='gray'
-              />
-            }
-          />
-        </div>
-      </div>
-      <div className='p-5'>
-        <Table
-          columns={columns}
-          dataSource={compounds}
-          rowKey={(row) => row.id}
-          loading={isLoading}
-          pagination={{
-            position: ['bottomCenter'],
-          }}
-        />
-      </div>
+      <Table
+        columns={columns}
+        dataSource={compounds}
+        rowKey={(row) => row.id}
+        loading={isLoading}
+        pagination={{
+          position: ['bottomCenter'],
+        }}
+      />
     </div>
   );
 };

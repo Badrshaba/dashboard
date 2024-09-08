@@ -31,29 +31,22 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: (
-      <ProtectedRoutes>
-        <TestLayout />
-      </ProtectedRoutes>
-    ),
-
+    element: <TestLayout />,
     children: [
       {
         index: true,
-        path: '/',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Dashboard />
             </Suspense>
           </ProtectedRoutes>
         ),
       },
-
       {
         path: 'banners',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Bunners />
             </Suspense>
@@ -63,7 +56,7 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Users />
             </Suspense>
@@ -73,7 +66,7 @@ const router = createBrowserRouter([
       {
         path: 'features',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Features />
             </Suspense>
@@ -83,7 +76,7 @@ const router = createBrowserRouter([
       {
         path: 'compounds',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Compounds />
             </Suspense>
@@ -93,7 +86,7 @@ const router = createBrowserRouter([
       {
         path: 'compounds/:compoundId',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <CompoundPage />
             </Suspense>
@@ -101,20 +94,9 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'customers',
-        element: (
-          <ProtectedRoutes>
-            <Suspense fallback={<LoadingSkeleton />}>
-              <Customers />
-            </Suspense>
-          </ProtectedRoutes>
-        ),
-      },
-
-      {
         path: 'properites',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Properites />
             </Suspense>
@@ -124,7 +106,7 @@ const router = createBrowserRouter([
       {
         path: 'properites/addproperite',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <MainAddProperites />
             </Suspense>
@@ -134,7 +116,7 @@ const router = createBrowserRouter([
       {
         path: 'properites/:properiteId',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <ProperitePage />
             </Suspense>
@@ -144,7 +126,7 @@ const router = createBrowserRouter([
       {
         path: 'sub-categories',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <SubCategories />
             </Suspense>
@@ -154,12 +136,37 @@ const router = createBrowserRouter([
       {
         path: 'categories',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Categories />
             </Suspense>
           </ProtectedRoutes>
         ),
+      },
+      {
+        path: '/broker',
+        children: [
+          {
+            index: true,
+            element: (
+              <ProtectedRoutes allowedRoles={['broker']}>
+                <Suspense fallback={<LoadingSkeleton />}>
+                  <Brookers />
+                </Suspense>
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: 'inbox',
+            element: (
+              <ProtectedRoutes allowedRoles={['broker']}>
+                <Suspense fallback={<LoadingSkeleton />}>
+                  <Inbox />
+                </Suspense>
+              </ProtectedRoutes>
+            ),
+          },
+        ],
       },
     ],
   },

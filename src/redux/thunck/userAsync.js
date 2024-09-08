@@ -1,10 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../utils/api';
 
-
-export const loginAsync = createAsyncThunk('user/login', async ({email, password}) => {
+export const loginAsync = createAsyncThunk('user/login', async ({ email, password }) => {
   try {
-    const res = await api.post(
+    const { data } = await api.post(
       '/login',
       {
         email,
@@ -17,16 +16,22 @@ export const loginAsync = createAsyncThunk('user/login', async ({email, password
         },
       }
     );
-    
-      localStorage.setItem('user', JSON.stringify(res.data.data?.user));
-      localStorage.setItem('userToken', JSON.stringify(res.data.data?.token));
-      
+    console.log(data);
+    localStorage.setItem('user', JSON.stringify(data.data?.user));
+    localStorage.setItem('userToken', JSON.stringify(data.data?.token));
+    if (data?.data?.user.role == 'broker') {
+      window.location = '/broker';
+    } else if (data?.data?.user.role == 'admin') {
       window.location = '/';
-    
-      return res.data.data;
-    
-    
+    }
+
+    return data.data;
   } catch (error) {
-    return error
+    return error;
   }
+});
+
+export const logout = createAsyncThunk('user/logout', async () => {
+  localStorage.clear();
+  window.location = '/login';
 });

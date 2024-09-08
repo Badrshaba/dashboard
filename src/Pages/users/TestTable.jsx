@@ -241,11 +241,12 @@ const TestTable = () => {
         loading={isLoading}
         columns={columns}
         rowKey={(user) => user.id}
-        className=' pt-8'
+        className=' mt-8 '
         pagination={{
           position: ['bottomCenter'],
           total: users?.total,
           pageSize: 10,
+          hideOnSinglePage: true,
         }}
         
       />

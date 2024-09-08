@@ -16,6 +16,10 @@ import SubCategories from './Pages/sub-categories/sub-categories';
 import ProperitePage from './Pages/properites/ProperitePage';
 import Compounds from './Pages/compounds/compounds';
 import Properites from './Pages/properites/properites';
+import AddProperites from './Pages/properites/AddProperites';
+import MainAddProperites from './Pages/properites/addProperites/MainAddProperites';
+import Sales from './Pages/sales/Sales';
+import Marketing from './Pages/marketers/Marketing';
 // import Settings from './Pages/brookers/pages/Settings';
 const App = () => {
   const dispatch = useDispatch();
@@ -39,45 +43,28 @@ const App = () => {
           path='/'
           element={<TestLayout />}
         >
+         
+         
           <Route
-            index
-            element={<ProtectedRoutes allowedRoles={['admin']}><Dashboard /></ProtectedRoutes>}
-          />
-          <Route
-            path='/users'
-            element={<Users />}
-          />
-          <Route
-            path='/categories'
-            element={<Categories />}
-          />
-          <Route
-            path='/sub-categories'
-            element={<SubCategories />}
-          />
-          <Route
-            path='/appartments'
+            path='/properites'
             element={<Properites />}
           />
           <Route
-            path='/compounds'
-            element={<Compounds />}
+            path='/properites/addproperite'
+            element={<MainAddProperites/>}
           />
-          <Route path='/brooker'>
-            <Route
-              index
-              element={<Brookers />}
-            />
-            {/* <Route
-              path='inbox'
-              element={<Inbox />}
-            /> */}
-            {/* <Route
-              path='settings'
-              element={<Settings />}
-            /> */}
-          </Route>
+          <Route
+            path='/sales'
+            element={<Sales/>}
+          />
+          <Route
+            path='/market'
+            element={<Marketing/>}
+          />
+         
+           
         </Route>
+
       </Routes>
     </BrowserRouter>
   );

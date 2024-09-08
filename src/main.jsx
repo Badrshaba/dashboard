@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 });
 
 createRoot(document.getElementById('root')).render(
-  <ErrorBoundry>
+
     <ChakraProvider>
       <ConfigProvider  direction='ltr'>
         <Provider store={store}>
@@ -34,5 +34,5 @@ createRoot(document.getElementById('root')).render(
         </Provider>
       </ConfigProvider>
     </ChakraProvider>
-  </ErrorBoundry>
+
 );

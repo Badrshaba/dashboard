@@ -9,7 +9,7 @@ import ContactInformation from './ContactInformation'
 
 const MainAddProperites = () => {
   return (
-    <div className=' bg-white h-full space-y-10' >
+    <div className=' bg-white h-full space-y-10 py-10' >
         <PropertyDetails/>
         <PricingAndFinancialInformation/>
         <Location/>

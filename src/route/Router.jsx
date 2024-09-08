@@ -1,11 +1,11 @@
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import MainLayout from '../Layout/MainLayout';
+
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
-import { Spinner } from '@chakra-ui/react';
+
 import LoadingSkeleton from '../componants/loading-skeleton/LoadingSkeleton';
 import TestLayout from '../Layout/TestLayout';
-import ErrorBoundary from '../componants/ErrorBoundry';
+
 import MainAddProperites from '../Pages/properites/addProperites/MainAddProperites';
 // const NewAddProperites = lazy(() => import( '../Pages/properites/newAddProperites'));
 const ProperitePage = lazy(() => import('../Pages/properites/ProperitePage'));
@@ -16,7 +16,7 @@ const Users = lazy(() => import('../Pages/users/users'));
 const Bunners = lazy(() => import('../Pages/bunners/bunners'));
 const Brookers = lazy(() => import('../Pages/brookers/brookers'));
 const Inbox = lazy(() => import('../Pages/brookers/pages/Inbox'));
-const Developers = lazy(() => import('../Pages/developers/developers'));
+// const Developers = lazy(() => import('../Pages/developers/developers'));
 const Customers = lazy(() => import('../Pages/customers/customers'));
 const Compounds = lazy(() => import('../Pages/compounds/compounds'));
 const Categories = lazy(() => import('../Pages/categories/categories'));

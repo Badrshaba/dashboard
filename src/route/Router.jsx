@@ -14,9 +14,9 @@ const Login = lazy(() => import('../Pages/login/login'));
 const Dashboard = lazy(() => import('../Pages/dashboard/dashboard'));
 const Users = lazy(() => import('../Pages/users/users'));
 const Bunners = lazy(() => import('../Pages/bunners/bunners'));
-const Brookers = lazy(() => import('../Pages/brookers/brookers'));
-const Inbox = lazy(() => import('../Pages/brookers/pages/Inbox'));
-const Developers = lazy(() => import('../Pages/developers/developers'));
+// const Brookers = lazy(() => import('../Pages/brookers/brookers'));
+// const Inbox = lazy(() => import('../Pages/brookers/pages/Inbox'));
+// const Developers = lazy(() => import('../Pages/developers/developers'));
 const Customers = lazy(() => import('../Pages/customers/customers'));
 const Compounds = lazy(() => import('../Pages/compounds/compounds'));
 const Categories = lazy(() => import('../Pages/categories/categories'));
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <ProtectedRoutes>
+      <ProtectedRoutes allowedRoles={['admin','broker']}>
         <TestLayout />
       </ProtectedRoutes>
     ),
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
         index: true,
         path: '/',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Dashboard />
             </Suspense>
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
       {
         path: 'banners',
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes allowedRoles={['admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Bunners />
             </Suspense>

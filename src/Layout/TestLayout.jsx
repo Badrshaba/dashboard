@@ -10,8 +10,7 @@ import {
   HomeOutlined,
   AppstoreOutlined,
   StarOutlined,
-  MessageOutlined,
-  SettingOutlined,
+ 
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import img from '../../logo-removebg-preview.png'
@@ -87,7 +86,7 @@ const adminItems = [
 ];
 
 const TestLayout = () => {
-  const { user } = useSelector((state) => state.user);
+  // const { user } = useSelector((state) => state.user);
   const [collapsed, setCollapsed] = useState(false);
   const [logoSize,setLogoSize] = useState(false)
   const {
@@ -125,11 +124,7 @@ const TestLayout = () => {
           defaultSelectedKeys={['1']}
           mode='inline'
           items={
-            user?.user.role == 'user'
-              ? adminItems
-              : user?.user?.role == 'broker'
-              ? brookersItems
-              : null
+           adminItems
           }
         />
       </Sider>

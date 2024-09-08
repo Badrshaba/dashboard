@@ -3,10 +3,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import router from './route/Router';
 import { setUser } from './redux/slices/user';
-import { ErrorBoundry } from './componants';
+import { ErrorBoundry, ProtectedRoutes } from './componants';
 import ErrorBoundary from './componants/ErrorBoundry';
 import TestLayout from './Layout/TestLayout';
-import Inbox from './Pages/brookers/pages/Inbox';
+// import Inbox from './Pages/brookers/pages/Inbox';
 import Login from './Pages/login/login';
 import Brookers from './Pages/brookers/brookers';
 import Dashboard from './Pages/dashboard/dashboard';
@@ -16,7 +16,7 @@ import SubCategories from './Pages/sub-categories/sub-categories';
 import ProperitePage from './Pages/properites/ProperitePage';
 import Compounds from './Pages/compounds/compounds';
 import Properites from './Pages/properites/properites';
-import Settings from './Pages/brookers/pages/Settings';
+// import Settings from './Pages/brookers/pages/Settings';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -41,7 +41,7 @@ const App = () => {
         >
           <Route
             index
-            element={<Dashboard />}
+            element={<ProtectedRoutes allowedRoles={['admin']}><Dashboard /></ProtectedRoutes>}
           />
           <Route
             path='/users'
@@ -68,14 +68,14 @@ const App = () => {
               index
               element={<Brookers />}
             />
-            <Route
+            {/* <Route
               path='inbox'
               element={<Inbox />}
-            />
-            <Route
+            /> */}
+            {/* <Route
               path='settings'
               element={<Settings />}
-            />
+            /> */}
           </Route>
         </Route>
       </Routes>

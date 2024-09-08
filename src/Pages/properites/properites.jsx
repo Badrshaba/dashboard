@@ -50,7 +50,7 @@ const Properites = () => {
   }, []);
  
   return (
-    <div className=' bg-white p-5 rounded-md mt-5'>
+    <div className=' bg-white p-5 rounded-md mt-5 '>
       <h3 className='text-3xl'>Properites</h3>
      <div className=' flex justify-between' >
      <Link to={'addproperite'} >

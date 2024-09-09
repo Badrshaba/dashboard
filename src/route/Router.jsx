@@ -1,30 +1,24 @@
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
-
 import LoadingSkeleton from '../componants/loading-skeleton/LoadingSkeleton';
-import TestLayout from '../Layout/TestLayout';
-
-import MainAddProperites from '../Pages/properites/addProperites/MainAddProperites';
-// const NewAddProperites = lazy(() => import( '../Pages/properites/newAddProperites'));
-const ProperitePage = lazy(() => import('../Pages/properites/ProperitePage'));
-const CompoundPage = lazy(() => import('../Pages/compounds/CompoundPage'));
-const Login = lazy(() => import('../Pages/login/login'));
-const Dashboard = lazy(() => import('../Pages/dashboard/dashboard'));
-const Users = lazy(() => import('../Pages/users/users'));
-const Bunners = lazy(() => import('../Pages/bunners/bunners'));
-const Brookers = lazy(() => import('../Pages/brookers/brookers'));
-const Inbox = lazy(() => import('../Pages/brookers/pages/Inbox'));
-// const Developers = lazy(() => import('../Pages/developers/developers'));
-const Customers = lazy(() => import('../Pages/customers/customers'));
-const Compounds = lazy(() => import('../Pages/compounds/compounds'));
-const Categories = lazy(() => import('../Pages/categories/categories'));
-const Marketing = lazy(() => import('../Pages/marketers/Marketing'));
-const Sales = lazy(() => import('../Pages/sales/Sales'));
-const Features = lazy(() => import('../Pages/features/features'));
-const Properites = lazy(() => import('../Pages/properites/properites'));
-const SubCategories = lazy(() => import('../Pages/sub-categories/sub-categories'));
+import DashboardLayout from '../Layout/DashboardLayout';
+import MainAddProperites from '../Pages/Admin/properites/addProperites/MainAddProperites';
+const ProperitePage = lazy(() => import('../Pages/Admin/properites/ProperitePage'));
+const Dashboard = lazy(() => import('../Pages/Admin/dashboard/dashboard'));
+const CompoundPage = lazy(() => import('../Pages/Admin/compounds/CompoundPage'));
+const Login = lazy(() => import('../Pages/Auth/login/login'));
+const Users = lazy(() => import('../Pages/Admin/users/users'));
+const Bunners = lazy(() => import('../Pages/Admin/bunners/bunners'));
+const Brookers = lazy(() => import('../Pages/Brookers/brookers-homepage'));
+const Inbox = lazy(() => import('../Pages/Brookers/Inbox'));
+const Compounds = lazy(() => import('../Pages/Admin/compounds/compounds'));
+const Categories = lazy(() => import('../Pages/Admin/categories/categories'));
+const Marketing = lazy(() => import('../Pages/Marketers/marketing-homepage'));
+const Sales = lazy(() => import('../Pages/Sales/sales-homepage'));
+const Features = lazy(() => import('../Pages/Admin/features/features'));
+const Properites = lazy(() => import('../Pages/Admin/properites/properites'));
+const SubCategories = lazy(() => import('../Pages/Admin/sub-categories/sub-categories'));
 
 const router = createBrowserRouter([
   {
@@ -33,7 +27,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <TestLayout />,
+    element: <DashboardLayout />,
     children: [
       {
         index: true,

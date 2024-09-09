@@ -1,0 +1,13 @@
+/* .ant-menu{
+    max-width: 200px;
+    position: fixed;
+} */
+.ant-menu-vertical{
+    position: fixed;
+    width: 80px !important; 
+}
+.ant-menu-inline{
+    position: fixed;
+    width: 200px !important;
+
+} 

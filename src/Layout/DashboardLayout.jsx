@@ -5,7 +5,7 @@ import { Layout, Menu, theme } from 'antd';
 import { genrateSidebarLinks } from '../utils/functions.jsx';
 import { Header } from '../componants';
 import img from '../../logo-removebg-preview.png';
-
+import "./style.css"
 const { Sider } = Layout;
 
 const DashboardLayout = () => {
@@ -21,8 +21,8 @@ const DashboardLayout = () => {
     >
       <Sider
         theme='light'
-        className='fixed'
         collapsible
+        
         collapsed={collapsed}
         onCollapse={(value) => {
           setCollapsed(value);

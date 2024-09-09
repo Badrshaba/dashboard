@@ -1,6 +1,16 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormControl, FormLabel, Input, Box, Button, Spinner } from '@chakra-ui/react';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Box,
+  Button,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from '@chakra-ui/react';
 import { loginAsync } from '../../redux/thunck/userAsync';
 
 const Login = () => {
@@ -18,7 +28,20 @@ const Login = () => {
           className=' animate-bounce'
         />
       </div>
-      <div className='flex items-center'>
+      <div className='flex items-center flex-col justify-center'>
+        {error && (
+          <Alert
+            status='error'
+            mb={10}
+          >
+            <AlertIcon />
+            <AlertTitle>Login Error</AlertTitle>
+            <AlertDescription>
+              {error.response ? error.response.data.data[0] : error.message}
+            </AlertDescription>
+          </Alert>
+        )}
+
         <FormControl paddingInline={20}>
           <Box mb={10}>
             <FormLabel>Email</FormLabel>

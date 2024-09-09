@@ -6,8 +6,7 @@ import { Search } from "lucide-react"
 
 const Sales = () => {
   return (
-    <div>
-  
+    <div className=" px-5">  
         <TableSales/>
     </div>
   )

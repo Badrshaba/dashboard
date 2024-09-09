@@ -5,7 +5,7 @@ import { Plus } from 'lucide-react'
 
 const Marketing = () => {
   return (
-    <div>
+    <div className=' px-5'>
         <TableMarket/>
     </div>
   )

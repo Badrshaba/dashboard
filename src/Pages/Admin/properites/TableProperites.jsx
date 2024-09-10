@@ -161,7 +161,7 @@ const TableProperites = ({ properites }) => {
         isOpen={isOpenDialog}
         onClose={onCloseDialog}
         head={'انت متأكد'}
-        body={'انت بطلع اي ياعم انت'}
+        body={''}
         userInfo={userInfo}
         deleteFun={deleteProperites}
       />

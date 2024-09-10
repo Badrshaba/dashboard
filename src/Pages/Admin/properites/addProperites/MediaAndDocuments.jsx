@@ -11,6 +11,7 @@ const MediaAndDocuments = () => {
      <span className=' text-[#53ADAE]' > Browse Files</span>
       <input type="file" name="img1" id="img1" />
       </label>
+      
       <label htmlFor="img2" className=' h-[63px] px-10 pt-2 hover:cursor-pointer  flex-col items-center justify-center border-dotted border-2 rounded-lg' >
       <UploadIcon color='#53ADAE' className=' ml-6' size={20} />
      <span className=' text-[#53ADAE]'> Browse Files</span>

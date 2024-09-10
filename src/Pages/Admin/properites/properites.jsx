@@ -12,7 +12,6 @@ const Properites = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { properites, isLoading, error } = useSelector((state) => state.properites);
   const dispatch = useDispatch();
-  const [searchHandel, search, setSearch] = useSearch('apartments/search', setProperites);
   const [formData, setFormData] = useState({
     title_en: '',
     title_ar: '',
@@ -60,20 +59,6 @@ const Properites = () => {
             Add Properites
           </Button>
         </Link>
-        <form
-          action=''
-          className=' flex items-center space-x-2'
-          onSubmit={searchHandel}
-        >
-          <Input
-            type='text'
-            name='area_en'
-            placeholder='Search'
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-          <button> Search </button>
-        </form>
       </div>
 
       <TableProperites properites={properites} />

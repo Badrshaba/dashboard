@@ -5,8 +5,8 @@ import { Plus } from 'lucide-react';
 import { getCompounds } from '../../../redux';
 import FormCompound from './FormCompound';
 import useSearch from '../../../hooks/useSearch';
-import TestTable from './TestTable';
 import { updatecompoundsList } from '../../../redux/slices/compounds';
+import CompoundsTable from './CompoundsTable';
 const Compounds = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [formData, setFormData] = useState({
@@ -55,7 +55,7 @@ const Compounds = () => {
         isOpen={isOpen}
         formData={formData}
       />
-      {!!compounds.length && <TestTable compounds={compounds} />}
+      {!!compounds.length && <CompoundsTable compounds={compounds} />}
     </div>
   );
 };

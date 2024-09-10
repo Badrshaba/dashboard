@@ -8,12 +8,12 @@ const Zone = () => {
 
   return (
     <div>
-        <h3 className=' text-xl fw-semibold text-[#4D5454] ml-3' >1.Zone Details</h3>
+        <h3 className=' text-xl fw-semibold text-[#4D5454] ml-3' > Zone Details</h3>
 <div className=" flex space-x-3 ml-3 mt-3 " >
 
 <OthersCard text={'A1'} />
 <OthersCard text={'A2'} />
-<div onClick={onOpen} className=" border border-black rounded-lg p-4 hover:cursor-pointer hover:bg-teal-600 hover:text-white transition-colors duration-75" >
+<div onClick={onOpen} className=" border bg-white border-black rounded-lg p-4 hover:cursor-pointer hover:bg-teal-600 hover:text-white transition-colors duration-75" >
     <Plus size={25} strokeWidth={3}/>
 </div>
 <Modal isOpen={isOpen} onClose={onClose}>

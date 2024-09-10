@@ -1,16 +1,25 @@
-import { Carousel } from 'antd';
+import { Carousel, Typography } from 'antd';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { getProperites } from '../../../redux/thunck/crudProperites';
 
 const ProperitePage = () => {
+  const {properites}=useSelector(state=>state.properites);
+  const [properite] = properites
+  console.log(properite);
   const { properiteId } = useParams();
-
+  const dispatch = useDispatch();
+  useEffect(()=>{
+dispatch(getProperites())
+  },[])
   return (
     <>
       <Carousel
         arrows
         infinite={true}
       >
-        <div>
+        <div> 
           <img
             src='/sample1.jpg'
             alt=''
@@ -25,7 +34,16 @@ const ProperitePage = () => {
           />
         </div>
       </Carousel>
-      <div className='mt-5 px-8'></div>
+
+      <div className='mt-5 px-8'>
+        <Typography>
+          <Typography.Text>{properite?.compound?.name}</Typography.Text>
+        </Typography>
+        <Typography>
+          <Typography.Title>{properite?.title}</Typography.Title>
+        </Typography>
+
+      </div>
     </>
   );
 };

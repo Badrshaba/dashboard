@@ -5,6 +5,7 @@
 .ant-menu-vertical{
     position: fixed;
     width: 80px !important; 
+    transition: 0.05s;
 }
 .ant-menu-inline{
     position: fixed;

@@ -8,11 +8,11 @@ const Status = () => {
 
   return (
     <div>
-        <h3 className=' text-xl fw-semibold text-[#4D5454] ml-3' >3.Status Details</h3>
+        <h3 className=' text-xl fw-semibold text-[#4D5454] ml-3' > Status Details</h3>
 <div className=" flex space-x-3 ml-3 mt-3 " >
 <OthersCard text={'Rent'} />
 <OthersCard text={'Sell'} />
-<div onClick={onOpen} className=" border border-black rounded-lg p-4 hover:text-white  hover:cursor-pointer hover:bg-teal-600 transition-colors duration-75" >
+<div onClick={onOpen} className=" border bg-white border-black rounded-lg p-4 hover:text-white  hover:cursor-pointer hover:bg-teal-600 transition-colors duration-75" >
     <Plus size={25} strokeWidth={3}/>
 </div>
 <Modal

@@ -7,7 +7,7 @@ const OthersCard = ({text}) => {
 
   return (
     <>
-    <div onClick={onOpen} className=" border border-black rounded-lg p-4 min-w-16 flex justify-center hover:text-white hover:font-bold hover:bg-red-700 hover:cursor-pointer transition-colors duration-75">
+    <div onClick={onOpen} className=" border bg-white border-black rounded-lg p-4 min-w-16 flex justify-center hover:text-white hover:font-bold hover:bg-red-700 hover:cursor-pointer transition-colors duration-75">
     <h2>{text}</h2>
     </div>
     <DeleteAlert 

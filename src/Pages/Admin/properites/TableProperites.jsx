@@ -76,7 +76,7 @@ const TableProperites = ({ properites }) => {
   const deleteProperites = (properiteId) => {
     console.log(properiteId);
   };
-
+console.log(properites);
   const columns = [
     {
       title: 'Name',

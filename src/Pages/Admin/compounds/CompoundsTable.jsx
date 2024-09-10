@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'antd';
 import { CircleEllipsis, Edit, Images, Trash } from 'lucide-react';
 import { deleteCompounds, getCompounds } from '../../../redux';
+import paths from '../../../route/paths';
 import {
   ButtonGroup,
   FormControl,
@@ -21,7 +22,7 @@ import { DeleteAlert } from '../../../componants';
 import { useRef, useState } from 'react';
 import { api, apiRegister } from '../../../utils/api';
 import useSearchInTable from '../../../hooks/useSearchInTable';
-const TestTable = ({ compounds }) => {
+const CompoundsTable = ({ compounds }) => {
   const { isLoading } = useSelector((state) => state.compounds);
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -71,12 +72,6 @@ const TestTable = ({ compounds }) => {
             onClick={console.log('bl7')}
           >
             <Images size={20} />
-          </Button>
-          <Button
-            colorScheme='blue'
-            onClick={() => navigate(`${rec.id}`)}
-          >
-            <CircleEllipsis size={20} />
           </Button>
           <Button
             colorScheme='red'
@@ -145,6 +140,9 @@ const TestTable = ({ compounds }) => {
         dataSource={compounds}
         columns={columns}
         rowKey={(compound) => compound.id}
+        onRow={(record,index)=> {return {
+          onClick:()=> navigate(`${paths.compounds}/${record.id}`)
+        }}}
         className=' pt-8'
         pagination={{
           position: ['bottomCenter'],
@@ -302,4 +300,4 @@ const TestTable = ({ compounds }) => {
   );
 };
 
-export default TestTable;
+export default CompoundsTable;

@@ -8,12 +8,12 @@ const Type = () => {
 
   return (
     <div>
-        <h3 className=' text-xl fw-semibold text-[#4D5454] ml-3' >2.Type Details</h3>
+        <h3 className=' text-xl fw-semibold text-[#4D5454] ml-3' > Type Details</h3>
 <div className=" flex space-x-3 ml-3 mt-3 " >
 
 <OthersCard text={'Sell'} />
 <OthersCard text={'Rent'} />
-<div onClick={onOpen} className=" border border-black rounded-lg w-15 flex hover:text-white justify-center p-4 hover:cursor-pointer hover:bg-teal-600 transition-colors duration-75" >
+<div onClick={onOpen} className=" border bg-white border-black rounded-lg w-15 flex hover:text-white justify-center p-4 hover:cursor-pointer hover:bg-teal-600 transition-colors duration-75" >
     <Plus size={25} strokeWidth={3}/>
 </div>
 <Modal isOpen={isOpen} onClose={onClose}>

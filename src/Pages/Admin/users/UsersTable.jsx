@@ -24,101 +24,21 @@ import {
   Button,
   ButtonGroup,
 } from '@chakra-ui/react';
-import { Avatar, Space, Table, Button as AButton } from 'antd';
-import { Edit, Search, Trash } from 'lucide-react';
+import { Avatar, Table } from 'antd';
+import { Edit, Trash } from 'lucide-react';
 import { deleteUserFromDashboard, updateUserFromDashboard } from '../../../redux';
 import { getUsersApi } from '../../../utils/api';
+import useSearchInTable from '../../../hooks/useSearchInTable';
 const TestTable = () => {
   const { users, isLoading, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const [searchText, setSearchText] = useState('');
   const [userInfo, setUserInfo] = useState({});
-  const searchInput = useRef(null);
   const usernameRef = useRef();
   const roleRef = useRef();
   const cancelRef = useRef();
-
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText('');
-  };
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{
-            marginBottom: 8,
-            display: 'block',
-          }}
-        />
-        <Space>
-          <AButton
-            type='primary'
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<Search size={5} />}
-            size='small'
-            style={{
-              width: 90,
-            }}
-          >
-            Search
-          </AButton>
-          <AButton
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size='small'
-            style={{
-              width: 90,
-            }}
-          >
-            Reset
-          </AButton>
-
-          <AButton
-            type='link'
-            size='small'
-            onClick={() => {
-              close();
-            }}
-          >
-            close
-          </AButton>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered) => (
-      <Search
-        style={{
-          color: filtered ? '#1677ff' : undefined,
-        }}
-        size={15}
-      />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
-    },
-  });
+  const getColumnSearchProps = useSearchInTable();
 
   const getuserData = async (userId) => {
     try {

@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ConfigProvider } from 'antd';
 import store from './redux/store.js';
@@ -8,13 +7,6 @@ import App from './App.jsx';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './index.css';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  },
-});
 
 const theme = {
   token: {
@@ -51,9 +43,7 @@ createRoot(document.getElementById('root')).render(
       theme={theme}
     >
       <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
+        <App />
       </Provider>
     </ConfigProvider>
   </ChakraProvider>

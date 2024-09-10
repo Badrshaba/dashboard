@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Space, Table, Button as AButton } from 'antd';
-import { NumericFormat } from 'react-number-format';
-import { CircleEllipsis, Edit, Images, Search, Trash } from 'lucide-react';
+import { Table } from 'antd';
+import { CircleEllipsis, Edit, Images, Trash } from 'lucide-react';
 import { deleteCompounds, getCompounds } from '../../../redux';
 import {
   ButtonGroup,
@@ -21,109 +20,26 @@ import {
 import { DeleteAlert } from '../../../componants';
 import { useRef, useState } from 'react';
 import { api, apiRegister } from '../../../utils/api';
+import useSearchInTable from '../../../hooks/useSearchInTable';
 const TestTable = ({ compounds }) => {
   const { isLoading } = useSelector((state) => state.compounds);
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const [searchText, setSearchText] = useState('');
   const [userInfo, setUserInfo] = useState(null);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const selectRef = useRef();
-  const searchInput = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const getColumnSearchProps = useSearchInTable();
   const deleteCompound = (compoundID) => {
     dispatch(deleteCompounds(compoundID?.id));
     setTimeout(() => {
       onCloseDialog();
     }, 500);
   };
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText('');
-  };
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{
-            marginBottom: 8,
-            display: 'block',
-          }}
-        />
-        <Space>
-          <AButton
-            type='primary'
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<Search size={15} />}
-            size='small'
-            style={{
-              width: 90,
-            }}
-          >
-            Search
-          </AButton>
-          <AButton
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size='small'
-            style={{
-              width: 90,
-            }}
-          >
-            Reset
-          </AButton>
-
-          <AButton
-            type='link'
-            size='small'
-            onClick={() => {
-              close();
-            }}
-          >
-            close
-          </AButton>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered) => (
-      <Search
-        style={{
-          color: filtered ? '#1677ff' : undefined,
-        }}
-      />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
-    },
-  });
 
   const columns = [
-    {
-      title: 'Id',
-      dataIndex: 'id',
-      sorter: (a, b) => a.id - b.id,
-    },
     {
       title: 'Name',
       dataIndex: 'name',
@@ -131,61 +47,15 @@ const TestTable = ({ compounds }) => {
       ...getColumnSearchProps('name'),
     },
     {
-      title: 'Area min',
-      dataIndex: 'area_min',
-      key: 'area_min',
-      render: (_, compound) => (
-        <NumericFormat
-          value={compound.area_min}
-          displayType='text'
-          thousandSeparator
-        />
-      ),
-    },
-    {
-      title: 'Area max',
-      dataIndex: 'area_max',
-      key: 'area_max',
-      render: (_, compound) => (
-        <NumericFormat
-          value={compound.area_max}
-          displayType='text'
-          thousandSeparator
-        />
-      ),
-    },
-    {
       title: 'Zone',
       dataIndex: 'zone_id',
       key: 'zone_id',
     },
     {
-      title: 'Price min',
-      dataIndex: 'price_min',
-      key: 'price_min',
-      render: (_, compound) => (
-        <NumericFormat
-          value={compound.price_min}
-          displayType='text'
-          thousandSeparator
-          suffix=' EGP'
-        />
-      ),
-      sorter: (a, b) => a.price_min - b.price_min,
-    },
-    {
-      title: 'price max',
-      dataIndex: 'price_max',
-      key: 'price_max',
-      render: (_, compound) => (
-        <NumericFormat
-          value={compound.price_max}
-          displayType='text'
-          thousandSeparator
-          suffix=' EGP'
-        />
-      ),
-      sorter: (a, b) => a.price_max - b.price_max,
+      title: 'Units',
+      dataIndex: 'units',
+      key: 'units',
+      ...getColumnSearchProps('title'),
     },
     {
       title: 'Actions',
@@ -267,7 +137,7 @@ const TestTable = ({ compounds }) => {
     }
     console.log(userInfo);
   };
-  
+
   return (
     <>
       <Table

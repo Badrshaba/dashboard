@@ -26,6 +26,7 @@ import { getUsersApi } from '../../../utils/api';
 import DeleteAlert from '../../../componants/deleteAlert/DeleteAlert';
 import { useNavigate } from 'react-router-dom';
 import useSearchInTable from '../../../hooks/useSearchInTable';
+import paths from '../../../route/paths';
 const TableProperites = ({ properites }) => {
   const { isLoading, error } = useSelector((state) => state.properites);
   const dispatch = useDispatch();
@@ -75,14 +76,8 @@ const TableProperites = ({ properites }) => {
   const deleteProperites = (properiteId) => {
     console.log(properiteId);
   };
-  
-console.log(properites);
+
   const columns = [
-    {
-      title: 'Id',
-      dataIndex: 'id',
-      sorter: (a, b) => a.id - b.id,
-    },
     {
       title: 'Name',
       dataIndex: 'title',
@@ -90,19 +85,22 @@ console.log(properites);
       ...getColumnSearchProps('title'),
     },
     {
-      title: 'Area',
-      dataIndex: 'area',
-      key: 'area',
+      title: 'Compound',
+      dataIndex: 'compound',
+      key: 'compound',
+      ...getColumnSearchProps('compound'),
     },
     {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
+      title: 'Units',
+      dataIndex: 'units',
+      key: 'units',
+      ...getColumnSearchProps('units'),
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Developer Name',
+      dataIndex: 'devName',
+      key: 'devName',
+      ...getColumnSearchProps('devName'),
     },
     {
       title: 'Actions',
@@ -113,12 +111,6 @@ console.log(properites);
           spacing={4}
           size='sm'
         >
-          <Button
-            colorScheme='blue'
-            onClick={() => navigate(`${rec.id}`)}
-          >
-            <CircleEllipsis size={20} />
-          </Button>
           <Button
             colorScheme='red'
             onClick={() => {
@@ -148,6 +140,14 @@ console.log(properites);
         loading={isLoading}
         dataSource={properites}
         columns={columns}
+        bordered={true}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (event) => {
+              navigate(`${paths.properites}/${record.id}`);
+            },
+          };
+        }}
         rowKey={(properite) => properite.id}
         className=' pt-8'
         pagination={{

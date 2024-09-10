@@ -27,6 +27,8 @@ const AddUserPopup = ({ error, isLoading }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const cPasswordRef = useRef();
+  const phoneRef = useRef();
+  const addressRef = useRef();
   const selectRef = useRef();
 
   const handleSubmit = (e) => {
@@ -38,6 +40,8 @@ const AddUserPopup = ({ error, isLoading }) => {
           email: emailRef.current.value,
           password: passwordRef.current.value,
           password_confirmation: cPasswordRef.current.value,
+          phone: phoneRef.current.value,
+          address: address.current.value,
         },
         closePopup: onClose,
       })
@@ -86,6 +90,7 @@ const AddUserPopup = ({ error, isLoading }) => {
                 <Input
                   type='text'
                   ref={usernameRef}
+                  bg={'gray.50'}
                 />
               </FormControl>
               <FormControl>
@@ -93,6 +98,7 @@ const AddUserPopup = ({ error, isLoading }) => {
                 <Input
                   type='email'
                   ref={emailRef}
+                  bg={'gray.50'}
                 />
               </FormControl>
               <FormControl>
@@ -100,6 +106,7 @@ const AddUserPopup = ({ error, isLoading }) => {
                 <Input
                   type='password'
                   ref={passwordRef}
+                  bg={'gray.50'}
                 />
               </FormControl>
               <FormControl>
@@ -107,6 +114,23 @@ const AddUserPopup = ({ error, isLoading }) => {
                 <Input
                   type='password'
                   ref={cPasswordRef}
+                  bg={'gray.50'}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Phone</FormLabel>
+                <Input
+                  type='phone'
+                  ref={phoneRef}
+                  bg={'gray.50'}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Address</FormLabel>
+                <Input
+                  type='text'
+                  ref={addressRef}
+                  bg={'gray.50'}
                 />
               </FormControl>
               <FormControl>
@@ -117,14 +141,6 @@ const AddUserPopup = ({ error, isLoading }) => {
                   <option value='brookers'>Brookers</option>
                 </Select>
               </FormControl>
-              {/* <FormControl>
-                <FormLabel>Address</FormLabel>
-                <Input type='text' ref={addressRef}/>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Phone</FormLabel>
-                <Input type='text' ref={phoneRef}/>
-              </FormControl> */}
             </VStack>
             <Button
               colorScheme='teal'

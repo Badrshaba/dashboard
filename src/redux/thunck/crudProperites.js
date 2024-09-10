@@ -13,3 +13,15 @@ export const getProperites = createAsyncThunk(
       }
     }
   );
+
+  export const getProperityById = createAsyncThunk(
+    'properites/get-properites',
+    async (id, thunckApi) => {
+      try {
+        const { data } = await apiRegister.get('/apartments');
+        return data?.data;
+      } catch (error) {
+        return thunckApi.rejectWithValue(error);
+      }
+    }
+  );

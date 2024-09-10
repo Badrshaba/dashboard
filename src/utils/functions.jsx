@@ -7,6 +7,7 @@ import {
   HomeOutlined,
   AppstoreOutlined,
   StarOutlined,
+  AlignCenterOutlined,
 } from '@ant-design/icons';
 import paths from '../route/paths';
 import { NavLink } from 'react-router-dom';
@@ -75,6 +76,13 @@ const adminItems = [
     '8',
     <NavLink to={paths.features}>
       <StarOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'Other',
+    '9',
+    <NavLink to={paths.other}>
+      <AlignCenterOutlined />
     </NavLink>
   ),
 ];

@@ -19,6 +19,7 @@ const Sales = lazy(() => import('../Pages/Sales/sales-homepage'));
 const Features = lazy(() => import('../Pages/Admin/features/features'));
 const Properites = lazy(() => import('../Pages/Admin/properites/properites'));
 const SubCategories = lazy(() => import('../Pages/Admin/sub-categories/sub-categories'));
+const Other = lazy(() => import('../Pages/Admin/other/Other'));
 
 const router = createBrowserRouter([
   {
@@ -142,7 +143,7 @@ const router = createBrowserRouter([
       {
         path: 'market',
         element: (
-          <ProtectedRoutes allowedRoles={['user','admin']}>
+          <ProtectedRoutes allowedRoles={['user', 'admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Marketing />
             </Suspense>
@@ -152,7 +153,7 @@ const router = createBrowserRouter([
       {
         path: 'sales',
         element: (
-          <ProtectedRoutes allowedRoles={['user','admin']}>
+          <ProtectedRoutes allowedRoles={['user', 'admin']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Sales />
             </Suspense>
@@ -183,6 +184,16 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+      {
+        path: 'other',
+        element: (
+          <ProtectedRoutes allowedRoles={['admin']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <Other />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
       },
     ],
   },

@@ -82,21 +82,15 @@ const TestTable = () => {
 
   const columns = [
     {
-      title: 'Id',
-      dataIndex: 'id',
-      sorter: (a, b) => a.id - b.id,
-    },
-    {
-      title: 'Image',
-      dataIndex: 'image',
-      key: 'image',
-      render: (_, user) => <Avatar src={user.image} />,
-    },
-    {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
       ...getColumnSearchProps('name'),
+    },
+    {
+      title: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
       title: 'Email',
@@ -107,7 +101,6 @@ const TestTable = () => {
     {
       title: 'Role',
       dataIndex: 'role',
-
       filters: [
         {
           text: 'Admin',
@@ -170,7 +163,7 @@ const TestTable = () => {
           pageSize: 10,
           hideOnSinglePage: true,
         }}
-      ></Table>
+      />
       <AlertDialog
         isOpen={isOpenDialog}
         leastDestructiveRef={cancelRef}

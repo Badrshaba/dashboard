@@ -5,32 +5,34 @@ import { useParams } from 'react-router-dom';
 import { getProperites } from '../../../redux/thunck/crudProperites';
 
 const ProperitePage = () => {
-  const {properites}=useSelector(state=>state.properites);
-  const [properite] = properites
+  const { properites } = useSelector((state) => state.properites);
+  const [properite] = properites;
   console.log(properite);
   const { properiteId } = useParams();
   const dispatch = useDispatch();
-  useEffect(()=>{
-dispatch(getProperites())
-  },[])
+  useEffect(() => {
+    dispatch(getProperites());
+  }, []);
   return (
-    <>
+    <> 
       <Carousel
         arrows
         infinite={true}
+        autoplay={true}
+        draggable={true}
       >
-        <div> 
+        <div>
           <img
             src='/sample1.jpg'
             alt=''
-            className='h-96 w-full'
+            className='h- wfull-full'
           />
         </div>
         <div>
           <img
             src='/sample2.jpg'
             alt=''
-            className='h-96 w-full'
+            className='h-full w-full'
           />
         </div>
       </Carousel>
@@ -42,7 +44,6 @@ dispatch(getProperites())
         <Typography>
           <Typography.Title>{properite?.title}</Typography.Title>
         </Typography>
-
       </div>
     </>
   );

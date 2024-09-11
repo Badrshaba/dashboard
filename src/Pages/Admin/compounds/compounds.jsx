@@ -55,7 +55,7 @@ const Compounds = () => {
         isOpen={isOpen}
         formData={formData}
       />
-      {!!compounds.length && <CompoundsTable compounds={compounds} />}
+      <CompoundsTable compounds={compounds} />
     </div>
   );
 };

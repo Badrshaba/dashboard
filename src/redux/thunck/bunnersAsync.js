@@ -13,9 +13,9 @@ export const getBunnersAsync = createAsyncThunk('bunners/all-bunners', async (_,
 
 export const createNewBunnerFromDashboard = createAsyncThunk(
   'bunners/create-new-banner',
-  async ({ file, onSuccess, onError }, thunckApi) => {
+  async ({ image, onClose }, thunckApi) => {
     try {
-      const { data } = await bannersApi.post('/banner', { image: file });
+      const { data } = await bannersApi.post('/banner', { image });
       notification.success({
         description: 'Successfully Created New Banner.!',
         duration: 2,
@@ -23,10 +23,9 @@ export const createNewBunnerFromDashboard = createAsyncThunk(
         message: 'Create Banner',
         placement: 'topRight',
       });
-      onSuccess(data);
+      onClose();
       thunckApi.dispatch(getBunnersAsync(1));
     } catch (error) {
-      onError(error);
       return thunckApi.rejectWithValue(error);
     }
   }

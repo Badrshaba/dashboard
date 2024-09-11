@@ -18,7 +18,6 @@ const Status = () => {
 <Modal
         isOpen={isOpen}
         onClose={onClose}
-        on
       >
         <ModalOverlay />
         <ModalContent>

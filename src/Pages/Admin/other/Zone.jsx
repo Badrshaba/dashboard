@@ -18,6 +18,7 @@ const Zone = () => {
 </div>
 <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
+        
         <ModalContent>
           <ModalHeader>Add Zone</ModalHeader>
           <ModalCloseButton />

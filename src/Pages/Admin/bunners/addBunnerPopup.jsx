@@ -6,27 +6,20 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  FormControl,
-  FormLabel,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { List, Typography, Upload } from 'antd';
-import { Plus, UploadIcon } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { createNewBunnerFromDashboard } from '../../../redux';
-import { useRef, useState } from 'react';
+import FileInput from '../../../componants/file-input/FileInput';
+import { useState } from 'react';
 
-const AddBunnerPopup = ({ error }) => {
+const AddBunnerPopup = ({ error, isLoading }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
-  const handleInputChange = (e) => {
-    for (let i = 0; i < e.target.files.length; i++) {
-      setFiles((prev) => [...prev, e.target.files[i]]);
-    }
-  };
   return (
     <>
       <Button
@@ -58,43 +51,17 @@ const AddBunnerPopup = ({ error }) => {
             </Alert>
           )}
 
-          <FormControl p={5}>
-            <FormLabel>Image</FormLabel>
-            <label
-              htmlFor='file-upload'
-              className='custom-file-upload'
-            >
-              <UploadIcon size={20} />
-              Upload
-            </label>
-            <input
-              id='file-upload'
-              type='file'
-              onChange={(e) => handleInputChange(e)}
-            />
-
-            {!!files.length && (
-              <List
-                className='mt-1'
-                size='small'
-                split={true}
-                dataSource={files}
-                renderItem={(file) => (
-                  <List.Item>
-                    <Typography.Text>{file.name}</Typography.Text>
-                  </List.Item>
-                )}
-                bordered
-              />
-            )}
-            <Button
-              onClick={() => dispatch(createNewBunnerFromDashboard({ image: files[0], onClose }))}
-              className='mt-4 block w-full'
-              colorScheme='teal'
-            >
-              Upload
-            </Button>
-          </FormControl>
+          <FileInput
+            lable='Image'
+            title='Upload'
+            uploadFN={() =>
+              dispatch(createNewBunnerFromDashboard({ image: files[0], onClose, setFiles }))
+            }
+            filesHandler={setFiles}
+            files={files}
+            multi={false}
+            isLoading={isLoading}
+          />
         </ModalContent>
       </Modal>
     </>

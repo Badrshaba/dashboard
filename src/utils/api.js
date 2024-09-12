@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'https://ai.w-manage.org/api',
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     Accept: 'application/json',
     APP_KEY: import.meta.env.VITE_APP_KEY,
@@ -9,18 +9,18 @@ export const api = axios.create({
 });
 
 export const apiRegister = axios.create({
-  baseURL: 'https://ai.w-manage.org/api',
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     Accept: 'application/json',
     APP_KEY: import.meta.env.VITE_APP_KEY,
   },
 });
 export const baseURL = axios.create({
-  baseURL: 'https://ai.w-manage.org/api',
+  baseURL: import.meta.env.VITE_BASE_URL,
 });
 
 export const getUsersApi = axios.create({
-  baseURL: 'https://ai.w-manage.org/api',
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     Accept: 'application/json',
     Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
@@ -29,7 +29,7 @@ export const getUsersApi = axios.create({
 });
 
 export const bannersApi = axios.create({
-  baseURL: 'https://ai.w-manage.org/api',
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     'Content-Type': 'multipart/form-data',
     Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),

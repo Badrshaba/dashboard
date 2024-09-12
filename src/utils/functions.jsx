@@ -106,12 +106,16 @@ const brokerItems = [
 
 export const genrateSidebarLinks = (role) => {
   switch (role) {
-    case 'admin':
+    case '1':
       return adminItems;
-    case 'broker':
+    case '2':
       return brokerItems;
-    case 'user':
-      return adminItems;
+    case '3':
+      return adminItems; // Marketer
+    case '4':
+      return adminItems; // Sales
+    case '5':
+      return adminItems; // Developer
     default:
       break;
   }

@@ -6,8 +6,8 @@ export const getAllSubCategories = createAsyncThunk(
   'subCategories/get-all',
   async (_, thunkApi) => {
     try {
-      const response = await api.get('/sub-categories');
-      return response?.data?.data;
+      const { data } = await api.get('/SubCategory');
+      return data?.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error);
     }
@@ -18,7 +18,7 @@ export const createNewSubCategoryFromDashboard = createAsyncThunk(
   'subCategories/create-new-subCategory',
   async ({ sCateData, closePopup }, thunckApi) => {
     try {
-      await api.post('/sub-categories', { ...sCateData });
+      await api.post('/SubCategory', { ...sCateData });
       notification.success({
         description: 'Successfully Created New Sub Category.!',
         duration: 2,
@@ -38,7 +38,7 @@ export const updateSubCategoryFromDashboard = createAsyncThunk(
   'subCategories/update-subCategory',
   async ({ sCateData, onClose }, thunckApi) => {
     try {
-      await api.post(`/sub-categories/1?_method=PUT`, { ...sCateData });
+      await api.post(`/SubCategory/${sCateData.cat_id}?_method=PUT`, { ...sCateData });
       notification.success({
         description: 'Successfully Update Sub Category.!',
         duration: 2,
@@ -58,7 +58,7 @@ export const deleteSubCategoryFromDashboard = createAsyncThunk(
   'subCategories/update-subCategory',
   async ({ ID, onClose }, thunckApi) => {
     try {
-      await api.delete(`/sub-categories/${ID}`);
+      await api.delete(`/SubCategory/${ID}`);
       notification.success({
         description: 'Successfully Delete Sub Category.!',
         duration: 2,

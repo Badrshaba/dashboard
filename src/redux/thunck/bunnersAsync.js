@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { notification } from 'antd';
-import { bannersApi, getUsersApi } from '../../utils/api';
+import { api, bannersApi, getUsersApi } from '../../utils/api';
 
 export const getBunnersAsync = createAsyncThunk('bunners/all-bunners', async (_, thunckApi) => {
   try {
-    const { data } = await getUsersApi.get(`/banner`);
+    const { data } = await api.get(`/banner`);
     return data?.data;
   } catch (error) {
     return thunckApi.rejectWithValue(error);
@@ -13,9 +13,9 @@ export const getBunnersAsync = createAsyncThunk('bunners/all-bunners', async (_,
 
 export const createNewBunnerFromDashboard = createAsyncThunk(
   'bunners/create-new-banner',
-  async ({ image, onClose, setFiles }, thunckApi) => {
+  async ({ banData, onClose, setFiles }, thunckApi) => {
     try {
-      const { data } = await bannersApi.post('/banner', { image });
+      const { data } = await bannersApi.post('/banner', { ...banData });
       notification.success({
         description: 'Successfully Created New Banner.!',
         duration: 2,

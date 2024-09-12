@@ -23,12 +23,14 @@ import {
   AlertTitle,
   Button,
   ButtonGroup,
+  Text,
 } from '@chakra-ui/react';
 import { Avatar, Table } from 'antd';
 import { Edit, Trash } from 'lucide-react';
 import { deleteUserFromDashboard, updateUserFromDashboard } from '../../../redux';
 import { getUsersApi } from '../../../utils/api';
 import useSearchInTable from '../../../hooks/useSearchInTable';
+import { genrateRoleString } from '../../../utils/genrateRoleString';
 const TestTable = () => {
   const { users, isLoading, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
@@ -43,9 +45,8 @@ const TestTable = () => {
   const getuserData = async (userId) => {
     try {
       onOpen();
-      const { data } = await getUsersApi.get('/profile-cc', {
-        params: { id: userId },
-      });
+      const { data } = await getUsersApi.get(`/user-by-id/${userId}`);
+
       usernameRef.current.value = data?.data?.name;
       roleRef.current.value = data?.data?.role;
       setUserInfo(data?.data);
@@ -66,10 +67,7 @@ const TestTable = () => {
   const getuserDataDelete = async (userId) => {
     onOpenDialog();
     try {
-      const { data } = await getUsersApi.get('/profile-cc', {
-        params: { id: userId },
-      });
-
+      const { data } = await getUsersApi.get(`/user-by-id/${userId}`);
       setUserInfo(data?.data);
     } catch (error) {
       console.log(error);
@@ -88,9 +86,9 @@ const TestTable = () => {
       ...getColumnSearchProps('name'),
     },
     {
-      title: 'Phone',
-      dataIndex: 'phone',
-      key: 'phone',
+      title: 'Mobile',
+      dataIndex: 'mobile',
+      key: 'mobile',
     },
     {
       title: 'Email',
@@ -101,22 +99,31 @@ const TestTable = () => {
     {
       title: 'Role',
       dataIndex: 'role',
+      render: (_, user) => <Text>{user && genrateRoleString(user.role)}</Text>,
       filters: [
         {
-          text: 'Admin',
-          value: 'Admin',
-        },
-        {
           text: 'User',
-          value: 'User',
+          value: '0',
         },
         {
-          text: 'Developer',
-          value: 'Developer',
+          text: 'Admin',
+          value: '1',
         },
         {
           text: 'Brooker',
-          value: 'Brooker',
+          value: '2',
+        },
+        {
+          text: 'Sales',
+          value: '3',
+        },
+        {
+          text: 'Marketer',
+          value: '4',
+        },
+        {
+          text: 'Developer',
+          value: '5',
         },
       ],
       onFilter: (value, record) => record.role.startsWith(value.toLowerCase()),
@@ -226,9 +233,12 @@ const TestTable = () => {
               <FormControl>
                 <FormLabel>Role</FormLabel>
                 <Select ref={roleRef}>
-                  <option value='user'>User</option>
-                  <option value='developer'>Developer</option>
-                  <option value='brookers'>Brookers</option>
+                  <option value='0'>User</option>
+                  <option value='1'>Admin</option>
+                  <option value='2'>Broker</option>
+                  <option value='3'>Marketer</option>
+                  <option value='4'>Sales</option>
+                  <option value='5'>Developer</option>
                 </Select>
               </FormControl>
             </VStack>

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { api } from '../../utils/api';
+import { api, getUsersApi } from '../../utils/api';
 import { notification } from 'antd';
 
 export const getAllCategories = createAsyncThunk('categories/get-all', async (_, thunkApi) => {
@@ -16,16 +16,7 @@ export const createNewCategoryFromDashboard = createAsyncThunk(
   'categories/add-category',
   async ({ cateDate, closePopup }, thunkApi) => {
     try {
-      const { data } = await api.post(
-        'https://ai.w-manage.org/api/categories',
-        { ...cateDate },
-        {
-          headers: {
-            Accept: 'application/json',
-            APP_KEY: import.meta.env.VITE_APP_KEY,
-          },
-        }
-      );
+      const { data } = await getUsersApi.post('/categories', { ...cateDate });
       notification.success({
         description: 'Successfully Added  New Category.!',
         duration: 2,

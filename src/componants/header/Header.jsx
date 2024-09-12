@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'antd';
+import { Button, Typography } from 'antd';
 import { Avatar } from '@chakra-ui/react';
 import { logout } from '../../redux/thunck/userAsync';
 
@@ -9,16 +9,16 @@ const Header = () => {
 
   let surce = user?.user?.image || 'https://bit.ly/broken-link';
   return (
-    <div className='flex justify-end bg-[#fff7f7] px-10 py-3'>
-      <div className='flex items-center gap-3'>
-        <h4 className=' text-[#4d5454]'>{user?.user?.name}</h4>
+    <div className='flex justify-end bg-[#fff7f7] px-10 py-3 items-center gap-5'>
+      <div className='flex items-center gap-2'>
+        <Typography.Text className='font-bold text-[#4d5454]'>{user?.user?.name}</Typography.Text>
         <Avatar
           src={surce}
           width={10}
           height={10}
         />
-        {user && <Button onClick={() => dispatch(logout())}>Logout</Button>}
       </div>
+      {user && <Button onClick={() => dispatch(logout())}>Logout</Button>}
     </div>
   );
 };

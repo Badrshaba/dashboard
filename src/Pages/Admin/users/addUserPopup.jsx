@@ -28,7 +28,6 @@ const AddUserPopup = ({ error, isLoading }) => {
   const passwordRef = useRef();
   const cPasswordRef = useRef();
   const phoneRef = useRef();
-  const addressRef = useRef();
   const selectRef = useRef();
 
   const handleSubmit = (e) => {
@@ -40,8 +39,8 @@ const AddUserPopup = ({ error, isLoading }) => {
           email: emailRef.current.value,
           password: passwordRef.current.value,
           password_confirmation: cPasswordRef.current.value,
-          phone: phoneRef.current.value,
-          address: address.current.value,
+          mobile: phoneRef.current.value,
+          role: selectRef.current.value,
         },
         closePopup: onClose,
       })
@@ -126,19 +125,14 @@ const AddUserPopup = ({ error, isLoading }) => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>Address</FormLabel>
-                <Input
-                  type='text'
-                  ref={addressRef}
-                  bg={'gray.50'}
-                />
-              </FormControl>
-              <FormControl>
                 <FormLabel>Role</FormLabel>
                 <Select ref={selectRef}>
-                  <option value='user'>User</option>
-                  <option value='developer'>Developer</option>
-                  <option value='brookers'>Brookers</option>
+                  <option value='0'>User</option>
+                  <option value='1'>Admin</option>
+                  <option value='2'>Broker</option>
+                  <option value='3'>Marketer</option>
+                  <option value='4'>Sales</option>
+                  <option value='5'>Developer</option>
                 </Select>
               </FormControl>
             </VStack>

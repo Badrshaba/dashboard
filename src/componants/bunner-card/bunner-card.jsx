@@ -4,7 +4,7 @@ import { Trash } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { deleteBannerFromDashboard } from '../../redux/thunck/bunnersAsync';
 
-const BunnerCard = ({ image, loading }) => {
+const BunnerCard = ({ banner, loading }) => {
   const dispatch = useDispatch();
 
   return (
@@ -15,7 +15,7 @@ const BunnerCard = ({ image, loading }) => {
       className=' h-fit'
     >
       <Image
-        src={image.image}
+        src={banner.image}
         style={{ margin: '0' }}
       />
       <Button

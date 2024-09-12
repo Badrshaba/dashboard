@@ -24,7 +24,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Button, Card } from 'antd';
-import { Edit, Trash } from 'lucide-react';
+import { CastleIcon, Edit, Trash } from 'lucide-react';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -60,9 +60,9 @@ const SubCategoryCard = ({ subCate }) => {
         hoverable
         title={subCate.name}
         extra={
-          <img
-            src={subCate.image}
-            alt={subCate.name}
+          <CastleIcon
+            color='teal'
+            size={25}
           />
         }
         actions={[

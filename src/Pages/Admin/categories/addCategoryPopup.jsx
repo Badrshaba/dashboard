@@ -24,15 +24,14 @@ const AddCategoryPopup = ({ error, isLoading }) => {
   const dispatch = useDispatch();
   const titleRef = useRef();
   const titleArRef = useRef();
-  const fileRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       createNewCategoryFromDashboard({
         cateDate: {
-          title_en: titleRef.current.value,
-          title_ar: titleArRef.current.value,
+          name_en: titleRef.current.value,
+          name_ar: titleArRef.current.value,
         },
         closePopup: onClose,
       })

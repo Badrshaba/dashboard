@@ -20,7 +20,7 @@ const FileInput = ({
     }
   };
   return (
-    <FormControl p={5}>
+    <FormControl>
       <FormLabel>{lable}</FormLabel>
       <label
         htmlFor='file-upload'
@@ -32,7 +32,6 @@ const FileInput = ({
       <input
         id='file-upload'
         type='file'
-        multiple={true}
         onChange={(e) => handleInputChange(e)}
       />
 

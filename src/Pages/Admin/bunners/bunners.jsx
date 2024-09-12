@@ -7,6 +7,7 @@ import { BunnerCard } from '../../../componants';
 
 const Bunners = () => {
   const { bunners, isLoading, error } = useSelector((state) => state.bunners);
+  console.log(bunners);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBunnersAsync());
@@ -31,11 +32,11 @@ const Bunners = () => {
           gap={10}
           mt={8}
         >
-          {bunners?.map((image) => (
+          {bunners?.map((banner) => (
             <BunnerCard
-              image={image}
+              banner={banner}
               loading={isLoading}
-              key={image.id}
+              key={banner.id}
             />
           ))}
         </SimpleGrid>

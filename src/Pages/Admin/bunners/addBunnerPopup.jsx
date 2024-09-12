@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   useDisclosure,
@@ -10,16 +10,28 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Flex,
+  Select,
+  Box,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
-import { createNewBunnerFromDashboard } from '../../../redux';
+import { createNewBunnerFromDashboard, getCompounds } from '../../../redux';
 import FileInput from '../../../componants/file-input/FileInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getProperites } from '../../../redux/thunck/crudProperites';
 
 const AddBunnerPopup = ({ error, isLoading }) => {
+  const { compounds } = useSelector((state) => state.compounds);
+  const { properites } = useSelector((state) => state.properites);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCompounds());
+    dispatch(getProperites());
+  }, []);
+
   return (
     <>
       <Button
@@ -51,17 +63,45 @@ const AddBunnerPopup = ({ error, isLoading }) => {
             </Alert>
           )}
 
-          <FileInput
-            lable='Image'
-            title='Upload'
-            uploadFN={() =>
-              dispatch(createNewBunnerFromDashboard({ image: files[0], onClose, setFiles }))
-            }
-            filesHandler={setFiles}
-            files={files}
-            multi={false}
-            isLoading={isLoading}
-          />
+          <Box p={5}>
+            <FileInput
+              lable='Image'
+              title='Upload'
+              filesHandler={setFiles}
+              files={files}
+              isLoading={isLoading}
+              withUploadButton={false}
+            />
+            <Flex
+              gap={5}
+              my={5}
+            >
+              <Select>
+                <option value='0'>Compound</option>
+                <option value='1'>Appartment</option>
+              </Select>
+              <Select>
+                <option value='0'>Property Type</option>
+                <option value='1'>Apartment</option>
+              </Select>
+            </Flex>
+            <Button
+              colorScheme='teal'
+              display='block'
+              width='100%'
+              onClick={() =>
+                dispatch(
+                  createNewBunnerFromDashboard({
+                    banData: { image: files[0], type: '0', link: '1' },
+                    onClose,
+                    setFiles,
+                  })
+                )
+              }
+            >
+              Submit
+            </Button>
+          </Box>
         </ModalContent>
       </Modal>
     </>

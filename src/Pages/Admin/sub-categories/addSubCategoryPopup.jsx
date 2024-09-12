@@ -35,7 +35,7 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
         sCateData: {
           name_en: nameRef.current.value,
           name_ar: nameArRef.current.value,
-          cat_id: cateRef.current.value,
+          category_id: cateRef.current.value,
         },
         closePopup: onClose,
       })
@@ -105,7 +105,7 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
                       key={cate.id}
                       value={cate.id}
                     >
-                      {cate.title}
+                      {cate.name}
                     </option>
                   ))}
                 </Select>

@@ -21,7 +21,7 @@ import {
   AlertDialogFooter,
 } from '@chakra-ui/react';
 import { Button, Card } from 'antd';
-import { Edit, Trash } from 'lucide-react';
+import { CastleIcon, Edit, Trash } from 'lucide-react';
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -42,8 +42,8 @@ const CategoryCard = ({ cate, isLoading, error }) => {
       updateCategoryFromDashboard({
         cateDate: {
           id: cate.id,
-          title_en: nameRef.current.value,
-          title_ar: nameArRef.current.value,
+          name_en: nameRef.current.value,
+          name_ar: nameArRef.current.value,
         },
         closePopup: onClose,
       })
@@ -54,11 +54,11 @@ const CategoryCard = ({ cate, isLoading, error }) => {
     <>
       <Card
         hoverable
-        title={cate.title}
+        title={cate.name}
         extra={
-          <img
-            src={cate.image}
-            alt={cate.title}
+          <CastleIcon
+            color='teal'
+            size={25}
           />
         }
         actions={[

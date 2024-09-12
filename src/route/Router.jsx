@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Dashboard />
             </Suspense>
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       {
         path: 'banners',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Bunners />
             </Suspense>
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Users />
             </Suspense>
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
       {
         path: 'features',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Features />
             </Suspense>
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
       {
         path: 'compounds',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Compounds />
             </Suspense>
@@ -83,7 +83,7 @@ const router = createBrowserRouter([
       {
         path: 'compounds/:compoundId',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <CompoundPage />
             </Suspense>
@@ -93,7 +93,7 @@ const router = createBrowserRouter([
       {
         path: 'properites',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Properites />
             </Suspense>
@@ -103,7 +103,7 @@ const router = createBrowserRouter([
       {
         path: 'properites/addproperite',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <MainAddProperites />
             </Suspense>
@@ -113,7 +113,7 @@ const router = createBrowserRouter([
       {
         path: 'properites/:properiteId',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <ProperitePage />
             </Suspense>
@@ -123,7 +123,7 @@ const router = createBrowserRouter([
       {
         path: 'sub-categories',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <SubCategories />
             </Suspense>
@@ -133,7 +133,7 @@ const router = createBrowserRouter([
       {
         path: 'categories',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Categories />
             </Suspense>
@@ -143,7 +143,7 @@ const router = createBrowserRouter([
       {
         path: 'market',
         element: (
-          <ProtectedRoutes allowedRoles={['user', 'admin']}>
+          <ProtectedRoutes allowedRoles={[0, '1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Marketing />
             </Suspense>
@@ -153,7 +153,7 @@ const router = createBrowserRouter([
       {
         path: 'sales',
         element: (
-          <ProtectedRoutes allowedRoles={['user', 'admin']}>
+          <ProtectedRoutes allowedRoles={[0, '1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Sales />
             </Suspense>
@@ -188,7 +188,7 @@ const router = createBrowserRouter([
       {
         path: 'other',
         element: (
-          <ProtectedRoutes allowedRoles={['admin']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Other />
             </Suspense>

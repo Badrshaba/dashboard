@@ -11,7 +11,7 @@ import {
   AlertTitle,
   AlertDescription,
 } from '@chakra-ui/react';
-import { loginAsync } from '../../redux/thunck/userAsync';
+import { loginAsync } from '../../../redux/thunck/userAsync';
 
 const Login = () => {
   const { error, isLoading } = useSelector((state) => state.user);

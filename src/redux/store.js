@@ -7,6 +7,9 @@ import bunnersReducers from './slices/bunners';
 import featuresReducers from './slices/features';
 import categoriesReducer from './slices/categories';
 import subCategoriesReducers from './slices/subCategories';
+import ZonesReducers from './slices/zone';
+import TypeReducers from './slices/type';
+import StatusReducers from './slices/status';
 
 const store = configureStore({
   reducer: {
@@ -18,6 +21,9 @@ const store = configureStore({
     features: featuresReducers,
     categories: categoriesReducer,
     subCategories: subCategoriesReducers,
+    zones: ZonesReducers,
+    types:TypeReducers,
+    status:StatusReducers
   },
 });
 

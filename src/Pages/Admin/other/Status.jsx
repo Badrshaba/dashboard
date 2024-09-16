@@ -1,27 +1,26 @@
-import { Button, FormControl, FormLabel, Input, Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Spinner, useDisclosure, VStack } from "@chakra-ui/react"
+import { Button, FormControl, FormErrorMessage, FormLabel, Input, Modal, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Spinner, useDisclosure, VStack } from "@chakra-ui/react"
 import { Plus } from "lucide-react"
 import OthersCard from "../../../componants/others/OthersCard";
 import { useEffect, useState } from "react";
-import { api } from "../../../utils/api";
+import { api, getUsersApi } from "../../../utils/api";
+import { useDispatch, useSelector } from "react-redux";
+import { getStatus } from "../../../redux/thunck/crudOthers";
 
 
 const Status = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [Status,setStatus] = useState([])
-  const [isLoading,setIsLoading] = useState(false)
-
+  const [Loading,setIsLoading] = useState(false)
+  const { error,status, isLoading } = useSelector((state) => state.status);
   const [formData,setFormData] = useState({
     name_en:"",
     name_ar:""
   })
-  const getAllStatus = async()=>{
-try {
-  let {data} = await api.get('/status')
-  setStatus(data?.data)
-} catch (error) {
-  console.log(error);
-}
-  }
+  const [errors,setErrors] = useState({
+    name_en:'',
+    name_ar:''
+      })
+  const dispatsh = useDispatch()
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -31,12 +30,18 @@ try {
   };
   const onSubmit = async(e) =>{
     e.preventDefault();
+    if(formData.name_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      name_en:"Name is requered"
+    }))
+    if(formData.name_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      name_ar:"الاسم اجباري"
+    }))
     setIsLoading(true)
-    console.log(formData);
     try {
-      let {data} = await api.post('/status',formData)
-      setStatus(data?.data)
-      getAllStatus()
+      let {data} = await getUsersApi.post('/status',formData)
+      dispatsh(getStatus())
     } catch (error) {
       console.log(error);
     }
@@ -52,15 +57,48 @@ try {
         }))
       }
     }
+    for (let key in errors) {
+      if (errors.hasOwnProperty(key)) {
+        setErrors((prevData) => ({
+          ...prevData,
+          [key]: '',
+        }))
+      }
+    }
   }
 useEffect(()=>{
-  getAllStatus()
+ // getAllStatus()
+  dispatsh(getStatus())
 },[])
+const clearInput = () =>{
+  for (let key in formData) {
+    if (formData.hasOwnProperty(key)) {
+      setFormData((prevData) => ({
+        ...prevData,
+        [key]: '',
+      }))
+    }
+  }
+  for (let key in errors) {
+    if (errors.hasOwnProperty(key)) {
+      setErrors((prevData) => ({
+        ...prevData,
+        [key]: '',
+      }))
+    }
+  }
+  onOpen()
+}
+const isEmpty = ()=> {
+  if (!isLoading&!status?.length ) {
+    return true
+  }
+}
 const deleteStatus = async (e)=>{
   try {
-    let {data} = await api.delete(`/status/${e.id}`)
+    let {data} = await getUsersApi.delete(`/status/${e.id}`)
     console.log(data?.data)
-    getAllStatus()
+    dispatsh(getStatus())
   } catch (error) {
     console.log(error);
   }
@@ -73,16 +111,17 @@ const deleteStatus = async (e)=>{
         leftIcon={<Plus />}
         mt={2}
         size='md'
-        onClick={onOpen}
+        onClick={clearInput}
         ml={3}
       >
         Add Status
       </Button>
-<div className=" flex flex-col space-y-3 space-x-3 ml-3 mt-3 " >
-{!!Status.length?Status.map((status)=>(
-<OthersCard key={status.id} obj={status} deleteFun={deleteStatus} />
-)):<Spinner/>}
+<div className=" flex flex-col space-y-3  ml-3 mt-3 " >
 
+{!isLoading?status.map((status)=>(
+<OthersCard key={status.id} text='Status' endPoint={'status'} funGet={getStatus} obj={status} deleteFun={deleteStatus} />
+)):<Spinner/>}
+{isEmpty() &&<h2>Empty</h2>}
 <Modal isOpen={isOpen} onClose={onClose} >
         <ModalOverlay />
         <ModalContent>
@@ -90,16 +129,18 @@ const deleteStatus = async (e)=>{
           <ModalCloseButton />
           <form className='px-5 py-2' onSubmit={onSubmit}>
             <VStack spacing={2}>
-              <FormControl>
+              <FormControl isInvalid={errors?.name_en} >
                 <FormLabel>Name :</FormLabel>
                 <Input
                   type='text'
               name="name_en"
               value={formData.name_en}
               onChange={handleChange}
+              
               />
+              <FormErrorMessage>{errors?.name_en}</FormErrorMessage>
               </FormControl>
-              <FormControl  style={{direction:'rtl'}}>
+              <FormControl isInvalid={errors?.name_ar}  style={{direction:'rtl'}}>
                 <FormLabel  > الاسم :</FormLabel>
                 <Input
                   type='text'
@@ -107,12 +148,13 @@ const deleteStatus = async (e)=>{
                   value={formData.name_ar}
                   onChange={handleChange}
                 />
+                <FormErrorMessage>{errors?.name_en}</FormErrorMessage>
               </FormControl>
             </VStack>
             <Button
               colorScheme='teal'
-              className='w-full mt-4'
-               isLoading={isLoading}
+              className='w-full mb-2 mt-4'
+               isLoading={Loading}
               type='submit'>
               Submit
             </Button>

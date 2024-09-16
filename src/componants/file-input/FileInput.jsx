@@ -1,8 +1,6 @@
 import { Button, FormControl, FormLabel } from '@chakra-ui/react';
 import { List, Typography } from 'antd';
 import { UploadIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 const FileInput = ({
   lable,

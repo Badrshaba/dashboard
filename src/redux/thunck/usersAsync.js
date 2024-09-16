@@ -24,7 +24,6 @@ export const createNewUserFromDashboard = createAsyncThunk(
         message: 'Create User',
         placement: 'topRight',
       });
-      console.log(data);
       thunckApi.dispatch(getUsersAsync());
       closePopup();
     } catch (error) {

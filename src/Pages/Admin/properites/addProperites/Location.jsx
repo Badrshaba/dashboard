@@ -1,16 +1,24 @@
-import { Input } from "@chakra-ui/react"
-
+import { Box, Flex } from '@chakra-ui/react';
+import { Input } from 'antd';
 
 const Location = () => {
   return (
-    <div className=" ml-3" >
-        <h3 className=' text-xl fw-semibold text-[#4D5454] mt-5' >3.Location</h3>
-        <div className=" space-x-3 mt-3" >
-            <Input width={212} placeholder="Address.."/>
-            <Input width={212} placeholder="Nearby Landmark"/>
-        </div>
-    </div>
-  )
-}
+    <Box px={5}>
+      <h3 className='mb-3 text-xl fw-semibold text-[#4D5454]'>3.Location</h3>
+      <Flex gap={5}>
+        <Input
+          style={{ width: '250px' }}
+          placeholder='Address...'
+          size='large'
+        />
+        <Input
+          style={{ width: '250px' }}
+          size='large'
+          placeholder='Nearby Landmark...'
+        />
+      </Flex>
+    </Box>
+  );
+};
 
-export default Location
+export default Location;

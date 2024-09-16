@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { api } from '../../utils/api';
+import { api, cateApi } from '../../utils/api';
 import { notification } from 'antd';
 
 export const getAllSubCategories = createAsyncThunk(
@@ -18,7 +18,7 @@ export const createNewSubCategoryFromDashboard = createAsyncThunk(
   'subCategories/create-new-subCategory',
   async ({ sCateData, closePopup }, thunckApi) => {
     try {
-      await api.post('/SubCategory', { ...sCateData });
+      await cateApi.post('/SubCategory', { ...sCateData });
       notification.success({
         description: 'Successfully Created New Sub Category.!',
         duration: 2,
@@ -38,7 +38,7 @@ export const updateSubCategoryFromDashboard = createAsyncThunk(
   'subCategories/update-subCategory',
   async ({ sCateData, onClose }, thunckApi) => {
     try {
-      await api.post(`/SubCategory/${sCateData.cat_id}?_method=PUT`, { ...sCateData });
+      await cateApi.post(`/SubCategory/${sCateData.cat_id}?_method=PUT`, { ...sCateData });
       notification.success({
         description: 'Successfully Update Sub Category.!',
         duration: 2,
@@ -58,7 +58,7 @@ export const deleteSubCategoryFromDashboard = createAsyncThunk(
   'subCategories/update-subCategory',
   async ({ ID, onClose }, thunckApi) => {
     try {
-      await api.delete(`/SubCategory/${ID}`);
+      await cateApi.delete(`/SubCategory/${ID}`);
       notification.success({
         description: 'Successfully Delete Sub Category.!',
         duration: 2,

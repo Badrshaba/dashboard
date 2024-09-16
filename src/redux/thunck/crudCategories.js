@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { api, getUsersApi } from '../../utils/api';
+import { cateApi } from '../../utils/api';
 import { notification } from 'antd';
 
 export const getAllCategories = createAsyncThunk('categories/get-all', async (_, thunkApi) => {
   try {
-    const { data } = await api.get('/categories');
+    const { data } = await cateApi.get('/categories');
 
     return data?.data;
   } catch (error) {
@@ -16,7 +16,7 @@ export const createNewCategoryFromDashboard = createAsyncThunk(
   'categories/add-category',
   async ({ cateDate, closePopup }, thunkApi) => {
     try {
-      const { data } = await getUsersApi.post('/categories', { ...cateDate });
+      const { data } = await cateApi.post('/categories', { ...cateDate });
       notification.success({
         description: 'Successfully Added  New Category.!',
         duration: 2,
@@ -36,16 +36,9 @@ export const updateCategoryFromDashboard = createAsyncThunk(
   'categories/update-category',
   async ({ cateDate, closePopup }, thunkApi) => {
     try {
-      const { data } = await api.post(
-        `/categories/${cateDate.id}?_method=PUT`,
-        { ...cateDate },
-        {
-          headers: {
-            Accept: 'application/json',
-            APP_KEY: import.meta.env.VITE_APP_KEY,
-          },
-        }
-      );
+      const { data } = await cateApi.post(`/categories/${cateDate.id}?_method=PUT`, {
+        ...cateDate,
+      });
       notification.success({
         description: 'Successfully Updated Category.!',
         duration: 2,
@@ -65,12 +58,7 @@ export const deleteCategoryFromDashboard = createAsyncThunk(
   'categories/delete-category',
   async (cateId, thunkApi) => {
     try {
-      const { data } = await api.delete(`/categories/${cateId}`, {
-        headers: {
-          Accept: 'application/json',
-          APP_KEY: import.meta.env.VITE_APP_KEY,
-        },
-      });
+      const { data } = await cateApi.delete(`/categories/${cateId}`);
       notification.success({
         description: 'Successfully Deleted Category.!',
         duration: 2,

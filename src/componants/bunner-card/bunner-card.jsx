@@ -23,7 +23,7 @@ const BunnerCard = ({ banner, loading }) => {
         width='100%'
         rounded={false}
         isLoading={loading}
-        onClick={() => dispatch(deleteBannerFromDashboard(image?.id))}
+        onClick={() => dispatch(deleteBannerFromDashboard(banner?.id))}
       >
         <Trash />
       </Button>

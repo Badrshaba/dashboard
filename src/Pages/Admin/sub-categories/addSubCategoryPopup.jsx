@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
@@ -19,23 +19,31 @@ import {
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import { getAllCategories, createNewSubCategoryFromDashboard } from '../../../redux';
+import FileInput from '../../../componants/file-input/FileInput';
 
 const AddSubCategoryPopup = ({ error, isLoading }) => {
   const { categories } = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [files, setFiles] = useState([]);
   const nameRef = useRef();
   const nameArRef = useRef();
   const cateRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('name_en', nameRef.current.value);
+    formData.append('name_ar', nameArRef.current.value);
+    formData.append('category_id', cateRef.current.value);
+    formData.append('image', files[0]);
     dispatch(
       createNewSubCategoryFromDashboard({
         sCateData: {
-          name_en: nameRef.current.value,
-          name_ar: nameArRef.current.value,
-          category_id: cateRef.current.value,
+          name_en: formData.get('name_en'),
+          name_ar: formData.get('name_ar'),
+          category_id: formData.get('category_id'),
+          image: formData.get('image'),
         },
         closePopup: onClose,
       })
@@ -95,6 +103,14 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
                 <Input
                   type='text'
                   ref={nameArRef}
+                />
+              </FormControl>
+              <FormControl>
+                <FileInput
+                  lable='Image'
+                  title='Subcategory Image'
+                  filesHandler={setFiles}
+                  files={files}
                 />
               </FormControl>
               <FormControl>

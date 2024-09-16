@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Button,
@@ -18,20 +18,28 @@ import {
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import { createNewCategoryFromDashboard } from '../../../redux';
+import FileInput from '../../../componants/file-input/FileInput';
 
 const AddCategoryPopup = ({ error, isLoading }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
+  const [files, setFiles] = useState([]);
   const titleRef = useRef();
   const titleArRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('image', files[0]);
+    formData.append('name_en', titleRef.current.value);
+    formData.append('name_ar', titleArRef.current.value);
+    console.log(formData.get('image'));
     dispatch(
       createNewCategoryFromDashboard({
         cateDate: {
-          name_en: titleRef.current.value,
-          name_ar: titleArRef.current.value,
+          name_en: formData.get('name_en'),
+          name_ar: formData.get('name_ar'),
+          image: formData.get('image'),
         },
         closePopup: onClose,
       })
@@ -88,6 +96,14 @@ const AddCategoryPopup = ({ error, isLoading }) => {
                   dir='rtl'
                   type='text'
                   ref={titleArRef}
+                />
+              </FormControl>
+              <FormControl>
+                <FileInput
+                  lable='Image'
+                  title='Category Image'
+                  filesHandler={setFiles}
+                  files={files}
                 />
               </FormControl>
             </VStack>

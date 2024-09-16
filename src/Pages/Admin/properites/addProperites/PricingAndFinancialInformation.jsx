@@ -1,26 +1,53 @@
-import { Input, Stack } from "@chakra-ui/react"
-
+import { Box, Flex, Text } from '@chakra-ui/react';
+import { InputNumber } from 'antd';
 
 const PricingAndFinancialInformation = () => {
   return (
-    <div>
- <h3 className=' text-xl fw-semibold text-[#4D5454] ml-3 mt-5' >2.Pricing and Financial Information</h3>
- <div className=" flex ml-3 mt-3">
- <div className=" flex justify-center items-center space-x-2 pl-2" >
-    <p>Form</p>
-    <Stack>
-    <Input width={150} placeholder="Price.." />
-    </Stack>
- </div>
- <div className=" flex justify-center items-center space-x-2 pl-2" >
-    <p>To</p>
-    <Stack>
-    <Input width={150} placeholder="Price.." />
-    </Stack>
- </div>
- </div>
-    </div>
-  )
-}
+    <Box px={5}>
+      <h3 className='mb-3 text-xl fw-semibold text-[#4D5454]'>
+        2.Pricing and Financial Information
+      </h3>
+      <Flex
+        gap={3}
+        alignItems='center'
+      >
+        <Flex
+          alignItems='center'
+          gap={2}
+        >
+          <Text
+            color='gray'
+            fontWeight='bold'
+          >
+            From
+          </Text>
 
-export default PricingAndFinancialInformation
+          <InputNumber
+            style={{ width: '180px' }}
+            size='large'
+            placeholder='Start Price...'
+          />
+        </Flex>
+        <Flex
+          alignItems='center'
+          gap={2}
+        >
+          <Text
+            color='gray'
+            fontWeight='bold'
+          >
+            To
+          </Text>
+
+          <InputNumber
+            style={{ width: '180px' }}
+            size='large'
+            placeholder='Maxmuim Price...'
+          />
+        </Flex>
+      </Flex>
+    </Box>
+  );
+};
+
+export default PricingAndFinancialInformation;

@@ -1,59 +1,84 @@
-import { Button, Input, Select, Stack } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Box, Flex, Stack } from '@chakra-ui/react';
+import { getCompounds } from '../../../../redux/thunck/crudCompounds';
+import { Input, InputNumber, Select } from 'antd';
 
 const PropertyDetails = () => {
+  const { compounds } = useSelector((state) => state.compounds);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCompounds());
+  }, []);
   return (
-    <div>
+    <Box px={5}>
+      <h3 className=' text-xl fw-semibold text-[#4D5454] mb-3'>1.Property Details</h3>
+      <Stack w='80%'>
+        <Flex gap={5}>
+          <Select
+            placeholder='Choose Compound'
+            size='large'
+          >
+            {compounds?.map((compound) => (
+              <option
+                value={compound.id}
+                key={compound.id}
+              >
+                {compound.name}
+              </option>
+            ))}
+          </Select>
+          <Input
+            placeholder='Properity Name...'
+            size='large'
+          />
+        </Flex>
+        <Flex
+          mt={2}
+          gap={3}
+        >
+          <Select
+            placeholder='Zone'
+            size='large'
+            style={{ width: '230px' }}
+          >
+            <option value='option1'>Option 1</option>
+            <option value='option2'>Option 2</option>
+            <option value='option3'>Option 3</option>
+          </Select>
+          <InputNumber
+            placeholder='Floor Number'
+            size='large'
+            min={1}
+            style={{ width: '200px' }}
+          />
 
-<h3 className=' text-xl fw-semibold text-[#4D5454] ml-3' >1.Property Details</h3>
+          <Select
+            style={{ width: '200px' }}
+            placeholder='Model'
+            size='large'
+          >
+            <option value='option1'>Option 1</option>
+            <option value='option2'>Option 2</option>
+            <option value='option3'>Option 3</option>
+          </Select>
 
- <div className=' flex justify-between'>
- <div className=' w-full '>
-  <div className=' flex w-3/5 space-x-2 px-3 mt-4' >
-        <Select placeholder='Property Details' >
-  <option value='option1'>Option 1</option>
-  <option value='option2'>Option 2</option>
-  <option value='option3'>Option 3</option>
-        </Select>
-        <Input  placeholder='Compound Name...' className=' bg-stone-700' isDisabled />
-        </div>
-        <div className=' flex space-x-3 w-8/12 mt-4 ml-3'>
-        <Stack>
-        <Select placeholder='Zone' style={{width:120}} >
-  <option value='option1'>Option 1</option>
-  <option value='option2'>Option 2</option>
-  <option value='option3'>Option 3</option>
-        </Select>
-        </Stack>
-        <Stack>
-        <Select placeholder='Floor No.' style={{width:175}} >
-  <option value='option1'>Option 1</option>
-  <option value='option2'>Option 2</option>
-  <option value='option3'>Option 3</option>
-        </Select>
-        </Stack>
-        <Stack>
-        <Select style={{width:113}} placeholder='Modal' >
-  <option value='option1'>Option 1</option>
-  <option value='option2'>Option 2</option>
-  <option value='option3'>Option 3</option>
-        </Select>
-        </Stack>
-        <Select placeholder='No. of Availability' >
-  <option value='option1'>Option 1</option>
-  <option value='option2'>Option 2</option>
-  <option value='option3'>Option 3</option>
-        </Select>
-        <Input placeholder='Size/Area...' />
-        </div>
+          <InputNumber
+            placeholder='Floor Number'
+            size='large'
+            min={1}
+            style={{ width: '200px' }}
+          />
+          <InputNumber
+            placeholder='Size Area'
+            size='large'
+            min={1}
+            style={{ width: '200px' }}
+          />
+        </Flex>
+      </Stack>
+    </Box>
+  );
+};
 
-  </div>
-  <div className=' mx-3'>
-      <Button colorScheme='teal' paddingX={10} >Save</Button>
-  </div>
- </div>
-    </div>
-  )
-}
-
-export default PropertyDetails
+export default PropertyDetails;

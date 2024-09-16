@@ -53,9 +53,9 @@ const CompoundsTable = ({ compounds }) => {
       key: 'zone_id',
     },
     {
-      title: 'Units',
-      dataIndex: 'units',
-      key: 'units',
+      title: 'Modal',
+      dataIndex: 'Modal',
+      key: 'Modal',
       ...getColumnSearchProps('title'),
     },
     {

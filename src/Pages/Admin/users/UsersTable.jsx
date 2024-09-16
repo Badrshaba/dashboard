@@ -25,14 +25,15 @@ import {
   ButtonGroup,
   Text,
 } from '@chakra-ui/react';
-import { Avatar, Table } from 'antd';
+import { Table } from 'antd';
 import { Edit, Trash } from 'lucide-react';
 import { deleteUserFromDashboard, updateUserFromDashboard } from '../../../redux';
 import { getUsersApi } from '../../../utils/api';
 import useSearchInTable from '../../../hooks/useSearchInTable';
 import { genrateRoleString } from '../../../utils/genrateRoleString';
-const TestTable = () => {
+const UsersTable = () => {
   const { users, isLoading, error } = useSelector((state) => state.users);
+
   const dispatch = useDispatch();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -159,7 +160,7 @@ const TestTable = () => {
   return (
     <>
       <Table
-        dataSource={users?.data}
+        dataSource={users}
         loading={isLoading}
         columns={columns}
         rowKey={(user) => user.id}
@@ -258,4 +259,4 @@ const TestTable = () => {
   );
 };
 
-export default TestTable;
+export default UsersTable;

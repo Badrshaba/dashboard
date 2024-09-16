@@ -16,12 +16,12 @@ export const loginAsync = createAsyncThunk('user/login', async ({ email, passwor
         },
       }
     );
-
+    console.log(data);
     localStorage.setItem('user', JSON.stringify(data.data?.user));
     localStorage.setItem('userToken', JSON.stringify(data.data?.token));
     if (data?.data?.user.role == 1) {
       window.location = '/';
-    } else if (data?.data?.user.role == 0) {
+    } else if (data?.data?.user.role == 1) {
       window.location = '/';
     }
 

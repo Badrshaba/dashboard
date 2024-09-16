@@ -5,6 +5,7 @@ import { apiRegister, getUsersApi } from '../../utils/api';
 export const getUsersAsync = createAsyncThunk('users/all-users', async (pageNumber, thunckApi) => {
   try {
     const { data } = await getUsersApi.get(`/all-users`);
+
     return data?.data;
   } catch (error) {
     return thunckApi.rejectWithValue(error);
@@ -15,7 +16,7 @@ export const createNewUserFromDashboard = createAsyncThunk(
   'users/create-new-user',
   async ({ userData, closePopup }, thunckApi) => {
     try {
-      await apiRegister.post('/create-account', { ...userData });
+      const { data } = await apiRegister.post('/create-account', { ...userData });
       notification.success({
         description: 'Successfully Created New User.!',
         duration: 2,
@@ -23,6 +24,7 @@ export const createNewUserFromDashboard = createAsyncThunk(
         message: 'Create User',
         placement: 'topRight',
       });
+      console.log(data);
       thunckApi.dispatch(getUsersAsync());
       closePopup();
     } catch (error) {

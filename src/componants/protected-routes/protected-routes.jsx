@@ -6,7 +6,7 @@ const ProtectedRoutes = ({ children, allowedRoles }) => {
     return <Navigate to={'/login'} />;
   }
   const user = JSON.parse(localStorage.getItem('user'));
-  return allowedRoles.includes(user.role) ? children : <Unauthorized />;
+  return allowedRoles.includes(user.role.toString()) ? children : <Unauthorized />;
 };
 
 export default ProtectedRoutes;

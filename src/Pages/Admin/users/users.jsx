@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsersAsync } from '../../../redux/thunck/usersAsync';
-import TestTable from './UsersTable';
+import UsersTable from './UsersTable';
 import AddUserPopup from './addUserPopup';
 
 const Users = () => {
@@ -19,7 +19,7 @@ const Users = () => {
           isLoading={isLoading}
         />
       </div>
-      <TestTable />
+      <UsersTable />
     </div>
   );
 };

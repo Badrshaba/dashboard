@@ -143,7 +143,7 @@ const router = createBrowserRouter([
       {
         path: 'market',
         element: (
-          <ProtectedRoutes allowedRoles={[0, '1']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Marketing />
             </Suspense>
@@ -153,7 +153,7 @@ const router = createBrowserRouter([
       {
         path: 'sales',
         element: (
-          <ProtectedRoutes allowedRoles={[0, '1']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Sales />
             </Suspense>

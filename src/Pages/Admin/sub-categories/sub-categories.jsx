@@ -27,7 +27,7 @@ const SubCategories = () => {
           columns={3}
           gap={5}
         >
-          {subCategories.map((subCate) => (
+          {subCategories?.map((subCate) => (
             <SubCategoryCard
               key={subCate.id}
               subCate={subCate}

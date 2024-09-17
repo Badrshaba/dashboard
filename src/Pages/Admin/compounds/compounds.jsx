@@ -7,34 +7,67 @@ import FormCompound from './FormCompound';
 import useSearch from '../../../hooks/useSearch';
 import { updatecompoundsList } from '../../../redux/slices/compounds';
 import CompoundsTable from './CompoundsTable';
+import useGetZone from '../../../hooks/useGetZone';
 const Compounds = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [formData, setFormData] = useState({
     name_en: '',
     name_ar: '',
-    descriotion_en: '',
-    descriotion_ar: '',
-    area_max: '',
-    area_min: '',
+    description_en: '',
+    description_ar: '',
+    area: '',
     address_ar: '',
     address_en: '',
-    price_min: '',
-    price_max: '',
+    price_from: '',
+    price_to: '',
     zone_id: '',
   });
-  const [searchHandel, search, setSearch] = useSearch('/search-compound', updatecompoundsList);
+  const [errors,setErrors] = useState({
+    name_en: '',
+    name_ar: '',
+    description_en: '',
+    description_ar: '',
+    area: '',
+    address_ar: '',
+    address_en: '',
+    price_from: '',
+    price_to: '',
+    zone_id: '',
+  })
+  const Files = useState([]);
+  const File = useState([]);
+ // const [searchHandel, search, setSearch] = useSearch('/search-compound', updatecompoundsList);
   const { compounds, isLoading, error } = useSelector((state) => state.compounds);
+
+  const [getZone, zones] = useGetZone();
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCompounds());
   }, []);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const clearInput = () =>{
+    for (let key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [key]: '',
+        }))
+      }
+    }
+    for (let key in errors) {
+      if (errors.hasOwnProperty(key)) {
+        setErrors((prevData) => ({
+          ...prevData,
+          [key]: '',
+        }))
+      }
+    }
+    Files[1]([])
+    File[1]([])
+    getZone()
+    onOpen()
+  }
+
   return (
     <div className='bg-white p-3 rounded-md '>
       <h3 className='text-3xl'>Compounds</h3>
@@ -44,16 +77,21 @@ const Compounds = () => {
           leftIcon={<Plus />}
           mt={5}
           size='md'
-          onClick={onOpen}
+          onClick={clearInput}
         >
           Add Compounds
         </Button>
       </div>
       <FormCompound
         onClose={onClose}
-        handleChange={handleChange}
         isOpen={isOpen}
         formData={formData}
+        zones={zones}
+        setFormData={setFormData}
+        errors={errors}
+        setErrors={setErrors}
+        Files={Files}
+        File={File}
       />
       <CompoundsTable compounds={compounds} />
     </div>

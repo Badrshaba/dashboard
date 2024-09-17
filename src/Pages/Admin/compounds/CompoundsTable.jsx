@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'antd';
 import { CircleEllipsis, Edit, Images, Trash } from 'lucide-react';
 import { deleteCompounds, getCompounds } from '../../../redux';
-import paths from '../../../route/paths';
 import {
   ButtonGroup,
   FormControl,
@@ -17,17 +16,28 @@ import {
   useDisclosure,
   VStack,
   Button,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { DeleteAlert } from '../../../componants';
 import { useRef, useState } from 'react';
-import { api, apiRegister } from '../../../utils/api';
+import { api, apiRegister, getUsersApi } from '../../../utils/api';
 import useSearchInTable from '../../../hooks/useSearchInTable';
 const CompoundsTable = ({ compounds }) => {
   const { isLoading } = useSelector((state) => state.compounds);
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userInfo, setUserInfo] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [errors, setErrors] = useState({
+    description_en:'',
+    address_en:'',
+    area:'',
+    price_from:'',
+    price_to:'',
+    address_ar:'',
+    description_ar:'',
+    name_en:'',
+    name_ar:''
+  });
   const [loading, setLoading] = useState(false);
   const selectRef = useRef();
   const navigate = useNavigate();
@@ -39,7 +49,6 @@ const CompoundsTable = ({ compounds }) => {
       onCloseDialog();
     }, 500);
   };
-
   const columns = [
     {
       title: 'Name',
@@ -53,10 +62,10 @@ const CompoundsTable = ({ compounds }) => {
       key: 'zone_id',
     },
     {
-      title: 'Modal',
-      dataIndex: 'Modal',
-      key: 'Modal',
-      ...getColumnSearchProps('title'),
+      title: 'Units',
+      dataIndex: 'number_of_units',
+      key: 'number_of_units',
+      ...getColumnSearchProps('number_of_units'),
     },
     {
       title: 'Actions',
@@ -69,9 +78,9 @@ const CompoundsTable = ({ compounds }) => {
         >
           <Button
             colorScheme='blue'
-            onClick={console.log('bl7')}
+            onClick={()=>navigate(`${rec.id}`)}
           >
-            <Images size={20} />
+            <CircleEllipsis />
           </Button>
           <Button
             colorScheme='red'
@@ -84,7 +93,17 @@ const CompoundsTable = ({ compounds }) => {
           </Button>
           <Button
             colorScheme='yellow'
-            onClick={() => getCompoundById(rec.id)}
+            onClick={() => {
+              for (let key in errors) {
+                if (errors.hasOwnProperty(key)) {
+                  setErrors((prevData) => ({
+                    ...prevData,
+                    [key]: '',
+                  }))
+                }
+              }
+              getCompoundById(rec.id)
+            }}
           >
             <Edit size={20} />
           </Button>
@@ -94,6 +113,12 @@ const CompoundsTable = ({ compounds }) => {
   ];
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if ( name != 'description_en' && name != 'description_ar'&& value.length > 50) {
+      return setErrors((prevData)=>({
+        ...prevData,
+        [name]:"max length is 50  "
+      }))
+    }
     setUserInfo((prevData) => ({
       ...prevData,
       [name]: value,
@@ -101,8 +126,9 @@ const CompoundsTable = ({ compounds }) => {
   };
   const getCompoundById = async (compoundID) => {
     try {
-      let { data } = await api.get(`/compounds/${compoundID}`);
+      let { data } = await getUsersApi.get(`/compounds/${compoundID}`);
       setUserInfo(data?.data);
+      console.log(data);
       onOpen();
     } catch (error) {
       console.log(error);
@@ -112,8 +138,45 @@ const CompoundsTable = ({ compounds }) => {
     e.preventDefault();
     delete userInfo.images;
     delete userInfo.image;
-    setLoading(true);
-    try {
+    console.log(!!userInfo.price_from);
+    if(userInfo.address_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      address_ar:"العنوان اجباري"
+    }))
+    if(userInfo.address_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      address_en:"address is requered"
+    }))
+    if(userInfo.description_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      description_en:"description is requered"
+}))
+if(userInfo.description_ar=='') return setErrors((prevData)=>({
+  ...prevData,
+  description_ar:"الوصف اجباري"
+}))
+if(userInfo.price_from=='') return setErrors((prevData)=>({
+    ...prevData,
+    price_from:"price from is requered"
+  }))
+if(userInfo.price_to=='') return setErrors((prevData)=>({
+  ...prevData,
+  price_to:"price to is requered"
+}))
+if(userInfo.area=='') return setErrors((prevData)=>({
+  ...prevData,
+  area:"area is requered"
+}))
+if(userInfo.name_en=='') return setErrors((prevData)=>({
+  ...prevData,
+  name_en:"name is requered"
+}))
+if(userInfo.name_ar=='') return setErrors((prevData)=>({
+  ...prevData,
+  name_ar:"الاسم اجباري"
+}))
+setLoading(true);
+try {
       let { data } = await apiRegister({
         method: 'post',
         url: `/compounds/${userInfo?.id}?_method=PUT`,
@@ -127,9 +190,9 @@ const CompoundsTable = ({ compounds }) => {
       dispatch(getCompounds());
     } catch (error) {
       console.log(error);
-      //  setError(error?.response?.data || error?.message);
-      setLoading(false);
-    }
+    //   //  setError(error?.response?.data || error?.message);
+       setLoading(false);
+     }
     console.log(userInfo);
   };
 
@@ -140,14 +203,15 @@ const CompoundsTable = ({ compounds }) => {
         dataSource={compounds}
         columns={columns}
         rowKey={(compound) => compound.id}
-        onRow={(record,index)=> {return {
-          onClick:()=> navigate(`${paths.compounds}/${record.id}`)
-        }}}
+        bordered={true}
+        // onRow={(record,index)=> {return {
+        //   onClick:()=> navigate(`${paths.compounds}/${record.id}`)
+        // }}}
         className=' pt-8'
         pagination={{
           position: ['bottomCenter'],
-          total: 8,
-          pageSize: 4,
+          total: 2,
+          pageSize: 2,
         }}
       />
       <DeleteAlert
@@ -168,12 +232,6 @@ const CompoundsTable = ({ compounds }) => {
         <ModalContent>
           <ModalHeader>Update Compound</ModalHeader>
           <ModalCloseButton />
-          {/* {error && (
-            <Alert status='error'>
-              <AlertIcon />
-              <AlertTitle>{error?.message}</AlertTitle>
-            </Alert>
-          )} */}
           <form
             className='px-5 py-2'
             onSubmit={handelSubmit}
@@ -182,7 +240,7 @@ const CompoundsTable = ({ compounds }) => {
               {userInfo && (
                 <div className=' flex space-x-3 w-full'>
                   <div className='w-full space-y-2'>
-                    <FormControl>
+                    <FormControl isInvalid={errors.name_en}>
                       <FormLabel>Name :</FormLabel>
                       <Input
                         colorScheme={'red'}
@@ -191,51 +249,47 @@ const CompoundsTable = ({ compounds }) => {
                         value={userInfo?.name_en}
                         onChange={handleChange}
                       />
+                  <FormErrorMessage>{errors.name_en}</FormErrorMessage>
                     </FormControl>
-                    <FormControl>
-                      <FormLabel>Area Min :</FormLabel>
+                    <FormControl isInvalid={errors.area} >
+                      <FormLabel>Area :</FormLabel>
                       <Input
                         type='text'
-                        name='area_min'
-                        value={userInfo?.area_min}
+                        name='area'
+                        value={userInfo?.area}
                         onChange={handleChange}
-                      />
+                        />
+                        <FormErrorMessage>{errors.area}</FormErrorMessage>
                     </FormControl>
-                    <FormControl>
-                      <FormLabel>Area Max :</FormLabel>
-                      <Input
-                        type='text'
-                        name='area_max'
-                        value={userInfo?.area_max}
-                        onChange={handleChange}
-                      />
-                    </FormControl>
-                    <FormControl>
+                    <FormControl isInvalid={errors.address_en} >
                       <FormLabel>Address :</FormLabel>
                       <Input
                         type='text'
                         name='address_en'
                         value={userInfo?.address_en}
                         onChange={handleChange}
-                      />
+                        />
+                        <FormErrorMessage>{errors.address_en}</FormErrorMessage>
                     </FormControl>
-                    <FormControl>
-                      <FormLabel className='focus-visible:border-black'>Price Min :</FormLabel>
+                    <FormControl isInvalid={errors.price_to}  >
+                      <FormLabel className='focus-visible:border-black'>Price To :</FormLabel>
                       <Input
                         type='number'
-                        name='price_min'
-                        value={userInfo?.price_min}
+                        name='price_to'
+                        value={userInfo?.price_to}
                         onChange={handleChange}
                       />
+                        <FormErrorMessage>{errors.price_to}</FormErrorMessage>
                     </FormControl>
-                    <FormControl>
-                      <FormLabel className='focus-visible:border-black'>Price Max :</FormLabel>
+                    <FormControl isInvalid={errors.price_from} >
+                      <FormLabel className='focus-visible:border-black'>Price Form :</FormLabel>
                       <Input
                         type='number'
-                        name='price_max'
-                        value={userInfo?.price_max}
+                        name='price_from'
+                        value={userInfo?.price_from}
                         onChange={handleChange}
                       />
+                        <FormErrorMessage>{errors.price_from}</FormErrorMessage>
                     </FormControl>
                     <label className=' w-full'>
                       <FormLabel> Description :</FormLabel>
@@ -287,7 +341,7 @@ const CompoundsTable = ({ compounds }) => {
             </VStack>
             <Button
               colorScheme='teal'
-              className='w-full mt-4'
+              className='w-full mb-1 mt-4'
               type='submit'
               isLoading={loading}
             >

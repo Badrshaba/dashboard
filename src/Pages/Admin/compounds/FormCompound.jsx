@@ -22,68 +22,86 @@ import { useEffect, useRef, useState } from 'react';
 import { baseURL } from '../../../utils/api';
 import { getCompounds } from '../../../redux/thunck/crudCompounds';
 import { useDispatch } from 'react-redux';
-import { Trash } from 'lucide-react';
-import useGetZone from '../../../hooks/useGetZone';
-const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
+import FileInput from '../../../componants/file-input/FileInput';
+const FormCompound = ({ onClose, isOpen, formData,zones,setFormData,setErrors,errors,Files,File }) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [validation, setValidation] = useState({});
   const dispatch = useDispatch();
-  const selectRef = useRef();
-  const [getZone, zones] = useGetZone();
-  useEffect(() => {
-    getZone();
-  }, []);
+  const selectRef = useRef(null);
+  const [files,setFiles] = Files
+  const [file,setFile] = File
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if ( name != 'description_en' && name != 'description_ar'&& value.length > 50) {
+      return setErrors((prevData)=>({
+        ...prevData,
+        [name]:"max length is 50  "
+      }))
+    }
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // if(formData.name_en==''){
-    //   return setValidation({...validation,name_en:true})
-    // }
-    // if(formData.name_ar==''){
-    //   return setValidation({...validation,name_ar:true})
-    // }
-    // if(formData.descriotion_ar==''){
-    //    setValidation({...validation,descriotion_ar:true})
-    // }
-    // if(formData.descriotion_en==''){
-    //    setValidation({...validation,descriotion_en:true})
-    // }
-    // if(formData.area_min==''){
-    //    setValidation({...validation,area_min:true})
-    // }
-    // if(formData.area_max==''){
-    //    setValidation({...validation,area_max:true})
-    // }
-    // if(formData.address_ar==''){
-    //    setValidation({...validation,address_ar:true})
-    // }
-    // if(formData.address_en==''){
-    //    setValidation({...validation,address_en:true})
-    // }
-
+    if(formData.name_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      name_en:"name is requered"
+    }))
+    if(formData.description_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      description_en:"description is requered"
+    }))
+    if(formData.area=='') return setErrors((prevData)=>({
+      ...prevData,
+      area:"area is requered"
+    }))
+    if(formData.address_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      address_en:"address is requered"
+    }))
+    if(formData.price_to=='') return setErrors((prevData)=>({
+      ...prevData,
+      price_to:"price to is requered"
+    }))
+    if(formData.price_form=='') return setErrors((prevData)=>({
+      ...prevData,
+      price_form:"price form is requered"
+    }))
+    if(formData.name_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      name_ar:"الاسم اجباري"
+    }))
+    if(formData.address_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      address_ar:"العنوان اجباري"
+    }))
+    if(formData.description_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      description_ar:"الوصف اجباري"
+    }))
+    
+    if(!file.length) return setErrors((prevData)=>({
+      ...prevData,
+      img:"image is requered"
+    }))
     setLoading(true);
     const formDataSend = new FormData();
     formDataSend.append('name_ar', formData.name_ar);
     formDataSend.append('name_en', formData.name_en);
-    formDataSend.append('description_en', formData.descriotion_ar);
-    formDataSend.append('description_ar', formData.descriotion_en);
-    formDataSend.append('area_min', formData.area_min);
-    formDataSend.append('area_max', formData.area_max);
+    formDataSend.append('description_en', formData.description_en);
+    formDataSend.append('description_ar', formData.description_ar);
+    formDataSend.append('area', formData.area);
     formDataSend.append('address_ar', formData.address_ar);
     formDataSend.append('address_en', formData.address_en);
-    formDataSend.append('price_min', formData.price_min);
-    formDataSend.append('price_max', formData.price_max);
+    formDataSend.append('price_to', formData.price_to);
+    formDataSend.append('price_from', formData.price_from);
     formDataSend.append('zone_id', selectRef?.current?.value);
-    formDataSend.append('user_id', '1');
-    formDataSend.append('image', selectedFile[0]);
-    for (let index = 0; index < selectedFiles.length; index++) {
-      formDataSend.append('images', selectedFiles[index]);
+    formDataSend.append('user_id', JSON.parse(localStorage.getItem('user')).id);
+    formDataSend.append('image', file[0]);
+    for (let index = 0; index < files.length; index++) {
+      formDataSend.append('images', files[index]);
     }
-    console.log(formDataSend.getAll('images'));
-    console.log(formDataSend.get('image'));
     try {
       let { data } = await baseURL({
         method: 'post',
@@ -92,6 +110,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
         headers: {
           'Content-Type': 'multipart/form-data',
           APP_KEY: import.meta.env.VITE_APP_KEY,
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
         },
       });
       setLoading(false);
@@ -102,33 +121,9 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
       dispatch(getCompounds());
     } catch (error) {
       console.log(error);
-      setError(error?.response?.data || error?.message);
-      setLoading(false);
-    }
-  };
-  const props = {
-    action: 'https://ai.w-manage.org/api/compound/image',
-    onChange({ file, fileList }) {
-      if (file.status !== 'uploading') {
-        setSelectedFile(fileList);
-      }
-    },
-
-    showUploadList: {
-      extra: ({ size = 0 }) => (
-        <span
-          style={{
-            color: '#cccccc',
-          }}
-        >
-          ({(size / 1024 / 1024).toFixed(2)}MB)
-        </span>
-      ),
-      showDownloadIcon: true,
-      downloadIcon: 'Download',
-      showRemoveIcon: true,
-      removeIcon: <Trash onClick={(e) => console.log(e, 'custom removeIcon event')} />,
-    },
+    //  setError(error?.response?.data || error?.message);
+       setLoading(false);
+     }
   };
   return (
     <Modal
@@ -140,12 +135,6 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
       <ModalContent>
         <ModalHeader>Add Compounds</ModalHeader>
         <ModalCloseButton />
-        {/* {error && (
-      <Alert status='error'>
-        <AlertIcon />
-        <AlertTitle>{error?.data[0]}</AlertTitle>
-      </Alert>
-    )} */}
         <VStack spacing={4}>
           <form
             className='p-5 w-full'
@@ -153,7 +142,7 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
           >
             <div className=' flex space-x-3 w-full'>
               <div className='w-full space-y-2'>
-                <FormControl isInvalid={validation.name_en}>
+                <FormControl isInvalid={errors?.name_en}>
                   <FormLabel>Name :</FormLabel>
                   <Input
                     colorScheme={'red'}
@@ -162,50 +151,42 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     value={formData.name_en}
                     onChange={handleChange}
                   />
-                  <FormErrorMessage>Name is required</FormErrorMessage>
+                  <FormErrorMessage>{errors?.name_en}</FormErrorMessage>
                 </FormControl>
-                <FormControl>
-                  <FormLabel>Image bunner :</FormLabel>
-                  <Input
-                    type='file'
-                    className=' pt-1'
-                    onChange={(e) => setSelectedFile(e.target.files)}
+                  <FormControl isInvalid={errors?.img} >
+                <FileInput
+                  lable='Image :'
+                  title='bunner Image'
+                  filesHandler={setFile}
+                  files={file}
                   />
-                </FormControl>
-                <FormControl>
+                  <FormErrorMessage>{errors?.img}</FormErrorMessage>
+              </FormControl>
+                <FormControl  >
                   <FormLabel>Zone :</FormLabel>
                   <Select ref={selectRef}>
-                    {zones.length &&
+                    {zones?.length &&
                       zones.map((ele) => (
                         <option
                           key={ele.id}
                           value={ele.id}
                         >
-                          {ele.id}
+                          {ele.name}
                         </option>
                       ))}
                   </Select>
                 </FormControl>
-                <FormControl isInvalid={validation.area_min}>
-                  <FormLabel>Area Min :</FormLabel>
+                <FormControl isInvalid={errors?.area}>
+                  <FormLabel>Area :</FormLabel>
                   <Input
                     type='text'
-                    name='area_min'
-                    value={formData.area_min}
+                    name='area'
+                    value={formData.area}
                     onChange={handleChange}
                   />
-                  <FormErrorMessage>Area min is required</FormErrorMessage>
+                  <FormErrorMessage>{errors?.area}</FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={validation.area_max}>
-                  <FormLabel>Area Max :</FormLabel>
-                  <Input
-                    type='text'
-                    name='area_max'
-                    value={formData.area_max}
-                    onChange={handleChange}
-                  />
-                </FormControl>
-                <FormControl>
+                <FormControl isInvalid={errors?.address_en} >
                   <FormLabel>Address :</FormLabel>
                   <Input
                     type='text'
@@ -213,41 +194,48 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     value={formData.location_en}
                     onChange={handleChange}
                   />
+                  <FormErrorMessage>{errors?.address_en}</FormErrorMessage>
                 </FormControl>
-                <FormControl>
-                  <FormLabel className='focus-visible:border-black'>Price Min :</FormLabel>
+                <FormControl isInvalid={errors?.price_from} >
+                  <FormLabel className='focus-visible:border-black'>Price from :</FormLabel>
                   <Input
                     type='number'
-                    name='price_min'
-                    value={formData.price_min}
+                    name='price_from'
+                    value={formData.price_from}
                     onChange={handleChange}
                   />
+                  <FormErrorMessage>{errors?.price_from}</FormErrorMessage>
                 </FormControl>
-                <FormControl>
-                  <FormLabel className='focus-visible:border-black'>Price Max :</FormLabel>
+                <FormControl isInvalid={errors?.price_to} >
+                  <FormLabel className='focus-visible:border-black'>Price to :</FormLabel>
                   <Input
                     type='number'
-                    name='price_max'
-                    value={formData.price_max}
+                    name='price_to'
+                    value={formData.price_to}
                     onChange={handleChange}
-                  />
+                    />
+                    <FormErrorMessage>{errors?.price_to}</FormErrorMessage>
                 </FormControl>
+                <FormControl isInvalid={errors?.description_en} >
                 <label className=' w-full'>
                   <FormLabel> Description :</FormLabel>
                   <textarea
                     onChange={handleChange}
-                    value={formData.descriotion_en}
-                    name='descriotion_en'
-                    className='  p-2 rounded-lg h-28  w-full transition-all focus:outline-blue-500 duration-200 border-2'
+                    value={formData.description_en}
+                    name='description_en'
+                    className={ errors?.description_en? 'outline-red-600 border-solid p-2 rounded-lg h-28  w-full transition-all focus:outline-blue-500 duration-200 border-2':`  p-2 rounded-lg h-28  w-full transition-all focus:outline-blue-500 duration-200 border-2`}
                     type='text'
-                  />
+                    />
+                    <FormErrorMessage>{errors?.description_en}</FormErrorMessage>
                 </label>
+
+                </FormControl>
               </div>
               <div
                 style={{ direction: 'rtl' }}
                 className='w-full space-y-2'
               >
-                <FormControl isInvalid={validation.name_ar}>
+                <FormControl isInvalid={errors?.name_ar}>
                   <FormLabel> الاسم :</FormLabel>
                   <Input
                     type='text'
@@ -255,49 +243,41 @@ const FormCompound = ({ onClose, isOpen, formData, handleChange }) => {
                     value={formData.name_ar}
                     onChange={handleChange}
                   />
-                  <FormErrorMessage>Name is required</FormErrorMessage>
+                  <FormErrorMessage>{errors?.name_ar}</FormErrorMessage>
                 </FormControl>
-                <FormControl>
+                <FormControl isInvalid={errors?.address_ar} >
                   <FormLabel> العنوان : </FormLabel>
                   <Input
                     type='text'
                     name='address_ar'
                     value={formData.address_ar}
                     onChange={handleChange}
-                  />
+                    />
+                    <FormErrorMessage>{errors?.address_ar}</FormErrorMessage>
                 </FormControl>
+                <FormControl isInvalid={errors?.description_ar} >
                 <label className=' w-full'>
                   <FormLabel> الوصف :</FormLabel>
                   <textarea
-                    name='descriotion_ar'
+                    name='description_ar'
                     onChange={handleChange}
-                    value={formData.descriotion_ar}
+                    value={formData.description_ar}
                     className=' p-2 rounded-lg h-28 w-full border-2 transition-all focus:outline-blue-500 duration-200'
                     type='text'
                     size={'lg'}
-                  />
+                    />
+                    <FormErrorMessage>{errors?.description_ar}</FormErrorMessage>
                 </label>
+                    </FormControl>
                 <FormControl>
-                  <FormLabel>Images</FormLabel>
-                  {/* <Upload
-                  // {...props}
-                  showUploadList={true}
-                  customRequest={(info)=>handleSubmit(info)}
-                  multiple={true}
-                  style={{ backgroundColor: 'red' }}
-                >
-                  <Button>
-                    <UploadIcon className='h-6 me-3' /> Upload
-                  </Button> */}
-                  {/* </Upload> */}
-                  <input
-                    type='file'
-                    multiple
-                    onChange={(event) => setSelectedFiles(event.target.files)}
-                    name=''
-                    id=''
-                  />
-                </FormControl>
+                <FileInput
+                  lable='Image :'
+                  title='Images '
+                  filesHandler={setFiles}
+                  files={files}
+                />
+              </FormControl>
+
               </div>
             </div>
             <Button

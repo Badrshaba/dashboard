@@ -3,7 +3,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
 import LoadingSkeleton from '../componants/loading-skeleton/LoadingSkeleton';
 import DashboardLayout from '../Layout/DashboardLayout';
-import MainAddProperites from '../Pages/Admin/properites/addProperites/MainAddProperites';
 const ProperitePage = lazy(() => import('../Pages/Admin/properites/ProperitePage'));
 const Dashboard = lazy(() => import('../Pages/Admin/dashboard/dashboard'));
 const CompoundPage = lazy(() => import('../Pages/Admin/compounds/compoundDeitals/CompoundPage'));
@@ -18,6 +17,7 @@ const Marketing = lazy(() => import('../Pages/Marketers/marketing-homepage'));
 const Sales = lazy(() => import('../Pages/Sales/sales-homepage'));
 const Features = lazy(() => import('../Pages/Admin/features/features'));
 const Properites = lazy(() => import('../Pages/Admin/properites/properites'));
+const AddProperity = lazy(() => import('../Pages/Admin/properites/AddProperity'));
 const UpdatePage = lazy(() => import('../Pages/Admin/properites/UpdatePage'));
 const SubCategories = lazy(() => import('../Pages/Admin/sub-categories/sub-categories'));
 const Other = lazy(() => import('../Pages/Admin/other/Other'));
@@ -106,7 +106,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
-              <MainAddProperites />
+              <AddProperity />
             </Suspense>
           </ProtectedRoutes>
         ),

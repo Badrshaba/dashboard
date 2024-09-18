@@ -6,7 +6,7 @@ import DashboardLayout from '../Layout/DashboardLayout';
 import MainAddProperites from '../Pages/Admin/properites/addProperites/MainAddProperites';
 const ProperitePage = lazy(() => import('../Pages/Admin/properites/ProperitePage'));
 const Dashboard = lazy(() => import('../Pages/Admin/dashboard/dashboard'));
-const CompoundPage = lazy(() => import('../Pages/Admin/compounds/CompoundPage'));
+const CompoundPage = lazy(() => import('../Pages/Admin/compounds/compoundDeitals/CompoundPage'));
 const Login = lazy(() => import('../Pages/Auth/login/login'));
 const Users = lazy(() => import('../Pages/Admin/users/users'));
 const Bunners = lazy(() => import('../Pages/Admin/bunners/bunners'));

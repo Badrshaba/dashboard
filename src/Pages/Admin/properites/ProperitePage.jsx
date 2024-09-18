@@ -8,8 +8,10 @@ import { getProperityById } from '../../../redux/thunck/crudProperites';
 
 const ProperitePage = () => {
   const { properiteId } = useParams();
-  const { properites } = useSelector((state) => state.properites);
-  const properity = properites.filter((pro) => pro.id == properiteId);
+  const { properity } = useSelector((state) => state.properites);
+  useEffect(()=>{
+    dispatch(getProperityById(properiteId))
+  },[])
   const items = [
     {
       key: '1',

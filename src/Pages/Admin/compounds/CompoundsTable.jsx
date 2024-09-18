@@ -210,7 +210,7 @@ try {
         pagination={{
           position: ['bottomCenter'],
           total: 51,
-          pageSize: 5,
+          pageSize: 51,
         }}
       />
       <DeleteAlert

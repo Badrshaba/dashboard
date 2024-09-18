@@ -100,8 +100,9 @@ const FormCompound = ({ onClose, isOpen, formData,zones,setFormData,setErrors,er
     formDataSend.append('user_id', JSON.parse(localStorage.getItem('user')).id);
     formDataSend.append('image', file[0]);
     for (let index = 0; index < files.length; index++) {
-      formDataSend.append('images', files[index]);
+      formDataSend.append('images[]', files[index]);
     }
+    console.log(formDataSend.getAll('images[]'));
     try {
       let { data } = await baseURL({
         method: 'post',

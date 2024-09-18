@@ -1,9 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api, apiRegister, getUsersApi } from '../../utils/api';
 import { notification } from 'antd';
-// import { useDispatch } from 'react-redux';
-
-// const dispatch = useDispatch();
 
 export const createCompounds = createAsyncThunk(
   'compounds/create-compounds',
@@ -20,7 +17,7 @@ export const createCompounds = createAsyncThunk(
 export const getCompounds = createAsyncThunk('compounds/get-compounds', async (_, thunckApi) => {
   try {
     const { data } = await api.get('/compounds');
-  
+
     return data?.data;
   } catch (error) {
     return thunckApi.rejectWithValue(error);

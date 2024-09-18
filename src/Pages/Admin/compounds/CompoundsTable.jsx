@@ -192,8 +192,7 @@ try {
       console.log(error);
     //   //  setError(error?.response?.data || error?.message);
        setLoading(false);
-     }
-    console.log(userInfo);
+    }
   };
 
   return (
@@ -210,8 +209,8 @@ try {
         className=' pt-8'
         pagination={{
           position: ['bottomCenter'],
-          total: 2,
-          pageSize: 2,
+          total: 51,
+          pageSize: 5,
         }}
       />
       <DeleteAlert

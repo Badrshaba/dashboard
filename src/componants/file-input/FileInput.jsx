@@ -31,6 +31,8 @@ const FileInput = ({
         id='file-upload'
         type='file'
         onChange={(e) => handleInputChange(e)}
+        
+        multiple={multi}
       />
 
       {!!files.length && (

@@ -16,21 +16,21 @@ import {
   Button,
   ButtonGroup,
 } from '@chakra-ui/react';
-import { Avatar, Space, Table, Button as AButton } from 'antd';
-import { CircleEllipsis, Edit, Search, Trash } from 'lucide-react';
+import { Table } from 'antd';
+import { CircleEllipsis, Edit, Trash } from 'lucide-react';
 import { useRef, useState } from 'react';
 
-import { deleteUserFromDashboard, updateUserFromDashboard } from '../../../redux/thunck/usersAsync';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsersApi } from '../../../utils/api';
 import DeleteAlert from '../../../componants/deleteAlert/DeleteAlert';
 import { useNavigate } from 'react-router-dom';
 import useSearchInTable from '../../../hooks/useSearchInTable';
 import paths from '../../../route/paths';
+import { deleteProperityById } from '../../../redux/thunck/crudProperites';
 const TableProperites = ({ properites }) => {
   const { isLoading, error } = useSelector((state) => state.properites);
   const dispatch = useDispatch();
-  const [userInfo, setUserInfo] = useState({});
+  const [appartment, setAppartment] = useState({});
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const usernameRef = useRef();
@@ -38,31 +38,7 @@ const TableProperites = ({ properites }) => {
   const cancelRef = useRef();
   const navigate = useNavigate();
   const getColumnSearchProps = useSearchInTable();
-  const getuserData = async (userId) => {
-    try {
-      onOpen();
-      const { data } = await getUsersApi.get('/profile-cc', {
-        params: { id: userId },
-      });
-      usernameRef.current.value = data?.data?.name;
-      roleRef.current.value = data?.data?.role;
-      setUserInfo(data?.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const editUser = (e) => {
-    e.preventDefault();
-    dispatch(
-      updateUserFromDashboard({
-        name: usernameRef.current.value,
-        id: userInfo?.id,
-      })
-    );
-  };
 
-  // const getuserDataDelete = async (userId) => {
-  //   onOpenDialog();
   //   try {
   //     const { data } = await getUsersApi.get('/profile-cc', {
   //       params: { id: userId },
@@ -76,25 +52,24 @@ const TableProperites = ({ properites }) => {
   const deleteProperites = (properiteId) => {
     console.log(properiteId);
   };
-console.log(properites);
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'title',
-      key: 'title',
-      ...getColumnSearchProps('title'),
+      dataIndex: 'name',
+      key: 'name',
+      ...getColumnSearchProps('name'),
     },
     {
       title: 'Compound',
-      dataIndex: 'compound',
-      key: 'compound',
-      ...getColumnSearchProps('compound'),
+      dataIndex: 'compound_id',
+      key: 'compound_id',
+      ...getColumnSearchProps('compound_id'),
     },
     {
       title: 'Units',
-      dataIndex: 'units',
-      key: 'units',
-      ...getColumnSearchProps('units'),
+      dataIndex: 'availability',
+      key: 'availability',
+      ...getColumnSearchProps('availability'),
     },
     {
       title: 'Developer Name',
@@ -112,9 +87,15 @@ console.log(properites);
           size='sm'
         >
           <Button
+            colorScheme='teal'
+            onClick={() => navigate(`/properites/${rec.id}`)}
+          >
+            <CircleEllipsis size={20} />
+          </Button>
+          <Button
             colorScheme='red'
             onClick={() => {
-              setUserInfo(rec);
+              setAppartment(rec);
               onOpenDialog();
             }}
           >
@@ -123,8 +104,7 @@ console.log(properites);
           <Button
             colorScheme='yellow'
             onClick={() => {
-              setUserInfo(rec);
-              onOpen();
+              navigate(`/properites/updateproperity/${rec.id}`);
             }}
           >
             <Edit size={20} />
@@ -141,13 +121,6 @@ console.log(properites);
         dataSource={properites}
         columns={columns}
         bordered={true}
-        onRow={(record, rowIndex) => {
-          return {
-            onClick: (event) => {
-              navigate(`${paths.properites}/${record.id}`);
-            },
-          };
-        }}
         rowKey={(properite) => properite.id}
         className=' pt-8'
         pagination={{
@@ -160,10 +133,10 @@ console.log(properites);
       <DeleteAlert
         isOpen={isOpenDialog}
         onClose={onCloseDialog}
-        head={'انت متأكد'}
-        body={''}
-        userInfo={userInfo}
-        deleteFun={deleteProperites}
+        head='Caution Please.'
+        body='Be Aware this action can not be Backwords.'
+        info={appartment}
+        deleteFun={deleteProperityById}
       />
       <Modal
         isOpen={isOpen}
@@ -172,7 +145,7 @@ console.log(properites);
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Update User</ModalHeader>
+          <ModalHeader>Update Appartment</ModalHeader>
           <ModalCloseButton />
           {error && (
             <Alert status='error'>
@@ -204,7 +177,6 @@ console.log(properites);
               className='w-full mt-4'
               isLoading={isLoading}
               type='submit'
-              onClick={(e) => editUser(e)}
             >
               Submit
             </Button>

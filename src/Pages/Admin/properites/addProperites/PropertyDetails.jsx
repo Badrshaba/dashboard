@@ -4,8 +4,9 @@ import { Box, Flex, Stack } from '@chakra-ui/react';
 import { getCompounds } from '../../../../redux/thunck/crudCompounds';
 import { Input, InputNumber, Select } from 'antd';
 
-const PropertyDetails = () => {
+const PropertyDetails = ({ formData, handleChange }) => {
   const { compounds } = useSelector((state) => state.compounds);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCompounds());
@@ -18,6 +19,8 @@ const PropertyDetails = () => {
           <Select
             placeholder='Choose Compound'
             size='large'
+            value={formData.name_en}
+            onChange={handleChange}
           >
             {compounds?.map((compound) => (
               <option

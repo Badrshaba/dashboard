@@ -18,6 +18,7 @@ const Marketing = lazy(() => import('../Pages/Marketers/marketing-homepage'));
 const Sales = lazy(() => import('../Pages/Sales/sales-homepage'));
 const Features = lazy(() => import('../Pages/Admin/features/features'));
 const Properites = lazy(() => import('../Pages/Admin/properites/properites'));
+const UpdatePage = lazy(() => import('../Pages/Admin/properites/UpdatePage'));
 const SubCategories = lazy(() => import('../Pages/Admin/sub-categories/sub-categories'));
 const Other = lazy(() => import('../Pages/Admin/other/Other'));
 
@@ -106,6 +107,16 @@ const router = createBrowserRouter([
           <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <MainAddProperites />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'properites/updateproperity/:id',
+        element: (
+          <ProtectedRoutes allowedRoles={['1']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <UpdatePage />
             </Suspense>
           </ProtectedRoutes>
         ),

@@ -1,13 +1,24 @@
-import { Input } from "@chakra-ui/react"
-
+import { Box, Flex } from '@chakra-ui/react';
+import { Input } from 'antd';
 
 const ContactInformation = () => {
   return (
-    <div className=" ml-3">
-        <h3 className=' text-xl fw-semibold text-[#4D5454]  mt-5 mb-2'  >7.Contact Information</h3>
-        <Input placeholder="phone number"  width={415} />
-    </div>
-  )
-}
+    <Box px={5}>
+      <h3 className='mb-3 text-xl fw-semibold text-[#4D5454]'>8.Contact & Delivery</h3>
+      <Flex gap={3}>
+        <Input
+          type='phone'
+          size='large'
+          placeholder='Phone Number'
+        />
+        <Input
+          type='text'
+          size='large'
+          placeholder='Delivery Date'
+        />
+      </Flex>
+    </Box>
+  );
+};
 
-export default ContactInformation
+export default ContactInformation;

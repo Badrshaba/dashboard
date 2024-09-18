@@ -3,6 +3,7 @@ const paths = {
   users: '/users',
   properites: '/properites',
   addproperity: 'addproperite',
+  updateProperity: 'updateproperity',
   compounds: '/compounds',
   banners: '/banners',
   features: '/features',

@@ -209,8 +209,8 @@ try {
         className=' pt-8'
         pagination={{
           position: ['bottomCenter'],
-          total: 51,
-          pageSize: 51,
+          total: compounds?.length,
+          pageSize: 15,
         }}
       />
       <DeleteAlert

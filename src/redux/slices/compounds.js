@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createCompounds, getCompounds } from '../thunck/crudCompounds';
+import { createCompounds, getCompoundById, getCompounds } from '../thunck/crudCompounds';
 
 const initialState = {
   compounds: [],
+  compound:{},
   isLoading: false,
   error: null,
 };
@@ -35,6 +36,17 @@ const compoundsSlice = createSlice({
         state.error = null;
       })
       .addCase(createCompounds.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(getCompoundById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCompoundById.fulfilled, (state,action) => {
+        state.isLoading = false;
+        state.compound = action.payload;
+      })
+      .addCase(getCompoundById.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

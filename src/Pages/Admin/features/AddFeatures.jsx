@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Button,
   useDisclosure,
@@ -18,31 +18,25 @@ import {
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import { useDispatch } from 'react-redux';
-import { createNewUserFromDashboard } from '../../../redux/thunck/usersAsync';
+import { getProperites } from '../../../redux/thunck/crudProperites';
+import { addFeatures } from '../../../redux/thunck/crudFeatures';
 
-const AddFeatures = ({ error, isLoading }) => {
+const AddFeatures = ({properites}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading,setLoading] = useState(false)
   const dispatch = useDispatch();
-  const usernameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const cPasswordRef = useRef();
-
-  const handleSubmit = (e) => {
+  const selectRef = useRef();
+  useEffect(() => {
+    dispatch(getProperites());
+  }, []);
+ 
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    dispatch(
-      createNewUserFromDashboard({
-        userData: {
-          name: usernameRef.current.value,
-          email: emailRef.current.value,
-          password: passwordRef.current.value,
-          password_confirmation: cPasswordRef.current.value,
-        },
-        closePopup: onClose,
-      })
-    );
+    setLoading(true)
+    await dispatch(addFeatures(selectRef.current.value))
+    setLoading(false)
+    onClose()
   };
-
   return (
     <>
       <Button
@@ -67,32 +61,32 @@ const AddFeatures = ({ error, isLoading }) => {
             Add Features
           </ModalHeader>
           <ModalCloseButton />
-          {error && (
+          {/* {error && (
             <Alert status='error'>
               <AlertIcon />
               <AlertTitle>
                 {(error.response.data.data && error.response.data.data[0]) || error?.message}
               </AlertTitle>
             </Alert>
-          )}
+          )} */}
           <form
             className='px-5 py-2'
-            onSubmit={(e) => handleSubmit(e)}
+            onSubmit={handleSubmit}
           >
             <VStack spacing={2}>
               <FormControl>
                 <FormLabel>Apartment id</FormLabel>
-                <Select>
-                  <option value='user'>User</option>
-                  <option value='developer'>Developer</option>
-                  <option value='brookers'>Brookers</option>
+                <Select ref={selectRef}>
+                  {properites.map((e)=>(
+                     <option key={e.id} value={e.id}>{e.name}</option>
+                  ))}
                 </Select>
               </FormControl>
             </VStack>
             <Button
               colorScheme='teal'
               className='w-full mt-4'
-              isLoading={isLoading}
+               isLoading={loading}
               type='submit'
             >
               Submit

@@ -28,30 +28,17 @@ import { Edit, Trash } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsersApi } from '../../../utils/api';
 import { DeleteAlert } from '../../../componants';
+import { deleteFeatures } from '../../../redux/thunck/crudFeatures';
 const TableFeature = ({ features }) => {
-  const { isLoading, error } = useSelector((state) => state.features);
+  const { isLoading } = useSelector((state) => state.features);
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState({});
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const getuserData = async (userId) => {
-    try {
-      onOpen();
-      const { data } = await getUsersApi.get('/profile-cc', {
-        params: { id: userId },
-      });
-      usernameRef.current.value = data?.data?.name;
-      roleRef.current.value = data?.data?.role;
-      setUserInfo(data?.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const deleteFeature = (featureId) => {
-    console.log(featureId);
-  };
+ 
+const deleteFeature = ({id,onClose})=>{
+  dispatch(deleteFeatures(id))
+  onClose()
+}
 
   const columns = [
     {
@@ -60,14 +47,9 @@ const TableFeature = ({ features }) => {
       sorter: (a, b) => a.id - b.id,
     },
     {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: 'Compound id',
@@ -92,16 +74,10 @@ const TableFeature = ({ features }) => {
             colorScheme='red'
             onClick={() => {
               setUserInfo(feature);
-              onOpenDialog();
+              onOpenDialog()
             }}
           >
             <Trash size={20} />
-          </Button>
-          <Button
-            colorScheme='yellow'
-            onClick={() => getuserData(user.id)}
-          >
-            <Edit size={20} />
           </Button>
         </ButtonGroup>
       ),
@@ -118,9 +94,8 @@ const TableFeature = ({ features }) => {
         className=' pt-8'
         pagination={{
           position: ['bottomCenter'],
-          total: 1000,
-          pageSize: 50,
-          showTotal: () => 1000,
+          total: features?.length,
+          pageSize: 15,
         }}
       />
       <DeleteAlert
@@ -128,55 +103,9 @@ const TableFeature = ({ features }) => {
         head={'Delete features'}
         isOpen={isOpenDialog}
         onClose={onCloseDialog}
-        userInfo={userInfo}
+        info={userInfo}
         deleteFun={deleteFeature}
       />
-      {/* <Modal
-          isOpen={isOpen}
-          onClose={onClose}
-          on
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Update User</ModalHeader>
-            <ModalCloseButton />
-            {error && (
-              <Alert status='error'>
-                <AlertIcon />
-                <AlertTitle>{error?.message}</AlertTitle>
-              </Alert>
-            )}
-            <form className='px-5 py-2'>
-              <VStack spacing={2}>
-                <FormControl>
-                  <FormLabel>Username</FormLabel>
-                  <Input
-                    type='text'
-                    ref={usernameRef}
-                  />
-                </FormControl>
-  
-                <FormControl>
-                  <FormLabel>Role</FormLabel>
-                  <Select ref={roleRef}>
-                    <option value='user'>User</option>
-                    <option value='developer'>Developer</option>
-                    <option value='brookers'>Brookers</option>
-                  </Select>
-                </FormControl>
-              </VStack>
-              <Button
-                colorScheme='teal'
-                className='w-full mt-4'
-                isLoading={isLoading}
-                type='submit'
-                onClick={(e) => editUser(e)}
-              >
-                Submit
-              </Button>
-            </form>
-          </ModalContent>
-        </Modal> */}
     </>
   );
 };

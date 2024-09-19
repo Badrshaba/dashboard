@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { apiRegister } from '../../utils/api';
+import { apiRegister, getUsersApi } from '../../utils/api';
 import { notification } from 'antd';
 
 export const getProperites = createAsyncThunk('properites/get-properites', async (_, thunckApi) => {
@@ -27,7 +27,7 @@ export const deleteProperityById = createAsyncThunk(
   'properites/delete-properity-by-id',
   async ({ id, onClose }, thunckApi) => {
     try {
-      const { data } = await apiRegister.delete(`/apartments/${id}`);
+      const { data } = await getUsersApi.delete(`/apartments/${id}`);
       onClose();
       notification.success({
         description: 'Successfully Delete Apparment.!',
@@ -36,6 +36,7 @@ export const deleteProperityById = createAsyncThunk(
         message: 'Delete Appartment',
         placement: 'topRight',
       });
+      thunckApi.dispatch(getProperites())
       return data?.data;
     } catch (error) {
       return thunckApi.rejectWithValue(error);

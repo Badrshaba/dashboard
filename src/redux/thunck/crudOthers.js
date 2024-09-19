@@ -7,6 +7,8 @@ export const getZones = createAsyncThunk(
     async (_, thunckApi) => {
       try {
         const { data } = await api.get('/zones');
+        // const state=thunckApi.getState()
+        // console.log(state)
         return data?.data;
       } catch (error) {
         return thunckApi.rejectWithValue(error);

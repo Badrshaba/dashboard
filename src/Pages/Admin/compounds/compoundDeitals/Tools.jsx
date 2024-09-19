@@ -1,16 +1,20 @@
 import ImagesTools from "./ImagesTools"
 import PayTools from "./PayTools"
 import ModalTools from "./ModalTools"
+import MasterTools from "./MasterTools"
+import FloorTools from "./FloorTools"
 
 
-const Tools = ({modelcompound,paymentplancompound,imagecompound}) => {
+const Tools = ({floorplancompound,modelcompound,paymentplancompound,imagecompound,masterplancompound}) => {
 
   return (
     <div className=" px-8" >
         <div className=" space-y-2" >
-        <ImagesTools imagecompound={imagecompound} />
-        <PayTools paymentplancompound={paymentplancompound} />
+        <ImagesTools imagecompound={imagecompound}  />
+        <PayTools paymentplancompound={paymentplancompound}  />
         <ModalTools modelcompound={modelcompound} />
+        <MasterTools masterplancompound={masterplancompound} />
+        <FloorTools floorplancompound={floorplancompound} />
       
     </div>
     </div>

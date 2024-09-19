@@ -45,3 +45,23 @@ export const deleteCompounds = createAsyncThunk(
     }
   }
 );
+export const getCompoundById = createAsyncThunk(
+  'compound/getById-compound',
+  async (compoundID, thunckApi) => {
+    try {
+      const { data } = await getUsersApi.get(`/compounds/${compoundID}`);
+      // notification.success({
+      //   description: 'Successfully Delete Compound.!',
+      //   duration: 2,
+      //   showProgress: true,
+      //   message: 'Delete Compound',
+      //   placement: 'topRight',
+      // });
+return data?.data
+      
+    } catch (error) {
+      console.log(error);
+      return thunckApi.rejectWithValue(error);
+    }
+  }
+);

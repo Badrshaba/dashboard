@@ -7,26 +7,16 @@ import { Box, Flex, Stack } from '@chakra-ui/react';
 import { getProperityById } from '../../../../redux/thunck/crudProperites';
 import { getUsersApi } from '../../../../utils/api';
 import Tools from './Tools';
+import { getCompoundById } from '../../../../redux/thunck/crudCompounds';
 
 const CompoundPage = () => {
   const { compoundId } = useParams();
-  const [compound,setCompound] = useState(null)
-  const getCompoundById = async(compoundId)=>{
-  try {
-    const { data } = await getUsersApi.get(`/compounds/${compoundId}`);
-    setCompound(data?.data)
-  } catch (error) {
-    console.log(error);
-  }
-}
+ const {compound} = useSelector((state) => state.compounds)
+const dispatch = useDispatch();
 useEffect(()=>{
-    getCompoundById(compoundId)
+  dispatch(getCompoundById(compoundId))
   },[])
-  console.log(compound);
-  const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getProperityById(properiteId));
-  // }, []);
+console.log(compound);
   return (
     <Box pb={10}>
       <Carousel
@@ -111,7 +101,7 @@ useEffect(()=>{
           </Stack>
         </Flex>
       </Box>
-     <Tools modelcompound={compound?.modelcompound} imagecompound={compound?.imagecompound} paymentplancompound={compound?.paymentplancompound}/>
+     <Tools floorplancompound={compound?.floorplancompound} masterplancompound={compound?.masterplancompound}  modelcompound={compound?.modelcompound} imagecompound={compound?.imagecompound} paymentplancompound={compound?.paymentplancompound}/>
     </Box>
   );
 };

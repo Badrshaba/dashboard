@@ -49,6 +49,7 @@ const TableProperites = ({ properites }) => {
   //     console.log(error);
   //   }
   // };
+  console.log(properites);
   const deleteProperites = (properiteId) => {
     console.log(properiteId);
   };
@@ -125,9 +126,8 @@ const TableProperites = ({ properites }) => {
         className=' pt-8'
         pagination={{
           position: ['bottomCenter'],
-          total: 1000,
-          pageSize: 50,
-          showTotal: () => 1000,
+          total: properites?.length,
+          pageSize: 15,
         }}
       />
       <DeleteAlert

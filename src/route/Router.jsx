@@ -18,7 +18,7 @@ const Sales = lazy(() => import('../Pages/Sales/sales-homepage'));
 const Features = lazy(() => import('../Pages/Admin/features/features'));
 const Properites = lazy(() => import('../Pages/Admin/properites/properites'));
 const AddProperity = lazy(() => import('../Pages/Admin/properites/AddProperity'));
-const UpdatePage = lazy(() => import('../Pages/Admin/properites/UpdatePage'));
+const UpdatePage = lazy(() => import('../Pages/Admin/properites/updatePage'));
 const SubCategories = lazy(() => import('../Pages/Admin/sub-categories/sub-categories'));
 const Other = lazy(() => import('../Pages/Admin/other/Other'));
 
@@ -112,7 +112,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'properites/updateproperity/:id',
+        path: 'properites/updateproperity/:properiteId',
         element: (
           <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>

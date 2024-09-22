@@ -5,13 +5,12 @@ import { Carousel, Collapse, Typography } from 'antd';
 import { NumericFormat } from 'react-number-format';
 import { Box, Flex, Stack } from '@chakra-ui/react';
 import { getProperityById } from '../../../redux/thunck/crudProperites';
+import Tools from './properitesDeitals/Tools';
 
 const ProperitePage = () => {
   const { properiteId } = useParams();
   const { properity } = useSelector((state) => state.properites);
-  useEffect(()=>{
-    dispatch(getProperityById(properiteId))
-  },[])
+
   const items = [
     {
       key: '1',
@@ -110,6 +109,7 @@ const ProperitePage = () => {
   useEffect(() => {
     dispatch(getProperityById(properiteId));
   }, []);
+  console.log(properity);
   return (
     <Box pb={10}>
       <Carousel
@@ -225,6 +225,7 @@ const ProperitePage = () => {
           </Stack>
         </Flex>
       </Box>
+      <Tools payment_plans={properity?.payment_plans} master_plans={properity?.master_plans} images={properity?.images} floor_plans={properity?.floor_plans} />
     </Box>
   );
 };

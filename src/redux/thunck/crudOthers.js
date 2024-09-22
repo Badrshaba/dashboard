@@ -31,7 +31,6 @@ export const getStatus = createAsyncThunk(
     async (_, thunckApi) => {
       try {
         const { data } = await api.get('/status');
-        console.log(data);
         return data?.data;
       } catch (error) {
         return thunckApi.rejectWithValue(error);

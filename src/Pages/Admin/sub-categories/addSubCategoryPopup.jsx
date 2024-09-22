@@ -16,6 +16,7 @@ import {
   ModalOverlay,
   VStack,
   Select,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import { getAllCategories, createNewSubCategoryFromDashboard } from '../../../redux';
@@ -25,6 +26,11 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
   const { categories } = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [errors,setErrors] = useState({
+    name:'',
+    nameAr:'',
+    image:''
+  })
   const [files, setFiles] = useState([]);
   const nameRef = useRef();
   const nameArRef = useRef();
@@ -32,6 +38,18 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(nameRef.current.value=='') return setErrors((prevData)=>({
+      ...prevData,
+      name:"Name is requared"
+    }))
+    if(nameArRef.current.value=='') return setErrors((prevData)=>({
+      ...prevData,
+      nameAr:"Name is requared"
+    }))
+    if(!files.length) return setErrors((prevData)=>({
+      ...prevData,
+      image:"Name is requared"
+    }))
     const formData = new FormData();
     formData.append('name_en', nameRef.current.value);
     formData.append('name_ar', nameArRef.current.value);
@@ -61,7 +79,17 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
         leftIcon={<Plus />}
         mt={5}
         size='md'
-        onClick={onOpen}
+        onClick={()=>{
+          for (let key in errors) {
+            if (errors.hasOwnProperty(key)) {
+              setErrors((prevData) => ({
+                ...prevData,
+                [key]: '',
+              }))
+            }
+          }
+          onOpen()
+        }}
       >
         Add Sub Category
       </Button>
@@ -78,40 +106,45 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
             Add Sub Category
           </ModalHeader>
           <ModalCloseButton />
-          {error && (
+          {/* {error && (
             <Alert status='error'>
               <AlertIcon />
               <AlertTitle>
                 {error?.response ? error.response.data.data[0] : error?.message}
               </AlertTitle>
             </Alert>
-          )}
+          )} */}
           <form
             className='px-5 py-2'
             onSubmit={(e) => handleSubmit(e)}
           >
             <VStack spacing={2}>
-              <FormControl>
+              <FormControl isInvalid={errors.name} >
                 <FormLabel>Name</FormLabel>
                 <Input
                   type='text'
                   ref={nameRef}
                 />
+                 <FormErrorMessage>{errors.name}</FormErrorMessage>
+
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={errors.nameAr}>
                 <FormLabel>الأسم</FormLabel>
                 <Input
                   type='text'
                   ref={nameArRef}
                 />
+                 <FormErrorMessage>{errors.nameAr}</FormErrorMessage>
+
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={errors.image}>
                 <FileInput
                   lable='Image'
                   title='Subcategory Image'
                   filesHandler={setFiles}
                   files={files}
                 />
+                 <FormErrorMessage>{errors.image}</FormErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel>Main Category</FormLabel>

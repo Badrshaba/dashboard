@@ -13,6 +13,9 @@ import {
   Flex,
   Select,
   Box,
+  FormControl,
+  FormErrorMessage,
+  Input,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import { createNewBunnerFromDashboard, getCompounds } from '../../../redux';
@@ -24,6 +27,7 @@ const AddBunnerPopup = ({ error, isLoading }) => {
   const { compounds } = useSelector((state) => state.compounds);
   const { properites } = useSelector((state) => state.properites);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [errors,setErrors] = useState(false)
   const [files, setFiles] = useState([]);
   const [isCompound, setIsCompound] = useState(true);
   const dispatch = useDispatch();
@@ -36,6 +40,7 @@ const AddBunnerPopup = ({ error, isLoading }) => {
   }, []);
 
   const handleSubmit = () => {
+    if(!files.length) return setErrors(true)
     const formData = new FormData();
     formData.append('image', files[0]);
     formData.append('type', parentRef?.current?.value);
@@ -59,7 +64,11 @@ const AddBunnerPopup = ({ error, isLoading }) => {
         leftIcon={<Plus />}
         mt={5}
         size='md'
-        onClick={onOpen}
+        onClick={()=>{
+          setErrors(false)
+          setFiles([])
+          onOpen()
+        }}
       >
         Add Banner
       </Button>
@@ -84,14 +93,15 @@ const AddBunnerPopup = ({ error, isLoading }) => {
           )}
 
           <Box p={5}>
-            <FileInput
-              lable='Image'
-              title='Upload'
-              filesHandler={setFiles}
-              files={files}
-              isLoading={isLoading}
-              withUploadButton={false}
-            />
+          <FormControl isInvalid={errors}>         
+          <Input
+                    colorScheme={'red'}
+                    type='file'
+                    onChange={(e) => setFiles(e.target.files)}
+                  />
+            
+                  <FormErrorMessage>image is requared</FormErrorMessage>
+                </FormControl>
             <Flex
               gap={5}
               my={5}

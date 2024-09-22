@@ -10,7 +10,7 @@ const Tools = ({floorplancompound,modelcompound,paymentplancompound,imagecompoun
   return (
     <div className=" px-8" >
         <div className=" space-y-2" >
-        <ImagesTools imagecompound={imagecompound}  />
+        <ImagesTools imagecompound={imagecompound} />
         <PayTools paymentplancompound={paymentplancompound}  />
         <ModalTools modelcompound={modelcompound} />
         <MasterTools masterplancompound={masterplancompound} />

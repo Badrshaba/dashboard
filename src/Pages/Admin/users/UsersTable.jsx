@@ -24,6 +24,7 @@ import {
   Button,
   ButtonGroup,
   Text,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { Table } from 'antd';
 import { Edit, Trash } from 'lucide-react';
@@ -38,6 +39,7 @@ const UsersTable = () => {
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userInfo, setUserInfo] = useState({});
+  const [errors,setErrors] = useState(false)
   const usernameRef = useRef();
   const roleRef = useRef();
   const cancelRef = useRef();
@@ -47,7 +49,6 @@ const UsersTable = () => {
     try {
       onOpen();
       const { data } = await getUsersApi.get(`/user-by-id/${userId}`);
-
       usernameRef.current.value = data?.data?.name;
       roleRef.current.value = data?.data?.role;
       setUserInfo(data?.data);
@@ -57,12 +58,16 @@ const UsersTable = () => {
   };
   const editUser = (e) => {
     e.preventDefault();
+    if (usernameRef.current?.value=='') return setErrors(true) 
     dispatch(
       updateUserFromDashboard({
         name: usernameRef.current.value,
         id: userInfo?.id,
       })
     );
+    setTimeout(()=>{
+      onClose()
+    },500)
   };
 
   const getuserDataDelete = async (userId) => {
@@ -223,12 +228,13 @@ const UsersTable = () => {
           )}
           <form className='px-5 py-2'>
             <VStack spacing={2}>
-              <FormControl>
+              <FormControl isInvalid={errors}>
                 <FormLabel>Username</FormLabel>
                 <Input
                   type='text'
                   ref={usernameRef}
                 />
+                 <FormErrorMessage>name is requared</FormErrorMessage>
               </FormControl>
 
               <FormControl>

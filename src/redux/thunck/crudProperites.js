@@ -16,7 +16,6 @@ export const getProperityById = createAsyncThunk(
   async (id, thunckApi) => {
     try {
       const { data } = await apiRegister.get(`/apartments/${id}`);
-      console.log(data);
       return data?.data;
     } catch (error) {
       return thunckApi.rejectWithValue(error);

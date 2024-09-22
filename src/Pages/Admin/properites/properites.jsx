@@ -44,7 +44,7 @@ const Properites = () => {
   useEffect(() => {
     dispatch(getProperites());
   }, []);
-
+console.log();
   return (
     <div className=' bg-white px-8 rounded-md'>
       <h3 className='text-3xl mt-5'>Properites</h3>

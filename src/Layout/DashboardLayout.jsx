@@ -6,12 +6,14 @@ import { genrateSidebarLinks } from '../utils/functions.jsx';
 import { Header } from '../componants';
 import img from '../../logo-removebg-preview.png';
 import "./style.css"
+import useCheckConnection from '../hooks/useCheckConnection.jsx';
 const { Sider } = Layout;
 
 const DashboardLayout = () => {
   const { user } = useSelector((state) => state.user);
   const [collapsed, setCollapsed] = useState(false);
   const [logoSize, setLogoSize] = useState(false);
+  const isOnline = useCheckConnection()
 
   return (
     <Layout
@@ -52,7 +54,7 @@ const DashboardLayout = () => {
       </Sider>
       <Layout>
         <Header />
-        <Outlet />
+        {isOnline?<Outlet />:<h1>Offline</h1>}
       </Layout>
     </Layout>
   );

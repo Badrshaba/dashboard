@@ -1,23 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { DevTool } from '@hookform/devtools';
+
+
 import { Box, Flex, Stack, Text, Textarea, Button } from '@chakra-ui/react';
 import { Input, InputNumber, Select } from 'antd';
+import { getProperityById } from '../../../redux/thunck/crudProperites';
 
 const UpdatePage = () => {
   const { compounds } = useSelector((state) => state.compounds);
-  const { properites } = useSelector((state) => state.properites);
-  const { id } = useParams();
-  const [properity] = properites.filter((pro) => pro.id == id);
-  console.log(properity);
+  const { properity } = useSelector((state) => state.properites);
+  const { properiteId } = useParams();
+const [formData,setFormData] = useState(null)
+ // console.log(properity);
   const dispatch = useDispatch();
-  const { register, control } = useForm();
+  const onSubmit =(e)=>{
+    e.preventDefault();
+
+  }
+
+  console.log(formData);
+  useEffect(()=>{
+    dispatch(getProperityById(properiteId))
+    setFormData(properity)
+  },[])
+  console.log(properity);
   return (
     <Box p={5}>
-      <Text mb={5}>Update Properity With Id {id}</Text>
-      <form>
+      <Text mb={5}>Update Properity With Id </Text>
+      <form >
         <Stack space={20}>
           <Box>
             <Text>1.Property Details</Text>
@@ -25,7 +36,6 @@ const UpdatePage = () => {
               <Select
                 placeholder='Choose Compound'
                 size='large'
-                {...register('compound')}
               >
                 {compounds?.map((compound) => (
                   <option
@@ -39,7 +49,7 @@ const UpdatePage = () => {
               <Input
                 placeholder='Properity Name...'
                 size='large'
-                {...register('properityName')}
+              value={formData?.name}
               />
             </Flex>
           </Box>
@@ -64,17 +74,17 @@ const UpdatePage = () => {
                   style={{ width: '180px' }}
                   size='large'
                   placeholder='Start Price...'
-                  {...register('priceFrom')}
-                />
+                 value={formData?.price_from}
+                 />
               </Flex>
               <Flex
                 alignItems='center'
                 gap={2}
-              >
+                >
                 <Text
                   color='gray'
                   fontWeight='bold'
-                >
+                  >
                   To
                 </Text>
 
@@ -82,7 +92,8 @@ const UpdatePage = () => {
                   style={{ width: '180px' }}
                   size='large'
                   placeholder='Maxmuim Price...'
-                  {...register('priceAfter')}
+                  value={formData?.price_to}
+                 
                 />
               </Flex>
             </Flex>
@@ -94,13 +105,13 @@ const UpdatePage = () => {
                 style={{ width: '250px' }}
                 placeholder='Address...'
                 size='large'
-                {...register('address')}
+                value={formData?.address_en}
               />
               <Input
-                style={{ width: '250px' }}
+                style={{ width: '250px' ,direction:'rtl'}}
                 size='large'
-                placeholder='Nearby Landmark...'
-                {...register('landMarks')}
+                placeholder='العنوان'
+               value={formData?.address_ar}
               />
             </Flex>
           </Box>
@@ -114,42 +125,45 @@ const UpdatePage = () => {
                 size='large'
                 placeholder='No. Of Rooms'
                 style={{ width: '220px' }}
-                {...register('roomsNo')}
-              />
+                value={formData?.rooms}
+                />
               <InputNumber
                 size='large'
                 placeholder='No. Of Master Bed Rooms'
                 style={{ width: '220px' }}
-                {...register('noMasterBedRooms')}
-              />
+                value={formData?.master_bedroom}
+                />
               <InputNumber
                 size='large'
                 placeholder='No. Of Bed Rooms'
                 style={{ width: '220px' }}
-                {...register('noBedRooms')}
-              />
+                value={formData?.bedrooms}
+                />
               <InputNumber
                 size='large'
                 placeholder='No. Of BathRooms'
                 style={{ width: '220px' }}
-                {...register('noBathRooms')}
-              />
+                value={formData?.bathrooms}
+                
+                />
               <InputNumber
                 size='large'
                 placeholder='No. Of Balcony'
                 style={{ width: '220px' }}
-                {...register('noBalcony')}
-              />
+                value={formData?.balconies}
+                />
               <InputNumber
                 size='large'
                 placeholder='No. Of kitchens'
                 style={{ width: '220px' }}
-                {...register('noKitchens')}
-              />
+                value={formData?.kitchens}
+                />
               <Select
+                style={{ width: '100px' }}
                 placeholder='With WIFI...'
                 size='large'
-                {...register('Wifi')}
+                value={formData?.wifi}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -165,7 +179,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='Parks & Gardens'
-                {...register('parksGardens')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -173,7 +187,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='Schools'
-                {...register('schools')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -181,7 +195,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='Clubhouse'
-                {...register('clubhouse')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -189,7 +203,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='commercial_strip'
-                {...register('commercialStrip')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -197,7 +211,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='business_hub'
-                {...register('businessHub')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -205,7 +219,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='mosque'
-                {...register('mosque')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -213,7 +227,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='sports_clubs'
-                {...register('sportsClubs')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -221,7 +235,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='bicycles_lanes'
-                {...register('bicyclesLanes')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -229,7 +243,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='medical_center'
-                {...register('medicalCenter')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -237,7 +251,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='disability_support'
-                {...register('disabilitySupport')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -245,7 +259,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='gym'
-                {...register('gym')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -253,7 +267,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='swimming_pool'
-                {...register('swimmingPool')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -261,7 +275,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='grage'
-                {...register('grage')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -269,7 +283,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='basketball'
-                {...register('basketBall')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -277,7 +291,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='tennis'
-                {...register('tennis')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -285,7 +299,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='laundry'
-                {...register('laundry')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -293,7 +307,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='wellness_facilities'
-                {...register('wellnessFacilities')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -301,7 +315,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='transportation'
-                {...register('transportaion')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -309,7 +323,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='water_features'
-                {...register('waterFeature')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -317,7 +331,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='cafes'
-                {...register('cafes')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -325,7 +339,7 @@ const UpdatePage = () => {
               <Select
                 size='large'
                 placeholder='restaurant'
-                {...register('resturant')}
+                
               >
                 <option value='1'>Yes</option>
                 <option value='0'>No</option>
@@ -343,7 +357,7 @@ const UpdatePage = () => {
               placeholder='Description'
               width={650}
               height={150}
-              {...register('description')}
+              
             />
           </Box>
           <Box>
@@ -353,20 +367,20 @@ const UpdatePage = () => {
                 type='phone'
                 size='large'
                 placeholder='Phone Number'
-                {...register('phone')}
+                
               />
               <Input
                 type='text'
                 size='large'
                 placeholder='Delivery Date'
-                {...register('date')}
+                
               />
             </Flex>
           </Box>
           <Button colorScheme='yellow'>Update</Button>
         </Stack>
       </form>
-      <DevTool control={control} />
+     
     </Box>
   );
 };

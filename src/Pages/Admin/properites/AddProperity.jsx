@@ -1,37 +1,86 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Flex, Stack, Text, Textarea, Button } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Textarea, Button, AvatarBadge } from '@chakra-ui/react';
 import { Input, InputNumber, Select, Form, Upload } from 'antd';
 import { getCompounds } from '../../../redux/thunck/crudCompounds';
 import { UploadCloud } from 'lucide-react';
+import { getStatus, getTypes } from '../../../redux/thunck/crudOthers';
+import { getAllSubCategories } from '../../../redux/thunck/subCategoriesAsync';
+import { baseURL, getUsersApi } from '../../../utils/api';
 
 const AddPage = () => {
   const { compounds } = useSelector((state) => state.compounds);
+  const { types } = useSelector((state) => state.types);
+  const { status } = useSelector((state) => state.status);
+  const { subCategories } = useSelector((state) => state.subCategories);
   const [fileList, setFileList] = useState([]);
+  const [file,setFile] = useState(null) 
+  const [model,setModel] = useState([])
   const dispatch = useDispatch();
 
-  const props = {
-    onRemove: (file) => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: (file) => {
-      setFileList([...fileList, file]);
-      return false;
-    },
-    fileList,
-  };
-
-  const handleSubmit = (data) => {
+  const handleSubmit = async(data) => {
     console.log(data);
     const formData = new FormData();
-    formData.append('image', data.image.file);
+    formData.append('name_en',data.name_en)
+    formData.append('name_ar',data.name_ar)
+    formData.append('description_en',data.description_en)
+    formData.append('description_ar',data.description_ar)
+    formData.append('address_en',data.address_en)
+    formData.append('address_ar',data.address_ar)
+    formData.append('price_to',data.price_to)
+    formData.append('area',+data.area)
+    formData.append('price_from',data.price_from)
+    formData.append('availability',data.availability)
+    formData.append('model_id',data.model_id)
+    formData.append('compound_id',data.compound_id)
+    formData.append('status_id',data.status_id)
+    formData.append('sub_id',data.sub_id)
+    formData.append('type_id',data.type_id)
+    formData.append('user_id',JSON.parse(localStorage.getItem('user')).id)
+    formData.append('image', file);
+    for (let index = 0; index < fileList.length; index++) {
+      formData.append('images[]', fileList[index]);
+    }
     console.log(formData.get('image'));
+    console.log(formData.getAll('images[]'));
+    try {
+      let { data } = await baseURL({
+        method: 'post',
+        url: '/apartments',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          APP_KEY: import.meta.env.VITE_APP_KEY,
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
+        },
+      });
+      
+      console.log(data);
+      
+    } catch (error) {
+      console.log(error);
+    //  setError(error?.response?.data || error?.message);
+       
+     }
   };
+  const handleInputChange = (e) => {
+    for (let i = 0; i < e.target.files.length; i++) {
+      setFileList((prev) => [...prev, e.target.files[i]]);
+    }
+  }
+  const getAllModal = async(id)=>{
+    try {
+      const {data} = await getUsersApi.get(`model/compound/${id}`)
+      setModel(data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
     dispatch(getCompounds());
+    dispatch(getTypes())
+    dispatch(getStatus())
+    dispatch(getAllSubCategories())
   }, [dispatch]);
   return (
     <Box p={5}>
@@ -71,6 +120,7 @@ const AddPage = () => {
                   placeholder='Choose Compound'
                   size='large'
                   style={{ width: '170px' }}
+                  onChange={(e)=>getAllModal(e)}
                 >
                   {compounds?.map((compound) => (
                     <option
@@ -114,6 +164,22 @@ const AddPage = () => {
                 />
               </Form.Item>
               <Form.Item
+                name='area'
+                rules={[
+                  {
+                    required: true,
+                    message: 'This Field Is Required..',
+                  },
+                ]}
+              >
+                <Input
+                  placeholder='area'
+                  size='large'
+                  type='number'
+                  style={{ width: '170px' }}
+                />
+              </Form.Item>
+              <Form.Item
                 name='model_id'
                 rules={[
                   {
@@ -127,7 +193,15 @@ const AddPage = () => {
                   size='large'
                   style={{ width: '170px' }}
                 >
-                  <option value='hah'>hhah</option>
+                  {model?.map((item) => (
+                    <option
+                      value={item.id}
+                      key={item.id}
+                    >
+                      {item.name}
+                    </option>
+                  ))}
+
                 </Select>
               </Form.Item>
               <Form.Item
@@ -144,8 +218,14 @@ const AddPage = () => {
                   size='large'
                   style={{ width: '170px' }}
                 >
-                  <option value='sell'>sell</option>
-                  <option value='rent'>Rent</option>
+                {types?.map((type) => (
+                    <option
+                      value={type.id}
+                      key={type.id}
+                    >
+                      {type.name}
+                    </option>
+                  ))}
                 </Select>
               </Form.Item>
               <Form.Item
@@ -162,8 +242,38 @@ const AddPage = () => {
                   size='large'
                   style={{ width: '170px' }}
                 >
-                  <option value='sell'>sell</option>
-                  <option value='rent'>Rent</option>
+                  {subCategories?.map((subCategorie) => (
+                    <option
+                      value={subCategorie.id}
+                      key={subCategorie.id}
+                    >
+                      {subCategorie.name}
+                    </option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name='status_id'
+                rules={[
+                  {
+                    required: true,
+                    message: 'This Field Is Required..',
+                  },
+                ]}
+              >
+                <Select
+                  placeholder='Status..'
+                  size='large'
+                  style={{ width: '170px' }}
+                >
+                  {status?.map((stat) => (
+                    <option
+                      value={stat.id}
+                      key={stat.id}
+                    >
+                      {stat.name}
+                    </option>
+                  ))}
                 </Select>
               </Form.Item>
               <Form.Item
@@ -685,7 +795,7 @@ const AddPage = () => {
               6.Media & Documents
             </Text>
             <Flex gap={5}>
-              <Form.Item
+              {/* <Form.Item
                 name='image'
                 rules={[{ required: true, message: 'This Field Is required' }]}
               >
@@ -695,8 +805,10 @@ const AddPage = () => {
                 >
                   <Button icon={<UploadCloud />}>Upload</Button>
                 </Upload>
-              </Form.Item>
-              <Form.Item
+              </Form.Item> */}
+              <input type="file" required onChange={(e) => setFile(e.target.files[0])} />
+              <input type="file" required multiple onChange={(e) => handleInputChange(e)} />
+              {/* <Form.Item
                 name='images'
                 rules={[{ required: true, message: 'This Field Is required' }]}
               >
@@ -706,7 +818,7 @@ const AddPage = () => {
                 >
                   <Button icon={<UploadCloud />}>Upload</Button>
                 </Upload>
-              </Form.Item>
+              </Form.Item> */}
             </Flex>
           </Box>
           <Box>

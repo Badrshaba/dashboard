@@ -39,20 +39,7 @@ const TableProperites = ({ properites }) => {
   const navigate = useNavigate();
   const getColumnSearchProps = useSearchInTable();
 
-  //   try {
-  //     const { data } = await getUsersApi.get('/profile-cc', {
-  //       params: { id: userId },
-  //     });
 
-  //     setUserInfo(data?.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  console.log(properites);
-  const deleteProperites = (properiteId) => {
-    console.log(properiteId);
-  };
   const columns = [
     {
       title: 'Name',
@@ -67,16 +54,16 @@ const TableProperites = ({ properites }) => {
       ...getColumnSearchProps('compound_id'),
     },
     {
-      title: 'Units',
+      title: 'Model',
+      dataIndex: 'model_id',
+      key: 'model_id',
+      ...getColumnSearchProps('model_id'),
+    },
+    {
+      title: 'Availability',
       dataIndex: 'availability',
       key: 'availability',
       ...getColumnSearchProps('availability'),
-    },
-    {
-      title: 'Developer Name',
-      dataIndex: 'devName',
-      key: 'devName',
-      ...getColumnSearchProps('devName'),
     },
     {
       title: 'Actions',
@@ -102,14 +89,14 @@ const TableProperites = ({ properites }) => {
           >
             <Trash size={20} />
           </Button>
-          <Button
+          {/* <Button
             colorScheme='yellow'
             onClick={() => {
               navigate(`/properites/updateproperity/${rec.id}`);
             }}
           >
             <Edit size={20} />
-          </Button>
+          </Button> */}
         </ButtonGroup>
       ),
     },

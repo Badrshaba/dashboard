@@ -15,6 +15,7 @@ import {
   ModalHeader,
   ModalOverlay,
   VStack,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { Plus } from 'lucide-react';
 import { createNewCategoryFromDashboard } from '../../../redux';
@@ -24,11 +25,28 @@ const AddCategoryPopup = ({ error, isLoading }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
+  const [errors,setErrors] = useState({
+    title:"",
+    address:'',
+    image:''
+  })
   const titleRef = useRef();
   const titleArRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(titleRef.current.value=='') return setErrors((prevData)=>({
+      ...prevData,
+      title:'title is requared'
+    }))
+    if(titleArRef.current.value=='') return setErrors((prevData)=>({
+      ...prevData,
+      address:'العنوان اجباري'
+    }))
+    if(!files.length) return setErrors((prevData)=>({
+      ...prevData,
+      image:'image is requared'
+    }))
     const formData = new FormData();
     formData.append('image', files[0]);
     formData.append('name_en', titleRef.current.value);
@@ -53,7 +71,17 @@ const AddCategoryPopup = ({ error, isLoading }) => {
         leftIcon={<Plus />}
         mt={5}
         size='md'
-        onClick={onOpen}
+        onClick={()=>{
+          for (let key in errors) {
+            if (errors.hasOwnProperty(key)) {
+              setErrors((prevData) => ({
+                ...prevData,
+                [key]: '',
+              }))
+            }
+          }
+          onOpen()
+        }}
       >
         Add Category
       </Button>
@@ -83,28 +111,32 @@ const AddCategoryPopup = ({ error, isLoading }) => {
             onSubmit={(e) => handleSubmit(e)}
           >
             <VStack spacing={2}>
-              <FormControl>
+              <FormControl isInvalid={errors.title}>
                 <FormLabel>Title</FormLabel>
                 <Input
                   type='text'
                   ref={titleRef}
                 />
+                <FormErrorMessage>{errors.title}</FormErrorMessage>
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={errors.address} >
                 <FormLabel>العنوان</FormLabel>
                 <Input
                   dir='rtl'
                   type='text'
                   ref={titleArRef}
                 />
+                <FormErrorMessage>{errors.address}</FormErrorMessage>
+
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={errors.image} >
                 <FileInput
                   lable='Image'
                   title='Category Image'
                   filesHandler={setFiles}
                   files={files}
                 />
+                <FormErrorMessage>{errors.image}</FormErrorMessage>
               </FormControl>
             </VStack>
             <Button

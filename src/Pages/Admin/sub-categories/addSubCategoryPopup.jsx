@@ -44,11 +44,11 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
     }))
     if(nameArRef.current.value=='') return setErrors((prevData)=>({
       ...prevData,
-      nameAr:"Name is requared"
+      nameAr:"الاسم اجباري"
     }))
     if(!files.length) return setErrors((prevData)=>({
       ...prevData,
-      image:"Name is requared"
+      image:"image is requared"
     }))
     const formData = new FormData();
     formData.append('name_en', nameRef.current.value);
@@ -128,7 +128,7 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
                  <FormErrorMessage>{errors.name}</FormErrorMessage>
 
               </FormControl>
-              <FormControl isInvalid={errors.nameAr}>
+              <FormControl style={{direction:'rtl'}} isInvalid={errors.nameAr}>
                 <FormLabel>الأسم</FormLabel>
                 <Input
                   type='text'
@@ -138,12 +138,14 @@ const AddSubCategoryPopup = ({ error, isLoading }) => {
 
               </FormControl>
               <FormControl isInvalid={errors.image}>
-                <FileInput
+              <FormLabel>Image</FormLabel>
+                {/* <FileInput
                   lable='Image'
                   title='Subcategory Image'
                   filesHandler={setFiles}
                   files={files}
-                />
+                /> */}
+                <Input type='file' onChange={(e)=>setFiles(e.target.files)} />
                  <FormErrorMessage>{errors.image}</FormErrorMessage>
               </FormControl>
               <FormControl>

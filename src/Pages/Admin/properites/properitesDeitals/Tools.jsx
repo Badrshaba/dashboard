@@ -8,7 +8,7 @@ import PaymentTools from "./PaymentTools"
 
 const Tools = ({payment_plans,master_plans,images,floor_plans}) => {
   return (
-    <div>
+    <div className=" px-4 mt-2 space-y-2">
         <ImageTools imagecompound={images} />
         <PaymentTools paymentplancompound={payment_plans} />
         <FloorTools floorplancompound={floor_plans}/>

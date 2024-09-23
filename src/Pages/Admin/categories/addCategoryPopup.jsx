@@ -67,7 +67,7 @@ const AddCategoryPopup = ({ error, isLoading }) => {
   return (
     <>
       <Button
-        colorScheme='teal'
+        colorScheme='teal' 
         leftIcon={<Plus />}
         mt={5}
         size='md'
@@ -119,9 +119,9 @@ const AddCategoryPopup = ({ error, isLoading }) => {
                 />
                 <FormErrorMessage>{errors.title}</FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={errors.address} >
+              <FormControl style={{direction:'rtl'}} isInvalid={errors.address} >
                 <FormLabel>العنوان</FormLabel>
-                <Input
+                 <Input
                   dir='rtl'
                   type='text'
                   ref={titleArRef}
@@ -130,12 +130,14 @@ const AddCategoryPopup = ({ error, isLoading }) => {
 
               </FormControl>
               <FormControl isInvalid={errors.image} >
-                <FileInput
+                {/* <FileInput
                   lable='Image'
                   title='Category Image'
                   filesHandler={setFiles}
                   files={files}
-                />
+                /> */}
+                <FormLabel>Image</FormLabel>
+                <Input type='file' onChange={(e)=>setFiles(e.target.files)} />
                 <FormErrorMessage>{errors.image}</FormErrorMessage>
               </FormControl>
             </VStack>

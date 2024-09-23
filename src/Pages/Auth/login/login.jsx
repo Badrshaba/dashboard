@@ -12,6 +12,7 @@ import {
   AlertDescription,
 } from '@chakra-ui/react';
 import { loginAsync } from '../../../redux/thunck/userAsync';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const { error, isLoading } = useSelector((state) => state.user);
@@ -27,6 +28,7 @@ const Login = () => {
           alt='Resido Logo'
           className=' animate-bounce'
         />
+         <Link to={'/privacy_policy'} className='fixed top-3/4 text-teal-700 underline' > privacy policy </Link>
       </div>
       <div className='flex items-center flex-col justify-center'>
         {error && (

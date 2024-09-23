@@ -424,7 +424,7 @@ const AddPage = () => {
               >
                 <InputNumber
                   size='large'
-                  placeholder='No. Of Rooms'
+                  placeholder='No. Of bathrooms'
                   style={{ width: '220px' }}
                 />
               </Form.Item>
@@ -838,6 +838,7 @@ const AddPage = () => {
                 <Textarea
                   resize='none'
                   placeholder='Description'
+                  backgroundColor={'white'}
                   width={550}
                   height={150}
                 />
@@ -849,6 +850,7 @@ const AddPage = () => {
                 <Textarea
                   resize='none'
                   placeholder='الوصف'
+                  backgroundColor={'white'}
                   width={550}
                   height={150}
                   dir='rtl'
@@ -863,20 +865,18 @@ const AddPage = () => {
               fontSize={14}
               color={'gray.600'}
             >
-              8.Contact & Delivery
+              8.Delivery
             </Text>
-            <Flex gap={3}>
-              <Input
-                type='phone'
-                size='large'
-                placeholder='Phone Number'
-              />
+            <Form.Item    name='delivery_in'
+                rules={[{ required: true, message: 'This Field Is required' }]}
+                style={{width:"170px"}}
+                >
               <Input
                 type='text'
                 size='large'
                 placeholder='Delivery Date'
               />
-            </Flex>
+            </Form.Item>
           </Box>
           <Button
             colorScheme='teal'

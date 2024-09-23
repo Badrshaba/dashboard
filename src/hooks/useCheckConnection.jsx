@@ -10,10 +10,10 @@ const useCheckConnection = () => {
        mode:'no-cors'
      })
      setIsOnline(true)
-    console.log(req)
+    //console.log(req)
     } catch (error) {
      setIsOnline(false)
-     console.log(error)
+     //console.log(error)
      
     }
   }

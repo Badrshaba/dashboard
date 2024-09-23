@@ -1,41 +1,189 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
-
-import { Box, Flex, Stack, Text, Textarea, Button } from '@chakra-ui/react';
-import { Input, InputNumber, Select } from 'antd';
+import { Box, Flex, Stack, Text, Textarea, Button, FormLabel } from '@chakra-ui/react';
+import { Input,  Select } from 'antd';
 import { getProperityById } from '../../../redux/thunck/crudProperites';
+import { apiRegister, getUsersApi } from '../../../utils/api';
+import Selector from '../../../componants/form/Selector';
+import { getStatus, getTypes } from '../../../redux/thunck/crudOthers';
+import { getAllSubCategories } from '../../../redux/thunck/subCategoriesAsync';
+import { getCompounds } from '../../../redux/thunck/crudCompounds';
 
 const UpdatePage = () => {
   const { compounds } = useSelector((state) => state.compounds);
-  const { properity } = useSelector((state) => state.properites);
+   const { types } = useSelector((state) => state.types);
+   const { status } = useSelector((state) => state.status);
+   const { subCategories } = useSelector((state) => state.subCategories);
   const { properiteId } = useParams();
 const [formData,setFormData] = useState(null)
- // console.log(properity);
+const [model,setModel] = useState(null)
+const [loading,setLoading] = useState(false)
+const nameRef = useRef()
+//console.log(nameRef);
+const [errors,setErrors] = useState({
+  name_ar:'',
+  name_en:'',
+  address_en:"",
+  address_ar:"",
+  description_en:"",
+  description_ar:"",
+  area:'',
+  price_from:'',
+  price_to:'',
+  availability:'',
+  kitchens:"",
+  balconies:"",
+  rooms:"",
+  master_bedroom:"",
+  bedrooms:'',
+  delivery_in:''
+})
   const dispatch = useDispatch();
-  const onSubmit =(e)=>{
+  const onSubmit =async(e)=>{
     e.preventDefault();
-
+    if(errors.name_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      name_en:"name is requared"
+    }))
+    if(errors.name_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      name_ar:"الاسم اجباري"
+    }))
+    if(errors.address_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      address_en:"address is requared"
+    }))
+    if(errors.address_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      address_ar:"العنوان اجباري"
+    }))
+    if(errors.description_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      description_ar:"الوصف اجباري"
+    }))
+    if(errors.description_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      description_en:'description is requared'
+    }))
+    if(errors.area=='') return setErrors((prevData)=>({
+      ...prevData,
+      area:'area is requared'
+    }))
+    if(errors.availability=='') return setErrors((prevData)=>({
+      ...prevData,
+      availability:'availability is requared'
+    }))
+    if(errors.balconies=='') return setErrors((prevData)=>({
+      ...prevData,
+      balconies:'balconies is requared'
+    }))
+    if(errors.bedrooms=='') return setErrors((prevData)=>({
+      ...prevData,
+      bedrooms:'bedrooms is requared'
+    }))
+    if(errors.delivery_in=='') return setErrors((prevData)=>({
+      ...prevData,
+      delivery_in:'delivery in is requared'
+    }))
+    if(errors.kitchens=='') return setErrors((prevData)=>({
+      ...prevData,
+      kitchens:'kitchens is requared'
+    }))
+    if(errors.master_bedroom=='') return setErrors((prevData)=>({
+      ...prevData,
+      master_bedroom:'master bedroom is requared'
+    }))
+    if(errors.price_from=='') return setErrors((prevData)=>({
+      ...prevData,
+      price_from:'price from is requared'
+    }))
+    if(errors.price_to=='') return setErrors((prevData)=>({
+      ...prevData,
+      price_to:'price to is requared'
+    }))
+    if(errors.rooms=='') return setErrors((prevData)=>({
+      ...prevData,
+      rooms:'rooms is requared'
+    }))
+   setLoading(true)
+try {
+   await getUsersApi({
+    url:`/apartments/${properiteId}?_method=PUT`,
+    method: 'post',
+    data: formData,
+  })
+  setLoading(false)
+} catch (error) {
+  console.log(error);
+  setLoading(false)
+}
+  }
+  const handleChange = (e) => {
+  //  console.log(e.target);
+  //  console.log(nameRef.current);
+    const { name, value } = e.target;
+    if ( name != 'description_en' && name != 'description_ar'&& value.length > 50) {
+      return setErrors((prevData)=>({
+        ...prevData,
+        [name]:"max length is 50  "
+      }))
+    }
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const getProperityById = async(id)=>{
+    try {
+      const { data } = await apiRegister.get(`/apartments/${id}`);
+      setFormData(data?.data)
+      //return data?.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const getAllModal = async(id)=>{
+    try {
+      const {data} = await getUsersApi.get(`model/compound/${id}`)
+      setModel(data?.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  console.log(formData);
+ // console.log(model);
   useEffect(()=>{
-    dispatch(getProperityById(properiteId))
-    setFormData(properity)
+    getProperityById(properiteId)
+    dispatch(getTypes())
+    dispatch(getStatus())
+    dispatch(getAllSubCategories())
+    dispatch(getCompounds())
   },[])
-  console.log(properity);
+  useEffect(()=>{
+    if (formData) {
+      getAllModal(formData?.compound_id)
+    }
+  },[formData])
+ // console.log(formData);
   return (
     <Box p={5}>
-      <Text mb={5}>Update Properity With Id </Text>
-      <form >
+      <form onSubmit={onSubmit} >
         <Stack space={20}>
           <Box>
-            <Text>1.Property Details</Text>
+            <FormLabel>1.Property Details</FormLabel>
             <Flex gap={5}>
+<div className=' flex flex-wrap space-x-3'>
+            <div className=' flex flex-col'  >
+            <Text fontSize={12} >Compound </Text>
               <Select
                 placeholder='Choose Compound'
                 size='large'
+                value={formData?.compound_id}
+                style={{ width: '170px' }}
+                name='compound_id'
+                onChange={(e)=>{getAllModal(e)
+                   setFormData((prevData) => ({...prevData,compound_id: e,}))}}
               >
                 {compounds?.map((compound) => (
                   <option
@@ -46,15 +194,133 @@ const [formData,setFormData] = useState(null)
                   </option>
                 ))}
               </Select>
+              </div>
+              <div className=' flex flex-col' >
+              <Text fontSize={12}>Name </Text>
               <Input
+            
                 placeholder='Properity Name...'
                 size='large'
-              value={formData?.name}
+                name='name_en'
+              value={formData?.name_en}
+              onChange={handleChange}
+              style={{ width: '170px' }}
               />
+              </div>
+              <div style={{ direction:'rtl' }} className=' flex flex-col '  >
+            <Text fontSize={12}>اسم الوحده </Text>
+              <Input
+                placeholder='اسم الوحده'
+                size='large'
+                name='name_ar'
+                value={formData?.name_ar}
+              onChange={handleChange}
+              style={{ width: '170px' }}
+              />
+              </div>
+              <div className=' flex flex-col' >
+              <Text fontSize={12}>Area </Text>
+              <Input
+                placeholder='Area...'
+                size='large'
+                name='area'
+              value={formData?.area}
+              onChange={handleChange}
+              style={{ width: '100px' }}
+              />
+              </div>
+              <div className=' flex flex-col'  >
+            <Text fontSize={12} >Modal </Text>
+              <Select
+                placeholder='Choose Modal'
+                size='large'
+                value={formData?.model_id}
+                style={{ width: '100px' }}
+                onChange={(e)=>{setFormData((prevData) => ({...prevData,model_id: e,}))}}
+              >
+                {model?.map((mod) => (
+                  <option
+                    value={mod.id}
+                    key={mod.id}
+                  >
+                    {mod.name}
+                  </option>
+                ))}
+              </Select>
+              </div>
+              <div className=' flex flex-col'  >
+            <Text fontSize={12} >Type </Text>
+              <Select
+                placeholder='Choose Type'
+                size='large'
+                value={formData?.type_id}
+                style={{ width: '100px' }}
+                onChange={(e)=>{setFormData((prevData) => ({...prevData,type_id: e,}))}}
+              >
+                {types?.map((type) => (
+                  <option
+                    value={type.id}
+                    key={type.id}
+                  >
+                    {type.name}
+                  </option>
+                ))}
+              </Select>
+              </div>
+              <div className=' flex flex-col w-24'  >
+            <Text fontSize={12} >Sub Category </Text>
+              <Select
+                placeholder='Choose Sub'
+                size='large'
+                value={formData?.sub_id}
+                style={{ width: '100px' }}
+                handleChange={(e)=>{setFormData((prevData) => ({...prevData,sub_id: e,}))}}
+              >
+                {subCategories?.map((subCategory) => (
+                  <option
+                    value={subCategory.id}
+                    key={subCategory.id}
+                  >
+                    {subCategory.name}
+                  </option>
+                ))}
+              </Select>
+              </div>
+              <div className=' flex flex-col '  >
+            <Text fontSize={12} >Status </Text>
+              <Select
+                placeholder='Choose Sub'
+                size='large'
+                value={formData?.status_id}
+                style={{ width: '100px' }}
+                onChange={(e)=>{setFormData((prevData) => ({...prevData,status_id: e,}))}}
+              >
+                {status?.map((stat) => (
+                  <option
+                    value={stat.id}
+                    key={stat.id}
+                  >
+                    {stat.name}
+                  </option>
+                ))}
+              </Select>
+              </div>
+              <div className=' flex flex-col' >
+              <Text fontSize={12}>Availability </Text>
+              <Input
+                placeholder='Availability...'
+                size='large'
+                name='availability'
+              value={formData?.availability}
+              onChange={handleChange}
+              style={{ width: '100px' }}
+              />
+              </div>
+</div>
             </Flex>
           </Box>
           <Box>
-            <Text>2.Pricing and Financial Information</Text>
+          <FormLabel>2.Pricing and Financial Information</FormLabel>
             <Flex
               gap={3}
               alignItems='center'
@@ -70,11 +336,14 @@ const [formData,setFormData] = useState(null)
                   From
                 </Text>
 
-                <InputNumber
+                <Input
                   style={{ width: '180px' }}
                   size='large'
                   placeholder='Start Price...'
+                  name='price_from'
                  value={formData?.price_from}
+                onChange={handleChange}
+
                  />
               </Flex>
               <Flex
@@ -88,296 +357,213 @@ const [formData,setFormData] = useState(null)
                   To
                 </Text>
 
-                <InputNumber
+                <Input
                   style={{ width: '180px' }}
                   size='large'
                   placeholder='Maxmuim Price...'
+                  name='price_to'
                   value={formData?.price_to}
+                  onChange={handleChange}
                  
                 />
               </Flex>
             </Flex>
           </Box>
           <Box>
-            <Text>3.Location</Text>
+            <FormLabel>3.Location</FormLabel>
             <Flex gap={5}>
+            <div className=' flex flex-col' >
+            <Text fontSize={12}>Address </Text>
               <Input
                 style={{ width: '250px' }}
                 placeholder='Address...'
                 size='large'
+                name='address_en'
                 value={formData?.address_en}
+                onChange={handleChange}
               />
+            </div>
+            <div style={{direction:'rtl'}} className=' flex flex-col'>
+            <Text fontSize={12}>العنوان </Text>
               <Input
-                style={{ width: '250px' ,direction:'rtl'}}
+                style={{ width: '250px'}}
                 size='large'
                 placeholder='العنوان'
+                name='address_ar'
                value={formData?.address_ar}
+               onChange={handleChange}
               />
+            </div>
             </Flex>
           </Box>
           <Box>
-            <Text>4. Amenities and Features </Text>
+            <FormLabel>4. Amenities and Features </FormLabel>
             <Flex
               gap={3}
               wrap='wrap'
             >
-              <InputNumber
+              <div className=' flex flex-col' >
+              <Text fontSize={12}>Rooms </Text>
+              <Input
                 size='large'
                 placeholder='No. Of Rooms'
                 style={{ width: '220px' }}
+                name='rooms'
                 value={formData?.rooms}
+                onChange={handleChange}
                 />
-              <InputNumber
+              </div>
+              <div className=' flex flex-col' >
+              <Text fontSize={12}>Master bedroom </Text>
+              <Input
                 size='large'
                 placeholder='No. Of Master Bed Rooms'
+                name='master_bedroom'
                 style={{ width: '220px' }}
                 value={formData?.master_bedroom}
+                onChange={handleChange}
                 />
-              <InputNumber
+              </div>
+              <div className=' flex flex-col' >
+              <Text fontSize={12}>Bed Room </Text>
+              <Input
                 size='large'
                 placeholder='No. Of Bed Rooms'
                 style={{ width: '220px' }}
+                name='bedrooms'
                 value={formData?.bedrooms}
+                onChange={handleChange}
                 />
-              <InputNumber
+              </div>
+              <div className=' flex flex-col' >
+              <Text fontSize={12}>BathRooms </Text>
+              <Input
                 size='large'
+                type='number'
                 placeholder='No. Of BathRooms'
                 style={{ width: '220px' }}
+                ref={nameRef}
                 value={formData?.bathrooms}
-                
+                name='bathrooms'
+                onChange={handleChange}
                 />
-              <InputNumber
+              </div>
+              <div className=' flex flex-col' >
+                <Text fontSize={12}>Balcony </Text>
+              <Input
                 size='large'
                 placeholder='No. Of Balcony'
                 style={{ width: '220px' }}
+                name='balconies'
                 value={formData?.balconies}
+                onChange={handleChange}
                 />
-              <InputNumber
+              </div>
+              <div className=' flex flex-col' >
+              <Text fontSize={12}>kitchens </Text>
+              <Input
                 size='large'
                 placeholder='No. Of kitchens'
                 style={{ width: '220px' }}
+                name='kitchens'
                 value={formData?.kitchens}
+                onChange={handleChange}
                 />
+              </div>
+              <div className=' flex flex-col' >
+                <Text fontSize={12}>Wifi </Text>
               <Select
                 style={{ width: '100px' }}
                 placeholder='With WIFI...'
                 size='large'
+                name='wifi'
                 value={formData?.wifi}
-                
+                onChange={(e)=>{setFormData((prevData) => ({...prevData,wifi: e,}))}}
               >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
+                <option value={1}>Yes</option>
+                <option value={0}>No</option>
               </Select>
+              </div>
             </Flex>
           </Box>
           <Box>
-            <Text>5.Nearby Services</Text>
+            <FormLabel>5.Nearby Services</FormLabel>
             <Flex
               gap={3}
               wrap='wrap'
             >
-              <Select
-                size='large'
-                placeholder='Parks & Gardens'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='Schools'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='Clubhouse'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='commercial_strip'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='business_hub'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='mosque'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='sports_clubs'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='bicycles_lanes'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='medical_center'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='disability_support'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='gym'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='swimming_pool'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='grage'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='basketball'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='tennis'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='laundry'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='wellness_facilities'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='transportation'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='water_features'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='cafes'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
-              <Select
-                size='large'
-                placeholder='restaurant'
-                
-              >
-                <option value='1'>Yes</option>
-                <option value='0'>No</option>
-              </Select>
+              <Selector placeholder={'Parks And Garden'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,parks_and_garden: e,}))}} name={'parks_and_garden'} value={formData?.parks_and_garden} />
+              <Selector placeholder={'Schools'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,schools: e,}))}} name={'schools'} value={formData?.schools} />
+              <Selector placeholder={'Commercial strip'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,commercial_strip: e,}))}} name={'commercial_strip'} value={formData?.commercial_strip} />
+              <Selector placeholder={'Business hub'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,business_hub: e,}))}} name={'business_hub'} value={formData?.business_hub} />
+              <Selector placeholder={'mosque'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,mosque: e,}))}} name={'mosque'} value={formData?.mosque} />
+              <Selector placeholder={'Club house'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,clubhouse: e,}))}} name={'clubhouse'} value={formData?.clubhouse} />
+              <Selector placeholder={'Sports clubs'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,sports_clubs: e,}))}} name={'sports_clubs'} value={formData?.sports_clubs} />
+              <Selector placeholder={'Bicycles lanes'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,bicycles_lanes: e,}))}} name={'bicycles_lanes'} value={formData?.bicycles_lanes} />
+              <Selector placeholder={'Medical center'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,medical_center: e,}))}} name={'medical_center'} value={formData?.medical_center} />
+              <Selector placeholder={'Disability support'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,disability_support: e,}))}} name={'disability_support'} value={formData?.disability_support} />
+              <Selector placeholder={'Gym'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,gym: e,}))}} name={'gym'} value={formData?.gym} />
+              <Selector placeholder={'Swimming pool'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,swimming_pool: e,}))}} name={'swimming_pool'} value={formData?.swimming_pool} />
+              <Selector placeholder={'Grage'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,grage: e,}))}} name={'grage'} value={formData?.grage} />
+              <Selector placeholder={'Basketball'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,basketball: e,}))}} name={'basketball'} value={formData?.basketball} />
+              <Selector placeholder={'Tennis'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,tennis: e,}))}} name={'tennis'} value={formData?.tennis} />
+              <Selector placeholder={'Laundry'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,laundry: e,}))}} name={'laundry'} value={formData?.laundry} />
+              <Selector placeholder={'Wellness facilities'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,wellness_facilities: e,}))}} name={'wellness_facilities'} value={formData?.wellness_facilities} />
+              <Selector placeholder={'Transportation'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,transportation: e,}))}} name={'transportation'} value={formData?.transportation} />
+              <Selector placeholder={'Water features'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,water_features: e,}))}} name={'water_features'} value={formData?.water_features} />
+              <Selector placeholder={'Cafes'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,cafes: e,}))}} name={'cafes'} value={formData?.cafes} />
+              <Selector placeholder={'Restaurant'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,restaurant: e,}))}} name={'restaurant'} value={formData?.restaurant} />
+              <Selector placeholder={'Security'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,security: e,}))}} name={'security'} value={formData?.security} />
+              <Selector placeholder={'cctv'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,cctv: e,}))}} name={'cctv'} value={formData?.cctv} />
+              <Selector placeholder={'Garden'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,garden: e,}))}} name={'garden'} value={formData?.garden} />
             </Flex>
           </Box>
+
           <Box>
-            <Text>6.Media & Documents</Text>
-            <Flex gap={5}></Flex>
-          </Box>
-          <Box>
-            <Text>7.Description And Tags</Text>
+            <FormLabel>7.Description And Tags</FormLabel>
+                <div className=' flex space-x-2'>
+                <div className=' flex flex-col'>
+            <Text fontSize={12}>Description </Text>
             <Textarea
               resize='none'
               placeholder='Description'
-              width={650}
+              width={550}
               height={150}
-              
+              name='description_en'
+              backgroundColor={'white'}
+              value={formData?.description_en}
+              onChange={handleChange}
             />
+            </div>
+            <div style={{direction:'rtl'}} className=' flex flex-col' >
+            <Text fontSize={12}>الوصف </Text>
+            <Textarea
+              resize='none'
+              placeholder='الوصف'
+              width={550}
+              height={150}
+              name='description_ar'
+              value={formData?.description_ar}
+              backgroundColor={'white'}
+              onChange={handleChange}
+            />
+            </div>
+</div>
           </Box>
           <Box>
-            <Text>8.Contact & Delivery</Text>
+            <Text>8.Delivery</Text>
             <Flex gap={3}>
-              <Input
-                type='phone'
-                size='large'
-                placeholder='Phone Number'
-                
-              />
               <Input
                 type='text'
                 size='large'
                 placeholder='Delivery Date'
-                
+                value={formData?.delivery_in}
+                onChange={handleChange}
+                style={{width:'170px'}}
               />
             </Flex>
           </Box>
-          <Button colorScheme='yellow'>Update</Button>
+          <Button type='submit' isLoading={loading} colorScheme='yellow'>Update</Button>
         </Stack>
       </form>
      

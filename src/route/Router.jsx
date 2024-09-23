@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
 import LoadingSkeleton from '../componants/loading-skeleton/LoadingSkeleton';
 import DashboardLayout from '../Layout/DashboardLayout';
+const PrivcyPolicy = lazy(()=>import('../Pages/Others/unauthorized/PrivcyPolicy'));
 const ProperitePage = lazy(() => import('../Pages/Admin/properites/ProperitePage'));
 const Dashboard = lazy(() => import('../Pages/Admin/dashboard/dashboard'));
 const CompoundPage = lazy(() => import('../Pages/Admin/compounds/compoundDeitals/CompoundPage'));
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/privacy_policy',
+    element: (
+      <Suspense fallback={<LoadingSkeleton />}>
+        <PrivcyPolicy />
+      </Suspense>
+  )
   },
   {
     path: '/',

@@ -89,14 +89,14 @@ const TableProperites = ({ properites }) => {
           >
             <Trash size={20} />
           </Button>
-          {/* <Button
+          <Button
             colorScheme='yellow'
             onClick={() => {
               navigate(`/properites/updateproperity/${rec.id}`);
             }}
           >
             <Edit size={20} />
-          </Button> */}
+          </Button>
         </ButtonGroup>
       ),
     },

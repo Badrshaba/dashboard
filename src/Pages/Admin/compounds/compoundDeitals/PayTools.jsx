@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 import {getUsersApi} from '../../../../utils/api'
 import PayComponant from "./PayComponant"
 import { getCompoundById } from "../../../../redux/thunck/crudCompounds"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 const PayTools = ({paymentplancompound}) => {
     const { isOpen:isOpenPay, onOpen:onOpenPay, onClose:onClosePay } = useDisclosure()
@@ -16,6 +16,7 @@ const PayTools = ({paymentplancompound}) => {
     const [errorRate,setErrorRate] = useState('')
     const [errorYearly_rate,setErrorYearly_rate] = useState('')
     const dispatch = useDispatch();
+    const { authButton } = useSelector((state) => state.authrization);
 
     const onSubmit = async(e)=>{
       e.preventDefault();
@@ -54,7 +55,7 @@ const PayTools = ({paymentplancompound}) => {
     <div className=" space-y-2">
     <div className=" flex justify-between w-full border px-2 py-1 rounded shadow">
     <h3 className=" font-semibold" >Payment plan</h3>
-    <Button onClick={clearPayment} colorScheme='teal' size='xs' ><Plus size={15}/></Button>
+    {authButton&&<Button onClick={clearPayment} colorScheme='teal' size='xs' ><Plus size={15}/></Button>}
     <Modal isOpen={isOpenPay} onClose={onClosePay}>
     <ModalOverlay />
     <ModalContent>

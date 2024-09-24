@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { DeleteAlert } from '../../../componants';
 import { useRef, useState } from 'react';
-import { api, apiRegister, getUsersApi } from '../../../utils/api';
+import { api, apiRegister, baseURL, getUsersApi } from '../../../utils/api';
 import useSearchInTable from '../../../hooks/useSearchInTable';
 const CompoundsTable = ({ compounds }) => {
   const { isLoading } = useSelector((state) => state.compounds);
@@ -39,6 +39,8 @@ const CompoundsTable = ({ compounds }) => {
     name_ar:''
   });
   const [loading, setLoading] = useState(false);
+  const { authButton } = useSelector((state) => state.authrization);
+
   const selectRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -49,7 +51,7 @@ const CompoundsTable = ({ compounds }) => {
       onCloseDialog();
     }, 500);
   };
-  const columns = [
+  const columns = authButton? [
     {
       title: 'Name',
       dataIndex: 'name',
@@ -110,6 +112,42 @@ const CompoundsTable = ({ compounds }) => {
         </ButtonGroup>
       ),
     },
+  ]:[
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      ...getColumnSearchProps('name'),
+    },
+    {
+      title: 'Zone',
+      dataIndex: 'zone_id',
+      key: 'zone_id',
+    },
+    {
+      title: 'Units',
+      dataIndex: 'number_of_units',
+      key: 'number_of_units',
+      ...getColumnSearchProps('number_of_units'),
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, rec) => (
+        <ButtonGroup
+          variant='outline'
+          spacing={4}
+          size='sm'
+        >
+          <Button
+            colorScheme='blue'
+            onClick={()=>navigate(`${rec.id}`)}
+          >
+            <CircleEllipsis />
+          </Button>
+        </ButtonGroup>
+      ),
+    },
   ];
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -137,7 +175,6 @@ const CompoundsTable = ({ compounds }) => {
   const handelSubmit = async (e) => {
     e.preventDefault();
     delete userInfo.images;
-    delete userInfo.image;
     console.log(!!userInfo.price_from);
     if(userInfo.address_ar=='') return setErrors((prevData)=>({
       ...prevData,
@@ -176,11 +213,20 @@ if(userInfo.name_ar=='') return setErrors((prevData)=>({
   name_ar:"الاسم اجباري"
 }))
 setLoading(true);
+const formData = new FormData();
+for (const key in userInfo) {
+ formData.append(key,userInfo[key])
+}
 try {
-      let { data } = await apiRegister({
+      let { data } = await baseURL({
         method: 'post',
         url: `/compounds/${userInfo?.id}?_method=PUT`,
-        data: userInfo,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          APP_KEY: import.meta.env.VITE_APP_KEY,
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
+        },
       });
       setLoading(false);
       setTimeout(() => {
@@ -189,9 +235,9 @@ try {
       console.log(data);
       dispatch(getCompounds());
     } catch (error) {
+      setLoading(false);
       console.log(error);
     //   //  setError(error?.response?.data || error?.message);
-       setLoading(false);
     }
   };
 
@@ -250,6 +296,12 @@ try {
                       />
                   <FormErrorMessage>{errors.name_en}</FormErrorMessage>
                     </FormControl>
+                    <FormControl  >
+                    <FormLabel>Image :</FormLabel>
+  
+                  <Input type='file' onChange={(e) => setUserInfo((prevData) => ({...prevData,image: e.target.files[0]}))}  />
+              
+              </FormControl>
                     <FormControl isInvalid={errors.area} >
                       <FormLabel>Area :</FormLabel>
                       <Input

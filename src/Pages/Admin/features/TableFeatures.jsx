@@ -34,13 +34,13 @@ const TableFeature = ({ features }) => {
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState({});
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
- 
+  const { authButton } = useSelector((state) => state.authrization);
 const deleteFeature = ({id,onClose})=>{
   dispatch(deleteFeatures(id))
   onClose()
 }
 
-  const columns = [
+  const columns = authButton? [
     {
       title: 'Id',
       dataIndex: 'id',
@@ -60,28 +60,49 @@ const deleteFeature = ({id,onClose})=>{
       title: 'User id',
       dataIndex: 'user_id',
       key: 'user_id',
+    }, 
+      {
+        title: 'Actions',
+        key: 'actions',
+        render: (_, feature) => (
+          <ButtonGroup
+            variant='outline'
+            size='sm'
+            spacing={4}
+          >
+            <Button
+              colorScheme='red'
+              onClick={() => {
+                setUserInfo(feature);
+                onOpenDialog()
+              }}
+            >
+              <Trash size={20} />
+            </Button>
+          </ButtonGroup>
+        ),
+      }
+  ]:[
+    {
+      title: 'Id',
+      dataIndex: 'id',
+      sorter: (a, b) => a.id - b.id,
     },
     {
-      title: 'Actions',
-      key: 'actions',
-      render: (_, feature) => (
-        <ButtonGroup
-          variant='outline'
-          size='sm'
-          spacing={4}
-        >
-          <Button
-            colorScheme='red'
-            onClick={() => {
-              setUserInfo(feature);
-              onOpenDialog()
-            }}
-          >
-            <Trash size={20} />
-          </Button>
-        </ButtonGroup>
-      ),
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
     },
+    {
+      title: 'Compound id',
+      dataIndex: 'compound_id',
+      key: 'compound_id',
+    },
+    {
+      title: 'User id',
+      dataIndex: 'user_id',
+      key: 'user_id',
+    }
   ];
 
   return (

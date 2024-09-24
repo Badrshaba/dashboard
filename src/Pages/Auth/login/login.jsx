@@ -28,7 +28,7 @@ const Login = () => {
           alt='Resido Logo'
           className=' animate-bounce'
         />
-         <Link to={'/privacy_policy'} className='fixed top-3/4 text-teal-700 underline' > privacy policy </Link>
+         <Link to={'/privacy_policy'} className='fixed bottom-5 left-3 text-teal-700 underline' > privacy policy </Link>
       </div>
       <div className='flex items-center flex-col justify-center'>
         {error && (

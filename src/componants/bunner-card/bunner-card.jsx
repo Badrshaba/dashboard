@@ -1,12 +1,12 @@
 import { Box, Button } from '@chakra-ui/react';
 import { Image } from 'antd';
 import { Trash } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteBannerFromDashboard } from '../../redux/thunck/bunnersAsync';
 
 const BunnerCard = ({ banner, loading }) => {
   const dispatch = useDispatch();
-
+  const { authButton } = useSelector((state) => state.authrization);
   return (
     <Box
       bg='gray.200'
@@ -18,7 +18,7 @@ const BunnerCard = ({ banner, loading }) => {
         src={banner.image}
         style={{ margin: '0' }}
       />
-      <Button
+{authButton&&      <Button
         colorScheme='red'
         width='100%'
         rounded={false}
@@ -26,7 +26,7 @@ const BunnerCard = ({ banner, loading }) => {
         onClick={() => dispatch(deleteBannerFromDashboard(banner?.id))}
       >
         <Trash />
-      </Button>
+      </Button>}
     </Box>
   );
 };

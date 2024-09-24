@@ -10,6 +10,7 @@ import subCategoriesReducers from './slices/subCategories';
 import ZonesReducers from './slices/zone';
 import TypeReducers from './slices/type';
 import StatusReducers from './slices/status';
+import authrization from './slices/authrization';
 
 const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ const store = configureStore({
     subCategories: subCategoriesReducers,
     zones: ZonesReducers,
     types:TypeReducers,
-    status:StatusReducers
+    status:StatusReducers,
+    authrization
   },
 });
 

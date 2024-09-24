@@ -8,6 +8,7 @@ import { getFeatures } from '../../../redux/thunck/crudFeatures';
 const Features = () => {
   const { features, isLoading, error } = useSelector((state) => state.features);
   const { properites  } = useSelector((state) => state.properites);
+  const { authButton } = useSelector((state) => state.authrization);
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -18,7 +19,8 @@ const Features = () => {
     <div className='bg-white p-3 rounded-md'>
       <h3 className='text-3xl'>Features</h3>
       <div className=' flex justify-between items-center'>
-        <AddFeatures properites={properites} />
+        {authButton&&<AddFeatures properites={properites} />}
+        
       </div>
       <TableFeature features={features} />
     </div>

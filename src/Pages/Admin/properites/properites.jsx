@@ -34,6 +34,7 @@ const Properites = () => {
     status_id: '1',
     type_id: '1',
   });
+  const { authButton } = useSelector((state) => state.authrization);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -50,14 +51,15 @@ console.log();
       <h3 className='text-3xl mt-5'>Properites</h3>
       <div className=' flex justify-between'>
         <Link to={paths.addproperity}>
-          <Button
+        {authButton&&   <Button
             colorScheme='teal'
             leftIcon={<Plus />}
             mt={5}
             size='md'
           >
             Add Properites
-          </Button>
+          </Button>}
+       
         </Link>
       </div>
 

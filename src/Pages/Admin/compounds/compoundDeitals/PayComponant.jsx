@@ -5,7 +5,7 @@ import { Edit, Trash } from "lucide-react";
 import { useState } from "react"
 import { getUsersApi } from "../../../../utils/api";
 import { getCompoundById } from "../../../../redux/thunck/crudCompounds";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 
@@ -45,6 +45,7 @@ const PayComponant = ({item,deletePayment}) => {
           [name]: +value,
         }));
       }
+      const { authButton } = useSelector((state) => state.authrization);  
   return (
 <div className=" flex" >
 <div key={item.id} className=" border " onMouseEnter={()=>setShow(true)} onMouseLeave={()=>{setTimeout(()=>setShow(false),2000)}} >
@@ -65,7 +66,7 @@ const PayComponant = ({item,deletePayment}) => {
     </Typography.Paragraph> 
     </div>
   </div>
-  {show&& <div className="flex flex-col"   >
+  {authButton&&show&& <div className="flex flex-col"   >
     <Button size={"xs"} onClick={()=>deletePayment(item.id)}  > <Trash size={15}   color="red" /></Button>
     <Button size={"xs"} onClick={()=>getPaymentById(item.id)}   > <Edit size={15}    /></Button>
 </div>}

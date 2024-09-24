@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Dashboard />
             </Suspense>
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
       {
         path: 'banners',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Bunners />
             </Suspense>
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
       {
         path: 'features',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Features />
             </Suspense>
@@ -83,7 +83,7 @@ const router = createBrowserRouter([
       {
         path: 'compounds',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Compounds />
             </Suspense>
@@ -93,7 +93,7 @@ const router = createBrowserRouter([
       {
         path: 'compounds/:compoundId',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <CompoundPage />
             </Suspense>
@@ -103,7 +103,7 @@ const router = createBrowserRouter([
       {
         path: 'properites',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Properites />
             </Suspense>
@@ -133,7 +133,7 @@ const router = createBrowserRouter([
       {
         path: 'properites/:properiteId',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <ProperitePage />
             </Suspense>
@@ -143,7 +143,7 @@ const router = createBrowserRouter([
       {
         path: 'sub-categories',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <SubCategories />
             </Suspense>
@@ -153,7 +153,7 @@ const router = createBrowserRouter([
       {
         path: 'categories',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Categories />
             </Suspense>

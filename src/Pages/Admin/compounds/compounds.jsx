@@ -38,7 +38,7 @@ const Compounds = () => {
   const File = useState([]);
  // const [searchHandel, search, setSearch] = useSearch('/search-compound', updatecompoundsList);
   const { compounds, isLoading, error } = useSelector((state) => state.compounds);
-
+  const { authButton } = useSelector((state) => state.authrization);
   const [getZone, zones] = useGetZone();
 
   const dispatch = useDispatch();
@@ -72,7 +72,7 @@ const Compounds = () => {
     <div className='bg-white p-3 rounded-md '>
       <h3 className='text-3xl'>Compounds</h3>
       <div className=' flex justify-between items-center'>
-        <Button
+        {authButton&&    <Button
           colorScheme='teal'
           leftIcon={<Plus />}
           mt={5}
@@ -80,7 +80,8 @@ const Compounds = () => {
           onClick={clearInput}
         >
           Add Compounds
-        </Button>
+        </Button>}
+    
       </div>
       <FormCompound
         onClose={onClose}

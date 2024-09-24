@@ -3,6 +3,7 @@ import { RouterProvider } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from './redux/slices/user';
 import router from './route/Router';
+import { updateAuthButton } from './redux/slices/authrization';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const App = () => {
       const user = JSON.parse(localStorage.getItem('user'));
       const userToken = JSON.parse(localStorage.getItem('userToken'));
       dispatch(setUser({ user, userToken }));
+      dispatch(updateAuthButton(user))
     }
   }, [dispatch]);
 

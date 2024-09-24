@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 import {getUsersApi} from '../../../../utils/api'
 import PayComponant from "./PayComponant"
 import { getCompoundById } from "../../../../redux/thunck/crudCompounds"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { getProperityById } from "../../../../redux/thunck/crudProperites"
 
 
@@ -20,7 +20,7 @@ const PaymentTools = ({paymentplancompound}) => {
   const [errorStart,setErrorStart] = useState('')
   const [errorprice_of_month,setErrorPrice_of_month] = useState('')
   const dispatch = useDispatch();
-
+  const { authButton } = useSelector((state) => state.authrization);
   const onSubmit = async(e)=>{
     e.preventDefault();
   if(!year.length)return setErrorYear('year is requared')
@@ -57,7 +57,7 @@ const clearPayment = ()=>{
     <div className=" space-y-2">
     <div className=" flex justify-between w-full border px-2 py-1 rounded shadow">
     <h3 className=" font-semibold" >Payment plan</h3>
-    <Button onClick={clearPayment} colorScheme='teal' size='xs' ><Plus size={15}/></Button>
+    {authButton&&<Button onClick={clearPayment} colorScheme='teal' size='xs' ><Plus size={15}/></Button>}
     <Modal isOpen={isOpenPay} onClose={onClosePay}>
     <ModalOverlay />
     <ModalContent>

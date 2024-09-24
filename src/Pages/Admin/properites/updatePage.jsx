@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Flex, Stack, Text, Textarea, Button, FormLabel } from '@chakra-ui/react';
-import { Input,  Select } from 'antd';
+import { Box, Flex, Stack, Text, Textarea, Button, FormLabel, FormControl, FormErrorMessage } from '@chakra-ui/react';
+import { Image, Input,  Select } from 'antd';
 import { getProperityById } from '../../../redux/thunck/crudProperites';
-import { apiRegister, getUsersApi } from '../../../utils/api';
+import { apiRegister, bannersApi, baseURL, getUsersApi } from '../../../utils/api';
 import Selector from '../../../componants/form/Selector';
 import { getStatus, getTypes } from '../../../redux/thunck/crudOthers';
 import { getAllSubCategories } from '../../../redux/thunck/subCategoriesAsync';
@@ -39,80 +39,91 @@ const [errors,setErrors] = useState({
   bedrooms:'',
   delivery_in:''
 })
+
   const dispatch = useDispatch();
   const onSubmit =async(e)=>{
     e.preventDefault();
-    if(errors.name_en=='') return setErrors((prevData)=>({
+    if(formData.name_en=='') return setErrors((prevData)=>({
       ...prevData,
       name_en:"name is requared"
     }))
-    if(errors.name_ar=='') return setErrors((prevData)=>({
+    if(formData.name_ar=='') return setErrors((prevData)=>({
       ...prevData,
       name_ar:"الاسم اجباري"
     }))
-    if(errors.address_en=='') return setErrors((prevData)=>({
-      ...prevData,
-      address_en:"address is requared"
-    }))
-    if(errors.address_ar=='') return setErrors((prevData)=>({
-      ...prevData,
-      address_ar:"العنوان اجباري"
-    }))
-    if(errors.description_ar=='') return setErrors((prevData)=>({
-      ...prevData,
-      description_ar:"الوصف اجباري"
-    }))
-    if(errors.description_en=='') return setErrors((prevData)=>({
-      ...prevData,
-      description_en:'description is requared'
-    }))
-    if(errors.area=='') return setErrors((prevData)=>({
+    if(formData.area=='') return setErrors((prevData)=>({
       ...prevData,
       area:'area is requared'
     }))
-    if(errors.availability=='') return setErrors((prevData)=>({
+    if(formData.availability=='') return setErrors((prevData)=>({
       ...prevData,
       availability:'availability is requared'
     }))
-    if(errors.balconies=='') return setErrors((prevData)=>({
-      ...prevData,
-      balconies:'balconies is requared'
-    }))
-    if(errors.bedrooms=='') return setErrors((prevData)=>({
-      ...prevData,
-      bedrooms:'bedrooms is requared'
-    }))
-    if(errors.delivery_in=='') return setErrors((prevData)=>({
-      ...prevData,
-      delivery_in:'delivery in is requared'
-    }))
-    if(errors.kitchens=='') return setErrors((prevData)=>({
-      ...prevData,
-      kitchens:'kitchens is requared'
-    }))
-    if(errors.master_bedroom=='') return setErrors((prevData)=>({
-      ...prevData,
-      master_bedroom:'master bedroom is requared'
-    }))
-    if(errors.price_from=='') return setErrors((prevData)=>({
+    if(formData.price_from=='') return setErrors((prevData)=>({
       ...prevData,
       price_from:'price from is requared'
     }))
-    if(errors.price_to=='') return setErrors((prevData)=>({
+    if(formData.price_to=='') return setErrors((prevData)=>({
       ...prevData,
       price_to:'price to is requared'
     }))
-    if(errors.rooms=='') return setErrors((prevData)=>({
+    if(formData.address_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      address_en:"address is requared"
+    }))
+    if(formData.address_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      address_ar:"العنوان اجباري"
+    }))
+    if(formData.description_ar=='') return setErrors((prevData)=>({
+      ...prevData,
+      description_ar:"الوصف اجباري"
+    }))
+    if(formData.description_en=='') return setErrors((prevData)=>({
+      ...prevData,
+      description_en:'description is requared'
+    }))
+    if(formData.balconies=='') return setErrors((prevData)=>({
+      ...prevData,
+      balconies:'balconies is requared'
+    }))
+    if(formData.bedrooms=='') return setErrors((prevData)=>({
+      ...prevData,
+      bedrooms:'bedrooms is requared'
+    }))
+    if(formData.delivery_in=='') return setErrors((prevData)=>({
+      ...prevData,
+      delivery_in:'delivery in is requared'
+    }))
+    if(formData.kitchens=='') return setErrors((prevData)=>({
+      ...prevData,
+      kitchens:'kitchens is requared'
+    }))
+    if(formData.master_bedroom=='') return setErrors((prevData)=>({
+      ...prevData,
+      master_bedroom:'master bedroom is requared'
+    }))
+    if(formData.rooms=='') return setErrors((prevData)=>({
       ...prevData,
       rooms:'rooms is requared'
     }))
    setLoading(true)
+   const formDataSend = new FormData();
+   for (const key in formData) {
+    formDataSend.append(key,formData[key])
+   }
 try {
-   await getUsersApi({
-    url:`/apartments/${properiteId}?_method=PUT`,
+  let { data } = await baseURL({
     method: 'post',
-    data: formData,
-  })
+    url: `/apartments/${properiteId}?_method=PUT`,
+    data: formDataSend,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      APP_KEY: import.meta.env.VITE_APP_KEY,
+      Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
+    },
+  });
+  console.log(data);
   setLoading(false)
 } catch (error) {
   console.log(error);
@@ -120,8 +131,7 @@ try {
 }
   }
   const handleChange = (e) => {
-  //  console.log(e.target);
-  //  console.log(nameRef.current);
+
     const { name, value } = e.target;
     if ( name != 'description_en' && name != 'description_ar'&& value.length > 50) {
       return setErrors((prevData)=>({
@@ -151,7 +161,7 @@ try {
       console.log(error);
     }
   }
-
+console.log(formData);
  // console.log(model);
   useEffect(()=>{
     getProperityById(properiteId)
@@ -195,10 +205,11 @@ try {
                 ))}
               </Select>
               </div>
+
               <div className=' flex flex-col' >
+              <FormControl isInvalid={errors?.name_en}>
               <Text fontSize={12}>Name </Text>
               <Input
-            
                 placeholder='Properity Name...'
                 size='large'
                 name='name_en'
@@ -206,8 +217,11 @@ try {
               onChange={handleChange}
               style={{ width: '170px' }}
               />
+              <FormErrorMessage>{errors?.name_en}</FormErrorMessage>
+              </FormControl>
               </div>
               <div style={{ direction:'rtl' }} className=' flex flex-col '  >
+              <FormControl isInvalid={errors?.name_ar}>
             <Text fontSize={12}>اسم الوحده </Text>
               <Input
                 placeholder='اسم الوحده'
@@ -217,8 +231,11 @@ try {
               onChange={handleChange}
               style={{ width: '170px' }}
               />
+              <FormErrorMessage>{errors?.name_ar}</FormErrorMessage>
+              </FormControl>
               </div>
               <div className=' flex flex-col' >
+              <FormControl isInvalid={errors?.area}>
               <Text fontSize={12}>Area </Text>
               <Input
                 placeholder='Area...'
@@ -228,6 +245,8 @@ try {
               onChange={handleChange}
               style={{ width: '100px' }}
               />
+              <FormErrorMessage>{errors?.area}</FormErrorMessage>
+              </FormControl>
               </div>
               <div className=' flex flex-col'  >
             <Text fontSize={12} >Modal </Text>
@@ -306,6 +325,7 @@ try {
               </Select>
               </div>
               <div className=' flex flex-col' >
+              <FormControl isInvalid={errors?.availability}>
               <Text fontSize={12}>Availability </Text>
               <Input
                 placeholder='Availability...'
@@ -315,6 +335,9 @@ try {
               onChange={handleChange}
               style={{ width: '100px' }}
               />
+              <FormErrorMessage>{errors?.availability}</FormErrorMessage>
+
+              </FormControl>
               </div>
 </div>
             </Flex>
@@ -335,7 +358,7 @@ try {
                 >
                   From
                 </Text>
-
+                <FormControl isInvalid={errors?.price_from}>
                 <Input
                   style={{ width: '180px' }}
                   size='large'
@@ -343,8 +366,10 @@ try {
                   name='price_from'
                  value={formData?.price_from}
                 onChange={handleChange}
-
                  />
+                   <FormErrorMessage>{errors?.price_from}</FormErrorMessage>
+
+                </FormControl>
               </Flex>
               <Flex
                 alignItems='center'
@@ -356,7 +381,7 @@ try {
                   >
                   To
                 </Text>
-
+                <FormControl isInvalid={errors?.price_to}>
                 <Input
                   style={{ width: '180px' }}
                   size='large'
@@ -364,8 +389,9 @@ try {
                   name='price_to'
                   value={formData?.price_to}
                   onChange={handleChange}
-                 
                 />
+                 <FormErrorMessage>{errors?.price_to}</FormErrorMessage>
+                </FormControl>
               </Flex>
             </Flex>
           </Box>
@@ -373,6 +399,7 @@ try {
             <FormLabel>3.Location</FormLabel>
             <Flex gap={5}>
             <div className=' flex flex-col' >
+            <FormControl isInvalid={errors?.address_en}>
             <Text fontSize={12}>Address </Text>
               <Input
                 style={{ width: '250px' }}
@@ -382,8 +409,12 @@ try {
                 value={formData?.address_en}
                 onChange={handleChange}
               />
+                 <FormErrorMessage>{errors?.address_en}</FormErrorMessage>
+
+            </FormControl>
             </div>
             <div style={{direction:'rtl'}} className=' flex flex-col'>
+            <FormControl isInvalid={errors?.address_ar}>
             <Text fontSize={12}>العنوان </Text>
               <Input
                 style={{ width: '250px'}}
@@ -393,6 +424,8 @@ try {
                value={formData?.address_ar}
                onChange={handleChange}
               />
+              <FormErrorMessage>{errors?.address_ar}</FormErrorMessage>
+            </FormControl>
             </div>
             </Flex>
           </Box>
@@ -403,6 +436,7 @@ try {
               wrap='wrap'
             >
               <div className=' flex flex-col' >
+              <FormControl isInvalid={errors?.rooms}>
               <Text fontSize={12}>Rooms </Text>
               <Input
                 size='large'
@@ -412,8 +446,11 @@ try {
                 value={formData?.rooms}
                 onChange={handleChange}
                 />
+              <FormErrorMessage>{errors?.rooms}</FormErrorMessage>
+              </FormControl>
               </div>
               <div className=' flex flex-col' >
+              <FormControl isInvalid={errors?.master_bedroom}>
               <Text fontSize={12}>Master bedroom </Text>
               <Input
                 size='large'
@@ -423,8 +460,11 @@ try {
                 value={formData?.master_bedroom}
                 onChange={handleChange}
                 />
+              <FormErrorMessage>{errors?.master_bedroom}</FormErrorMessage>
+              </FormControl>
               </div>
               <div className=' flex flex-col' >
+              <FormControl isInvalid={errors?.bedrooms}>
               <Text fontSize={12}>Bed Room </Text>
               <Input
                 size='large'
@@ -434,8 +474,11 @@ try {
                 value={formData?.bedrooms}
                 onChange={handleChange}
                 />
+              <FormErrorMessage>{errors?.bedrooms}</FormErrorMessage>
+              </FormControl>
               </div>
               <div className=' flex flex-col' >
+              <FormControl isInvalid={errors?.bathrooms}>
               <Text fontSize={12}>BathRooms </Text>
               <Input
                 size='large'
@@ -447,8 +490,12 @@ try {
                 name='bathrooms'
                 onChange={handleChange}
                 />
+                <FormErrorMessage>{errors?.bathrooms}</FormErrorMessage>
+
+              </FormControl>
               </div>
               <div className=' flex flex-col' >
+              <FormControl isInvalid={errors?.balconies}>
                 <Text fontSize={12}>Balcony </Text>
               <Input
                 size='large'
@@ -458,8 +505,11 @@ try {
                 value={formData?.balconies}
                 onChange={handleChange}
                 />
+                <FormErrorMessage>{errors?.balconies}</FormErrorMessage>
+              </FormControl>
               </div>
               <div className=' flex flex-col' >
+              <FormControl isInvalid={errors?.kitchens}>
               <Text fontSize={12}>kitchens </Text>
               <Input
                 size='large'
@@ -469,6 +519,8 @@ try {
                 value={formData?.kitchens}
                 onChange={handleChange}
                 />
+                <FormErrorMessage>{errors?.kitchens}</FormErrorMessage>
+              </FormControl>
               </div>
               <div className=' flex flex-col' >
                 <Text fontSize={12}>Wifi </Text>
@@ -518,11 +570,28 @@ try {
               <Selector placeholder={'Garden'} size={'large'} handleChange={(e)=>{setFormData((prevData) => ({...prevData,garden: e,}))}} name={'garden'} value={formData?.garden} />
             </Flex>
           </Box>
-
           <Box>
+            <Text
+              mb={2}
+              fontWeight='bold'
+              fontSize={14}
+              color={'gray.600'}
+            >
+              6.Media & Documents
+            </Text>
+            <Flex gap={5} alignItems='center'>
+ 
+              <input type="file" onChange={(e) => setFormData((prevData) => ({...prevData,image: e.target.files[0]}))} />
+              <Image width={100} src={formData?.image} />
+   
+            </Flex>
+          </Box>
+          <Box>
+            
             <FormLabel>7.Description And Tags</FormLabel>
                 <div className=' flex space-x-2'>
                 <div className=' flex flex-col'>
+          <FormControl isInvalid={errors?.description_en}>
             <Text fontSize={12}>Description </Text>
             <Textarea
               resize='none'
@@ -533,9 +602,13 @@ try {
               backgroundColor={'white'}
               value={formData?.description_en}
               onChange={handleChange}
-            />
+              />
+             <FormErrorMessage>{errors?.description_en}</FormErrorMessage>
+
+              </FormControl>
             </div>
             <div style={{direction:'rtl'}} className=' flex flex-col' >
+            <FormControl isInvalid={errors?.description_ar}>
             <Text fontSize={12}>الوصف </Text>
             <Textarea
               resize='none'
@@ -547,10 +620,13 @@ try {
               backgroundColor={'white'}
               onChange={handleChange}
             />
+               <FormErrorMessage>{errors?.description_ar}</FormErrorMessage>
+            </FormControl>
             </div>
 </div>
           </Box>
           <Box>
+          <FormControl isInvalid={errors?.delivery_in}>   
             <Text>8.Delivery</Text>
             <Flex gap={3}>
               <Input
@@ -562,6 +638,9 @@ try {
                 style={{width:'170px'}}
               />
             </Flex>
+            <FormErrorMessage>{errors?.delivery_in}</FormErrorMessage>
+
+          </FormControl>
           </Box>
           <Button type='submit' isLoading={loading} colorScheme='yellow'>Update</Button>
         </Stack>

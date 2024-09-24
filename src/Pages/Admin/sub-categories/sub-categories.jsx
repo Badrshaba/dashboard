@@ -8,6 +8,8 @@ import AddSubCategoryPopup from './addSubCategoryPopup';
 
 const SubCategories = () => {
   const { subCategories, isLoading, error } = useSelector((state) => state.subCategories);
+  const { authButton } = useSelector((state) => state.authrization);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllSubCategories());
@@ -15,10 +17,11 @@ const SubCategories = () => {
   return (
     <div className='users-page bg-white p-3 rounded-md'>
       <h3 className='text-3xl'>Sub Categories</h3>
-      <AddSubCategoryPopup
+      {authButton&&<AddSubCategoryPopup
         error={error}
         isLoading={isLoading}
-      />
+      />}
+      
       {isLoading && <LoadingSkeleton />}
 
       {subCategories && (

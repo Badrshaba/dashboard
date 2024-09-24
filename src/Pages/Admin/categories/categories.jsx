@@ -7,6 +7,7 @@ import AddCategoryPopup from './addCategoryPopup';
 
 const Categories = () => {
   const { categories, isLoading, error } = useSelector((state) => state.categories);
+  const { authButton } = useSelector((state) => state.authrization);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCategories());
@@ -14,10 +15,11 @@ const Categories = () => {
   return (
     <div className='bg-white p-3 rounded-md'>
       <h3 className='text-3xl'>Categories</h3>
-      <AddCategoryPopup
+      {authButton&& <AddCategoryPopup
         isLoading={isLoading}
         error={error}
-      />
+      />}
+     
       {isLoading && <LoadingSkeleton />}
       <SimpleGrid
         columns={3}

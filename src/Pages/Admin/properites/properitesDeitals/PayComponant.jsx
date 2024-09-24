@@ -5,7 +5,7 @@ import { Edit, Trash } from "lucide-react";
 import { useState } from "react"
 import { getUsersApi } from "../../../../utils/api";
 import { getCompoundById } from "../../../../redux/thunck/crudCompounds";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProperityById } from "../../../../redux/thunck/crudProperites";
 
@@ -17,6 +17,7 @@ const PayComponant = ({item,deletePayment}) => {
     const [errorStart,setErrorStart] = useState(false)
     const [errorprice_of_month,setErrorPrice_of_month] = useState(false)
     const dispatch = useDispatch();
+    const { authButton } = useSelector((state) => state.authrization);
     const {properiteId} = useParams()
     const getPaymentById = async(id)=>{
         try {
@@ -83,7 +84,7 @@ const PayComponant = ({item,deletePayment}) => {
     </Typography.Paragraph> 
     </div>
   </div>
-  {show&& <div className="flex flex-col"   >
+  {authButton&&show&& <div className="flex flex-col"   >
     <Button size={"xs"} onClick={()=>deletePayment(item.id)}  > <Trash size={15}   color="red" /></Button>
     <Button size={"xs"} onClick={()=>clearItem(item.id)}   > <Edit size={15}    /></Button>
 </div>}

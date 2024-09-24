@@ -7,6 +7,7 @@ import { BunnerCard } from '../../../componants';
 
 const Bunners = () => {
   const { bunners, isLoading, error } = useSelector((state) => state.bunners);
+  const { authButton } = useSelector((state) => state.authrization);
   console.log(bunners);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -15,10 +16,11 @@ const Bunners = () => {
   return (
     <div className='bunners-page bg-white p-3 rounded-md '>
       <h3 className='text-3xl'>Banners</h3>
-      <AddBunnerPopup
+      {authButton&&   <AddBunnerPopup
         error={error}
         isLoading={isLoading}
-      />
+      />}
+   
       {isLoading ? (
         <Box
           mt={5}
@@ -41,25 +43,6 @@ const Bunners = () => {
           ))}
         </SimpleGrid>
       )}
-      {/* <Pagination
-        current={1}
-        defaultCurrent={1}
-        total={50}
-        pageSize={10}
-        align='center'
-        showTotal={() => (
-          <Text
-            fontWeight={500}
-            color='teal'
-            fontSize='1rem'
-          >
-            Total Bunners: 10
-          </Text>
-        )}
-        onChange={() => {
-          setPageNumber((prev) => prev + 1);
-        }}
-      /> */}
     </div>
   );
 };

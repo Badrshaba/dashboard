@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useParams } from "react-router-dom"
 import {baseURL, getUsersApi} from '../../../../utils/api'
 import { getCompoundById } from "../../../../redux/thunck/crudCompounds"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import ImageCompounant from "./ImageCompounant"
 
 const MasterTools = ({masterplancompound}) => {
@@ -18,6 +18,8 @@ const MasterTools = ({masterplancompound}) => {
             setImages((prev) => [...prev, e.target.files[i]]);
         }
     }
+  const { authButton } = useSelector((state) => state.authrization);
+
     const dispatch = useDispatch();
     const onSubmit = async(e)=>{
       e.preventDefault();
@@ -62,7 +64,7 @@ const MasterTools = ({masterplancompound}) => {
     <div className=" space-y-2">
     <div className=" flex justify-between w-full border px-2 py-1 rounded shadow">
     <h3 className=" font-semibold">Master plan</h3>
-    <Button onClick={clearImage} colorScheme='teal' size='xs' ><Plus size={15}/></Button>
+    {authButton&&<Button onClick={clearImage} colorScheme='teal' size='xs' ><Plus size={15}/></Button>}
     <Modal isOpen={isOpenImg}  onClose={onCloseImg}>
     <ModalOverlay />
     <ModalContent>

@@ -86,6 +86,57 @@ const adminItems = [
     </NavLink>
   ),
 ];
+const salesItems = [
+  getItem(
+    'Dashboard',
+    '1',
+    <NavLink to={paths.dashbaord}>
+      <PieChartOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'Categories',
+    '3',
+    <NavLink to={paths.categories}>
+      <GroupOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'Sub Category',
+    '4',
+    <NavLink to={paths.subcategories}>
+      <FileOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'Appartments',
+    '5',
+    <NavLink to={paths.properites}>
+      <HomeOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'Compounds',
+    '6',
+    <NavLink to={paths.compounds}>
+      <AppstoreOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'Banners',
+    '7',
+    <NavLink to={paths.banners}>
+      <FileJpgOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'Featured',
+    '8',
+    <NavLink to={paths.features}>
+      <StarOutlined />
+    </NavLink>
+  ),
+];
 
 const brokerItems = [
   getItem(
@@ -113,7 +164,7 @@ export const genrateSidebarLinks = (role) => {
     case 3:
       return adminItems; // Marketer
     case 4:
-      return adminItems; // Sales
+      return salesItems; // Sales
     case 5:
       return adminItems; // Developer
     default:

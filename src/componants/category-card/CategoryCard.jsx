@@ -23,7 +23,7 @@ import {
 import { Button, Card } from 'antd';
 import { CastleIcon, Edit, Trash } from 'lucide-react';
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   deleteCategoryFromDashboard,
   updateCategoryFromDashboard,
@@ -33,6 +33,7 @@ const CategoryCard = ({ cate, isLoading, error }) => {
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
+  const { authButton } = useSelector((state) => state.authrization);
   const nameRef = useRef();
   const nameArRef = useRef();
   const cancelRef = useRef();
@@ -52,7 +53,16 @@ const CategoryCard = ({ cate, isLoading, error }) => {
 
   return (
     <>
-      <Card
+    {!authButton?<Card
+        hoverable
+        title={cate.name}
+        extra={
+          <CastleIcon
+            color='teal'
+            size={25}
+          />
+        }
+      />:<Card
         hoverable
         title={cate.name}
         extra={
@@ -72,7 +82,8 @@ const CategoryCard = ({ cate, isLoading, error }) => {
             onClick={onOpen}
           ></Button>,
         ]}
-      ></Card>
+      ></Card>}
+      
       <Modal
         isOpen={isOpen}
         onClose={onClose}

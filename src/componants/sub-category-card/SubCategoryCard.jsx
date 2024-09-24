@@ -35,6 +35,7 @@ const SubCategoryCard = ({ subCate }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
   const { isLoading, error } = useSelector((state) => state.subCategories);
+  const { authButton } = useSelector((state) => state.authrization);
   const dispatch = useDispatch();
   const nameRef = useRef();
   const nameArRef = useRef();
@@ -56,7 +57,9 @@ const SubCategoryCard = ({ subCate }) => {
 
   return (
     <>
-      <Card
+    
+      {
+        authButton?<Card
         hoverable
         title={subCate.name}
         extra={
@@ -82,7 +85,23 @@ const SubCategoryCard = ({ subCate }) => {
             <Text textAlign='right'>{}</Text>
           </Box>
         </Flex>
+      </Card>:<Card
+        hoverable
+        title={subCate.name}
+        extra={
+          <Image
+            src={subCate.image}
+            width={25}
+          />
+        }
+      >
+        <Flex flexDirection='row-reverse'>
+          <Box dir='rtl'>
+            <Text textAlign='right'>{}</Text>
+          </Box>
+        </Flex>
       </Card>
+      }
       <AlertDialog
         isOpen={isOpenDialog}
         leastDestructiveRef={cancelRef}

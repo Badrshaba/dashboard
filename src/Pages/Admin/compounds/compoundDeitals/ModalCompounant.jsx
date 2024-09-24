@@ -2,7 +2,7 @@ import { Button, FormControl, FormErrorMessage, FormLabel, Input, Modal, ModalCl
 import { Edit, Trash } from "lucide-react"
 import { useState } from "react"
 import { getUsersApi } from "../../../../utils/api"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { getCompoundById } from "../../../../redux/thunck/crudCompounds"
 import { useParams } from "react-router-dom"
 
@@ -34,10 +34,11 @@ const ModalCompounant = ({item,deleteModal}) => {
             console.log(error);
         }
     }
+    const { authButton } = useSelector((state) => state.authrization);
   return (
     <div className=" flex" >
         <h3 className=" px-3 m-1 py-2 border" onMouseEnter={()=>setShow(true)} onMouseLeave={()=>{setTimeout(()=>setShow(false),2000)}} >{item.name}</h3>
-        {show&& <div className="flex flex-col"   >
+        {authButton&&show&& <div className="flex flex-col"   >
     <Button size={"xs"} onClick={()=>deleteModal(item.id)}  > <Trash size={15}   color="red" /></Button>
     <Button size={"xs"} onClick={()=>getModalById(item.id)}   > <Edit size={15}    /></Button>
 </div>}

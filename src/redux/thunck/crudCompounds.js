@@ -16,10 +16,11 @@ export const createCompounds = createAsyncThunk(
 
 export const getCompounds = createAsyncThunk('compounds/get-compounds', async (_, thunckApi) => {
   try {
-    const { data } = await api.get('/compounds');
-
+    const { data } = await getUsersApi.get('/compounds');
+console.log(data);
     return data?.data;
   } catch (error) {
+    console.log(error);
     return thunckApi.rejectWithValue(error);
   }
 });

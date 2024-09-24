@@ -21,7 +21,7 @@ export const loginAsync = createAsyncThunk('user/login', async ({ email, passwor
     localStorage.setItem('userToken', JSON.stringify(data.data?.token));
     if (data?.data?.user.role == 1) {
       window.location = '/';
-    } else if (data?.data?.user.role == 1) {
+    } else if (data?.data?.user.role == 4) {
       window.location = '/';
     }
 

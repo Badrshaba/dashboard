@@ -29,6 +29,7 @@ import paths from '../../../route/paths';
 import { deleteProperityById } from '../../../redux/thunck/crudProperites';
 const TableProperites = ({ properites }) => {
   const { isLoading, error } = useSelector((state) => state.properites);
+  const { authButton } = useSelector((state) => state.authrization);
   const dispatch = useDispatch();
   const [appartment, setAppartment] = useState({});
   const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
@@ -39,7 +40,7 @@ const TableProperites = ({ properites }) => {
   const navigate = useNavigate();
   const getColumnSearchProps = useSearchInTable();
 
-
+console.log("auth",authButton);
   const columns = [
     {
       title: 'Name',
@@ -80,7 +81,8 @@ const TableProperites = ({ properites }) => {
           >
             <CircleEllipsis size={20} />
           </Button>
-          <Button
+         
+{authButton&& <><Button
             colorScheme='red'
             onClick={() => {
               setAppartment(rec);
@@ -96,7 +98,8 @@ const TableProperites = ({ properites }) => {
             }}
           >
             <Edit size={20} />
-          </Button>
+          </Button></>   }
+
         </ButtonGroup>
       ),
     },

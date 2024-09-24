@@ -5,13 +5,15 @@ import { useParams } from "react-router-dom"
 import {getUsersApi} from '../../../../utils/api'
 import ModalCompounant from "./ModalCompounant"
 import { getCompoundById } from "../../../../redux/thunck/crudCompounds"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 const ModalTools = ({modelcompound}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [nameModal,setNameModal] = useState('')
     const [error,setError] = useState('')
     const [loading,setLoading] = useState(false)
     const {compoundId} = useParams()
+  const { authButton } = useSelector((state) => state.authrization);
+
     const onSubmitModel = async(e)=>{
         e.preventDefault();
         if (nameModal.length=='') return setError('Name is requared')
@@ -39,11 +41,11 @@ try {
     <div className=" space-y-2">
     <div className=" flex justify-between w-full border px-2 py-1 rounded shadow">
     <h3 className=" font-semibold" >Modal</h3>
-    <Button onClick={()=>{
+    {authButton&&<Button onClick={()=>{
       setNameModal('')
       setError('')
       onOpen()
-    }} colorScheme='teal' size='xs' ><Plus size={15}/></Button>
+    }} colorScheme='teal' size='xs' ><Plus size={15}/></Button>}
     <Modal isOpen={isOpen} onClose={onClose}>
     <ModalOverlay />
     <ModalContent>

@@ -43,10 +43,12 @@ const CompoundsTable = ({ compounds }) => {
 
   const selectRef = useRef();
   const navigate = useNavigate();
+  console.log(userInfo);
   const dispatch = useDispatch();
   const getColumnSearchProps = useSearchInTable();
   const deleteCompound = (compoundID) => {
-    dispatch(deleteCompounds(compoundID?.id));
+
+    dispatch(deleteCompounds(compoundID.id));
     setTimeout(() => {
       onCloseDialog();
     }, 500);
@@ -88,7 +90,7 @@ const CompoundsTable = ({ compounds }) => {
             colorScheme='red'
             onClick={() => {
               setUserInfo(rec);
-              onOpenDialog();
+                onOpenDialog();            
             }}
           >
             <Trash size={20} />
@@ -260,7 +262,7 @@ try {
         }}
       />
       <DeleteAlert
-        userInfo={userInfo}
+        info={userInfo}
         deleteFun={deleteCompound}
         onClose={onCloseDialog}
         isOpen={isOpenDialog}

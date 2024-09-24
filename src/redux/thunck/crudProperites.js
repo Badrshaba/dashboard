@@ -25,6 +25,7 @@ export const getProperityById = createAsyncThunk(
 export const deleteProperityById = createAsyncThunk(
   'properites/delete-properity-by-id',
   async ({ id, onClose }, thunckApi) => {
+    console.log(id);
     try {
       const { data } = await getUsersApi.delete(`/apartments/${id}`);
       onClose();

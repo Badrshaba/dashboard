@@ -41,7 +41,7 @@ function DeleteAlert({ isOpen, onClose, head, body, info, deleteFun }) {
               </Button>
               <Button
                 colorScheme='red'
-                onClick={() => dispatch(deleteFun({ id: info.id, onClose }))}
+                onClick={() => dispatch(deleteFun({ id: info?.id, onClose }))}
                 ml={3}
               >
                 Delete

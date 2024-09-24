@@ -83,7 +83,7 @@ const router = createBrowserRouter([
       {
         path: 'compounds',
         element: (
-          <ProtectedRoutes allowedRoles={['1','4']}>
+          <ProtectedRoutes allowedRoles={['1','4','5']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Compounds />
             </Suspense>
@@ -93,7 +93,7 @@ const router = createBrowserRouter([
       {
         path: 'compounds/:compoundId',
         element: (
-          <ProtectedRoutes allowedRoles={['1','4']}>
+          <ProtectedRoutes allowedRoles={['1','4','5']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <CompoundPage />
             </Suspense>
@@ -103,7 +103,7 @@ const router = createBrowserRouter([
       {
         path: 'properites',
         element: (
-          <ProtectedRoutes allowedRoles={['1','4']}>
+          <ProtectedRoutes allowedRoles={['1','4','5']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Properites />
             </Suspense>
@@ -113,7 +113,7 @@ const router = createBrowserRouter([
       {
         path: 'properites/addproperite',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','5']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <AddProperity />
             </Suspense>
@@ -123,7 +123,7 @@ const router = createBrowserRouter([
       {
         path: 'properites/updateproperity/:properiteId',
         element: (
-          <ProtectedRoutes allowedRoles={['1']}>
+          <ProtectedRoutes allowedRoles={['1','5']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <UpdatePage />
             </Suspense>
@@ -133,7 +133,7 @@ const router = createBrowserRouter([
       {
         path: 'properites/:properiteId',
         element: (
-          <ProtectedRoutes allowedRoles={['1','4']}>
+          <ProtectedRoutes allowedRoles={['1','4','5']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <ProperitePage />
             </Suspense>

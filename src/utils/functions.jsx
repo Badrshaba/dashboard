@@ -137,6 +137,22 @@ const salesItems = [
     </NavLink>
   ),
 ];
+const developerItems = [
+  getItem(
+    'Appartments',
+    '5',
+    <NavLink to={paths.properites}>
+      <HomeOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'Compounds',
+    '6',
+    <NavLink to={paths.compounds}>
+      <AppstoreOutlined />
+    </NavLink>
+  ),
+];
 
 const brokerItems = [
   getItem(
@@ -166,7 +182,7 @@ export const genrateSidebarLinks = (role) => {
     case 4:
       return salesItems; // Sales
     case 5:
-      return adminItems; // Developer
+      return developerItems; // Developer
     default:
       break;
   }

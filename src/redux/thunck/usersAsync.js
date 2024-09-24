@@ -27,6 +27,7 @@ export const createNewUserFromDashboard = createAsyncThunk(
       thunckApi.dispatch(getUsersAsync());
       closePopup();
     } catch (error) {
+      console.log(error);
       return thunckApi.rejectWithValue(error);
     }
   }

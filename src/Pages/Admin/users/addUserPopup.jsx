@@ -60,6 +60,10 @@ if (phoneRef.current.value=='') return setError((prevData)=>({
   ...prevData,
   mobile:'mobile is requared'
 }))
+if (phoneRef.current.value.length!=11) return setError((prevData)=>({
+  ...prevData,
+  mobile:'The mobile field must be 11 digits'
+}))
 if (passwordRef.current.value!=cPasswordRef.current.value) return setError((prevData)=>({
   ...prevData,
   cPassword:'password confirmation not match with password',
@@ -120,7 +124,7 @@ const clearInput = ()=>{
             <Alert status='error'>
               <AlertIcon />
               <AlertTitle>
-                {(error.response.data.data && error.response.data.data[0]) || error?.message}
+                {(error.response?.data?.data && error.response?.data?.data) || error?.message}
               </AlertTitle>
             </Alert>
           )} */}

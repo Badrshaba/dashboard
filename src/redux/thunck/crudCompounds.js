@@ -38,7 +38,7 @@ export const deleteCompounds = createAsyncThunk(
         message: 'Delete Compound',
         placement: 'topRight',
       });
-
+console.log(data);
       thunckApi.dispatch(getCompounds());
     } catch (error) {
       console.log(error);

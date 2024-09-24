@@ -40,7 +40,7 @@ const TableProperites = ({ properites }) => {
   const navigate = useNavigate();
   const getColumnSearchProps = useSearchInTable();
 
-console.log("auth",authButton);
+
   const columns = [
     {
       title: 'Name',

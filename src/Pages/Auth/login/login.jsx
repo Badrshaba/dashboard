@@ -10,6 +10,7 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+
 } from '@chakra-ui/react';
 import { loginAsync } from '../../../redux/thunck/userAsync';
 import { Link } from 'react-router-dom';
@@ -43,8 +44,9 @@ const Login = () => {
             </AlertDescription>
           </Alert>
         )}
-
-        <FormControl paddingInline={20}>
+        <form className=' w-4/5'  onSubmit={(e) => {
+          e.preventDefault()
+          dispatch(loginAsync({ email, password }))}} >
           <Box mb={10}>
             <FormLabel>Email</FormLabel>
             <Input
@@ -54,7 +56,7 @@ const Login = () => {
               isRequired
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            />
+              />
           </Box>
           <Box mb={10}>
             <FormLabel>Password</FormLabel>
@@ -65,16 +67,17 @@ const Login = () => {
               isRequired
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            />
+              />
           </Box>
           <Button
             colorScheme='teal'
-            onClick={() => dispatch(loginAsync({ email, password }))}
+            type='submit'
             isLoading={isLoading}
-          >
+            >
             Login
           </Button>
-        </FormControl>
+        </form>
+         
       </div>
     </div>
   );

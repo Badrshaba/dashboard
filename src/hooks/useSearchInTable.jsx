@@ -77,8 +77,11 @@ const useSearchInTable = () => {
         size={15}
       />
     ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilter: (value, record) =>{
+      if(record[dataIndex]){
+        return record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+      }
+    },
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);

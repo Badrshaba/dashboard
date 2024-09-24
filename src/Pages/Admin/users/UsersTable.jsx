@@ -132,7 +132,7 @@ const UsersTable = () => {
           value: '5',
         },
       ],
-      onFilter: (value, record) => record.role.startsWith(value.toLowerCase()),
+      onFilter: (value, record) => record.role.toString().startsWith(value.toLowerCase()),
       filterSearch: true,
       width: '20%',
     },

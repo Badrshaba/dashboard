@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../utils/api';
 
 export const loginAsync = createAsyncThunk('user/login', async ({ email, password }, thunkApi) => {
+  console.log("user");
   try {
     const { data } = await api.post(
       '/login',

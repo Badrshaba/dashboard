@@ -8,13 +8,13 @@ import FloorTools from "./FloorTools"
 const Tools = ({floorplancompound,modelcompound,paymentplancompound,imagecompound,masterplancompound}) => {
 
   return (
-    <div className=" px-8" >
+    <div className="py-4 px-8" >
         <div className=" space-y-2" >
         <ImagesTools imagecompound={imagecompound} />
         <PayTools paymentplancompound={paymentplancompound}  />
         <ModalTools modelcompound={modelcompound} />
         <MasterTools masterplancompound={masterplancompound} />
-        <FloorTools floorplancompound={floorplancompound} />
+        {/* <FloorTools floorplancompound={floorplancompound} /> */}
       
     </div>
     </div>

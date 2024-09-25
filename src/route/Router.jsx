@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <ProtectedRoutes allowedRoles={['1','4']}>
+          <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Dashboard />
             </Suspense>

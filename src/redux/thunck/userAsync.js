@@ -23,7 +23,7 @@ export const loginAsync = createAsyncThunk('user/login', async ({ email, passwor
     if (data?.data?.user.role == 1) {
       window.location = '/';
     } else if (data?.data?.user.role == 4) {
-      window.location = '/';
+      window.location = '/categories';
     } else if (data?.data?.user.role == 5) {
       window.location = '/properites';
     }

@@ -23,12 +23,13 @@ import { baseURL } from '../../../utils/api';
 import { getCompounds } from '../../../redux/thunck/crudCompounds';
 import { useDispatch } from 'react-redux';
 import FileInput from '../../../componants/file-input/FileInput';
-const FormCompound = ({ onClose, isOpen, formData,zones,setFormData,setErrors,errors,Files,File }) => {
+const FormCompound = ({ onClose, isOpen, formData,zones,setFormData,setErrors,errors,Files,File,Script }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const selectRef = useRef(null);
   const [files,setFiles] = Files
   const [file,setFile] = File
+  const [script,setScript] = Script
   const handleChange = (e) => {
     const { name, value } = e.target;
     if ( name != 'description_en' && name != 'description_ar'&& value.length > 50) {
@@ -99,10 +100,11 @@ const FormCompound = ({ onClose, isOpen, formData,zones,setFormData,setErrors,er
     formDataSend.append('zone_id', selectRef?.current?.value);
     formDataSend.append('user_id', JSON.parse(localStorage.getItem('user')).id);
     formDataSend.append('image', file[0]);
+    formDataSend.append('script',script[0] );
     for (let index = 0; index < files.length; index++) {
       formDataSend.append('images[]', files[index]);
     }
-    console.log(formDataSend.getAll('images[]'));
+    console.log(formDataSend.get('user_id'));
     try {
       let { data } = await baseURL({
         method: 'post',
@@ -271,12 +273,12 @@ const FormCompound = ({ onClose, isOpen, formData,zones,setFormData,setErrors,er
                 </label>
                     </FormControl>
                 <FormControl>
-                <FileInput
-                  lable='Image :'
-                  title='Images '
-                  filesHandler={setFiles}
-                  files={files}
-                />
+                <FormLabel> images :</FormLabel>
+                <Input type='file' onChange={(e) => setFiles((prev) =>[...prev, e.target.files[0]])} />
+              </FormControl>
+                <FormControl>
+                <FormLabel> Script :</FormLabel>
+                <Input type='file' onChange={(e) => setScript(e.target.files)} />
               </FormControl>
 
               </div>

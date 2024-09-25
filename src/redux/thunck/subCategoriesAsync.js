@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { api, cateApi } from '../../utils/api';
+import { api, cateApi, getUsersApi } from '../../utils/api';
 import { notification } from 'antd';
 
 export const getAllSubCategories = createAsyncThunk(
@@ -7,6 +7,18 @@ export const getAllSubCategories = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const { data } = await api.get('/SubCategory');
+      return data?.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
+export const getAllSubCategoriesById = createAsyncThunk(
+  'subCategoriesById/get-allSubCategoriesById',
+  async (id, thunkApi) => {
+    try {
+      const { data } = await getUsersApi.get(`categories/sub/${id}`);
+      console.log(data?.data);
       return data?.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error);

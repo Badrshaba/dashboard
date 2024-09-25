@@ -12,7 +12,7 @@ const Dashboard = () => {
         <div className=' col-span-5'>
           <Stats />
         </div>
-        <div className='charts col-span-7 bg-white p-3'>
+        <div className='charts h-fit col-span-7 bg-white p-3'>
           <ChartsDoughnt />
         </div>
       </div>

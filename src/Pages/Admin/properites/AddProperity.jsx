@@ -1,43 +1,48 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Flex, Stack, Text, Textarea, Button, AvatarBadge } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Textarea, Button, AvatarBadge, FormLabel } from '@chakra-ui/react';
 import { Input, InputNumber, Select, Form, Upload } from 'antd';
 import { getCompounds } from '../../../redux/thunck/crudCompounds';
 import { UploadCloud } from 'lucide-react';
 import { getStatus, getTypes } from '../../../redux/thunck/crudOthers';
-import { getAllSubCategories } from '../../../redux/thunck/subCategoriesAsync';
+import { getAllSubCategories, getAllSubCategoriesById } from '../../../redux/thunck/subCategoriesAsync';
 import { baseURL, getUsersApi } from '../../../utils/api';
+import { getAllCategories } from '../../../redux/thunck/crudCategories';
 
 const AddPage = () => {
   const { compounds } = useSelector((state) => state.compounds);
   const { types } = useSelector((state) => state.types);
   const { status } = useSelector((state) => state.status);
-  const { subCategories } = useSelector((state) => state.subCategories);
+  const { categories } = useSelector((state) => state.categories);
+  const { subCategoriesAdd } = useSelector((state) => state.subCategories);
   const [fileList, setFileList] = useState([]);
   const [file,setFile] = useState(null) 
+  const [script,setScript] = useState(null) 
   const [model,setModel] = useState([])
   const dispatch = useDispatch();
 
   const handleSubmit = async(data) => {
     console.log(data);
-    const formData = new FormData();
-    formData.append('name_en',data.name_en)
-    formData.append('name_ar',data.name_ar)
-    formData.append('description_en',data.description_en)
-    formData.append('description_ar',data.description_ar)
-    formData.append('address_en',data.address_en)
-    formData.append('address_ar',data.address_ar)
-    formData.append('price_to',data.price_to)
-    formData.append('area',+data.area)
-    formData.append('price_from',data.price_from)
-    formData.append('availability',data.availability)
-    formData.append('model_id',data.model_id)
-    formData.append('compound_id',data.compound_id)
-    formData.append('status_id',data.status_id)
-    formData.append('sub_id',data.sub_id)
-    formData.append('type_id',data.type_id)
+    const formData = new FormData()
+    for (const key in data) {
+      formData.append(key,data[key])
+     }
+    // formData.append('description_en',data.description_en)
+    // formData.append('description_ar',data.description_ar)
+    // formData.append('address_en',data.address_en)
+    // formData.append('address_ar',data.address_ar)
+    // formData.append('price_to',data.price_to)
+    // formData.append('area',+data.area)
+    // formData.append('price_from',data.price_from)
+    // formData.append('availability',data.availability)
+    // formData.append('model_id',data.model_id)
+    // formData.append('compound_id',data.compound_id)
+    // formData.append('status_id',data.status_id)
+    // formData.append('sub_id',data.sub_id)
+    // formData.append('type_id',data.type_id)
     formData.append('user_id',JSON.parse(localStorage.getItem('user')).id)
     formData.append('image', file);
+    formData.append('script', script);
     for (let index = 0; index < fileList.length; index++) {
       formData.append('images[]', fileList[index]);
     }
@@ -76,11 +81,12 @@ const AddPage = () => {
       console.log(error);
     }
   }
+  
   useEffect(() => {
     dispatch(getCompounds());
     dispatch(getTypes())
     dispatch(getStatus())
-    dispatch(getAllSubCategories())
+    dispatch(getAllCategories())
   }, [dispatch]);
   return (
     <Box p={5}>
@@ -133,7 +139,7 @@ const AddPage = () => {
                 </Select>
               </Form.Item>
               <Form.Item
-                name='name_en'
+                name='category_id'
                 rules={[
                   {
                     required: true,
@@ -141,27 +147,21 @@ const AddPage = () => {
                   },
                 ]}
               >
-                <Input
-                  placeholder='Appartment Name..'
+                <Select
+                  placeholder='Category '
                   size='large'
                   style={{ width: '170px' }}
-                />
-              </Form.Item>
-              <Form.Item
-                name='name_ar'
-                rules={[
-                  {
-                    required: true,
-                    message: 'This Field Is Required..',
-                  },
-                ]}
-              >
-                <Input
-                  placeholder='ألاسم '
-                  size='large'
-                  dir='rtl'
-                  style={{ width: '170px' }}
-                />
+                  onChange={(e)=>dispatch(getAllSubCategoriesById(e))}
+                >
+                  {categories?.map((category) => (
+                    <option
+                      value={category.id}
+                      key={category.id}
+                    >
+                      {category.name}
+                    </option>
+                  ))}
+                </Select>
               </Form.Item>
               <Form.Item
                 name='area'
@@ -242,13 +242,15 @@ const AddPage = () => {
                   size='large'
                   style={{ width: '170px' }}
                 >
-                  {subCategories?.map((subCategorie) => (
+                  {subCategoriesAdd?.map((subCategorie) => (
+               
                     <option
                       value={subCategorie.id}
                       key={subCategorie.id}
                     >
                       {subCategorie.name}
                     </option>
+                 
                   ))}
                 </Select>
               </Form.Item>
@@ -409,7 +411,7 @@ const AddPage = () => {
               wrap='wrap'
             >
               <Form.Item
-                name='roooms'
+                name='rooms'
                 rules={[{ required: true, message: 'This Field Is required' }]}
               >
                 <InputNumber
@@ -520,7 +522,7 @@ const AddPage = () => {
                 </Select>
               </Form.Item>
               <Form.Item
-                name='clubhous'
+                name='clubhouse'
                 rules={[{ required: true, message: 'This Field Is Required' }]}
               >
                 <Select
@@ -844,7 +846,7 @@ const AddPage = () => {
                 />
               </Form.Item>
               <Form.Item
-                name='description _ar'
+                name='description_ar'
                 rules={[{ required: true, message: 'This Field Is required' }]}
               >
                 <Textarea
@@ -865,9 +867,10 @@ const AddPage = () => {
               fontSize={14}
               color={'gray.600'}
             >
-              8.Delivery
+              8.Delivery&Script
             </Text>
-            <Form.Item    name='delivery_in'
+            <Flex gap={3} alignItems='center' >
+            <Form.Item  name='delivery_in'
                 rules={[{ required: true, message: 'This Field Is required' }]}
                 style={{width:"170px"}}
                 >
@@ -877,6 +880,10 @@ const AddPage = () => {
                 placeholder='Delivery Date'
               />
             </Form.Item>
+        
+              <Input type='file' onChange={(e) => setScript(e.target.files[0])} />
+          
+            </Flex>
           </Box>
           <Button
             colorScheme='teal'

@@ -11,9 +11,11 @@ import ZonesReducers from './slices/zone';
 import TypeReducers from './slices/type';
 import StatusReducers from './slices/status';
 import authrization from './slices/authrization';
+import dashboardSlice from './slices/dashboard';
 
 const store = configureStore({
   reducer: {
+    dashboard:dashboardSlice,
     user: userReducer,
     properites: properitesReducer,
     users: usersReducers,

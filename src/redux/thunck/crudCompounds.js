@@ -17,7 +17,7 @@ export const createCompounds = createAsyncThunk(
 export const getCompounds = createAsyncThunk('compounds/get-compounds', async (_, thunckApi) => {
   try {
     const { data } = await getUsersApi.get('/compounds');
-console.log(data);
+
     return data?.data;
   } catch (error) {
     console.log(error);
@@ -38,7 +38,7 @@ export const deleteCompounds = createAsyncThunk(
         message: 'Delete Compound',
         placement: 'topRight',
       });
-console.log(data);
+
       thunckApi.dispatch(getCompounds());
     } catch (error) {
       console.log(error);

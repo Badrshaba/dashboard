@@ -12,6 +12,7 @@ const Properites = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { properites, isLoading, error } = useSelector((state) => state.properites);
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     title_en: '',
     title_ar: '',

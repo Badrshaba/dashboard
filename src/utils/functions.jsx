@@ -88,13 +88,6 @@ const adminItems = [
 ];
 const salesItems = [
   getItem(
-    'Dashboard',
-    '1',
-    <NavLink to={paths.dashbaord}>
-      <PieChartOutlined />
-    </NavLink>
-  ),
-  getItem(
     'Categories',
     '3',
     <NavLink to={paths.categories}>

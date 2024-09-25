@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Carousel, Collapse, Typography } from 'antd';
 import { NumericFormat } from 'react-number-format';
-import { Box, Flex, Stack } from '@chakra-ui/react';
+import { Box,  Flex,  Stack } from '@chakra-ui/react';
 import { getProperityById } from '../../../redux/thunck/crudProperites';
 import Tools from './properitesDeitals/Tools';
+import jsPDF from 'jspdf';
+import { ArrowBigDownDash, Eye, Plus } from 'lucide-react';
+import Script from './properitesDeitals/Script';
 
 const ProperitePage = () => {
   const { properiteId } = useParams();
   const { properity } = useSelector((state) => state.properites);
-
   const items = [
     {
       key: '1',
@@ -105,11 +107,28 @@ const ProperitePage = () => {
       ),
     },
   ];
+  // const generatePDF = () => {
+  //   const url = "https://me.w-manage.org/public/script/compound/857417387.pdf";
+  //   const link = document.createElement("a");
+  //   link.href = url;
+  //   link.download = "filename.pdf"; // you can specify the filename here
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  //   // Create a new PDF document
+  //   // const doc = new jsPDF();
+    
+  //   // Add some text to the PDF
+  //   // doc.text('Hello world!', 10, 10);
+    
+  //   // Save the PDF with a filename
+  //   // doc.save('Script.pdf');
+  // };
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProperityById(properiteId));
   }, []);
-  console.log(properity);
+  console.log(properity?.script);
   return (
     <Box pb={10}>
       <Carousel
@@ -225,6 +244,7 @@ const ProperitePage = () => {
           </Stack>
         </Flex>
       </Box>
+   <Script/>
       <Tools payment_plans={properity?.payment_plans} master_plans={properity?.master_plans} images={properity?.images} floor_plans={properity?.floor_plans} />
     </Box>
   );

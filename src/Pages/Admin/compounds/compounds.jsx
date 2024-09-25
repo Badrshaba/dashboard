@@ -36,6 +36,7 @@ const Compounds = () => {
   })
   const Files = useState([]);
   const File = useState([]);
+  const Script = useState([]);
  // const [searchHandel, search, setSearch] = useSearch('/search-compound', updatecompoundsList);
   const { compounds, isLoading, error } = useSelector((state) => state.compounds);
   const { authButton } = useSelector((state) => state.authrization);
@@ -93,6 +94,7 @@ const Compounds = () => {
         setErrors={setErrors}
         Files={Files}
         File={File}
+        Script={Script}
       />
       <CompoundsTable compounds={compounds} />
     </div>

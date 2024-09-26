@@ -10,7 +10,7 @@ import {
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
-function DeleteAlert({ isOpen, onClose, head, body, info, deleteFun }) {
+function DeleteAlert({ isOpen, onClose, head, body, info, deleteFun,mainButton='Delete',themMainButton='red' }) {
   const dispatch = useDispatch();
   const cancelRef = useRef();
 
@@ -40,11 +40,11 @@ function DeleteAlert({ isOpen, onClose, head, body, info, deleteFun }) {
                 Cancel
               </Button>
               <Button
-                colorScheme='red'
+                colorScheme={themMainButton}
                 onClick={() => dispatch(deleteFun({ id: info?.id, onClose }))}
                 ml={3}
               >
-                Delete
+                {mainButton}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

@@ -22,6 +22,8 @@ const AddProperity = lazy(() => import('../Pages/Admin/properites/AddProperity')
 const UpdatePage = lazy(() => import('../Pages/Admin/properites/updatePage'));
 const SubCategories = lazy(() => import('../Pages/Admin/sub-categories/sub-categories'));
 const Other = lazy(() => import('../Pages/Admin/other/Other'));
+const RequestEbrooker = lazy(() => import('../Pages/Admin/requestEbrooker/RequestEbrooker'));
+const RequestEbrookerPage = lazy(() => import('../Pages/Admin/requestEbrooker/RequestEbrookerPage'));
 
 const router = createBrowserRouter([
   {
@@ -156,6 +158,26 @@ const router = createBrowserRouter([
           <ProtectedRoutes allowedRoles={['1','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Categories />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'request-ebrooker',
+        element: (
+          <ProtectedRoutes allowedRoles={['1']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <RequestEbrooker />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'request-ebrooker/:ebrookerId',
+        element: (
+          <ProtectedRoutes allowedRoles={['1']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <RequestEbrookerPage />
             </Suspense>
           </ProtectedRoutes>
         ),

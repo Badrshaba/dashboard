@@ -25,64 +25,71 @@ const adminItems = [
   getItem(
     'Dashboard',
     '1',
-    <NavLink to={paths.dashbaord}>
+    <NavLink end to={paths.dashbaord}>
       <PieChartOutlined />
     </NavLink>
   ),
   getItem(
     'Users',
     '2',
-    <NavLink to={paths.users}>
+    <NavLink end to={paths.users}>
       <UserOutlined />
     </NavLink>
   ),
   getItem(
     'Categories',
     '3',
-    <NavLink to={paths.categories}>
+    <NavLink end to={paths.categories}>
       <GroupOutlined />
     </NavLink>
   ),
   getItem(
     'Sub Category',
     '4',
-    <NavLink to={paths.subcategories}>
+    <NavLink end to={paths.subcategories}>
       <FileOutlined />
     </NavLink>
   ),
   getItem(
     'Appartments',
     '5',
-    <NavLink to={paths.properites}>
+    <NavLink end to={paths.properites}>
       <HomeOutlined />
     </NavLink>
   ),
   getItem(
     'Compounds',
     '6',
-    <NavLink to={paths.compounds}>
+    <NavLink end to={paths.compounds}>
       <AppstoreOutlined />
     </NavLink>
   ),
   getItem(
     'Banners',
     '7',
-    <NavLink to={paths.banners}>
+    <NavLink end to={paths.banners}>
       <FileJpgOutlined />
     </NavLink>
   ),
   getItem(
     'Featured',
     '8',
-    <NavLink to={paths.features}>
+    <NavLink end to={paths.features}>
       <StarOutlined />
     </NavLink>
   ),
   getItem(
     'Other',
     '9',
-    <NavLink to={paths.other}>
+    <NavLink end to={paths.other}>
       <AlignCenterOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'requestEbrooker',
+    '10',
+    <NavLink end to={paths.requestEbrooker}>
+      <StarOutlined />
     </NavLink>
   ),
 ];
@@ -129,6 +136,7 @@ const salesItems = [
       <StarOutlined />
     </NavLink>
   ),
+
 ];
 const developerItems = [
   getItem(

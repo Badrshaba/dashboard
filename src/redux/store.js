@@ -12,6 +12,7 @@ import TypeReducers from './slices/type';
 import StatusReducers from './slices/status';
 import authrization from './slices/authrization';
 import dashboardSlice from './slices/dashboard';
+import RequestEbrookerSlice from './slices/RequestEbrooker';
 
 const store = configureStore({
   reducer: {
@@ -27,7 +28,8 @@ const store = configureStore({
     zones: ZonesReducers,
     types:TypeReducers,
     status:StatusReducers,
-    authrization
+    authrization,
+    RequestEbrooker:RequestEbrookerSlice,
   },
 });
 

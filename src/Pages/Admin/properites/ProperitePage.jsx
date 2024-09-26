@@ -1,17 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Carousel, Collapse, Typography } from 'antd';
 import { NumericFormat } from 'react-number-format';
-import { Box,  Flex,  Stack } from '@chakra-ui/react';
+import { Box,  Flex,  Stack, useDisclosure } from '@chakra-ui/react';
 import { getProperityById } from '../../../redux/thunck/crudProperites';
 import Tools from './properitesDeitals/Tools';
 import jsPDF from 'jspdf';
 import { ArrowBigDownDash, Eye, Plus } from 'lucide-react';
 import Script from './properitesDeitals/Script';
+import { baseURL } from '../../../utils/api';
+import BuyComponant from './properitesDeitals/BuyComponant';
 
 const ProperitePage = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { properiteId } = useParams();
+  const [error,setError] = useState(false)
+  const [images, setImages] = useState([]);
+ const [loading, setLoading] = useState(false)
   const { properity } = useSelector((state) => state.properites);
   const items = [
     {
@@ -128,7 +134,31 @@ const ProperitePage = () => {
   useEffect(() => {
     dispatch(getProperityById(properiteId));
   }, []);
-  console.log(properity?.script);
+
+  const onSubmit = async(e)=>{
+    e.preventDefault();
+    if(!images.length) return setError(true)
+    try {
+      let { data } = await baseURL({
+        method: 'post',
+        url: `/apartments/${properiteId}?_method=PUT`,
+        data: {
+          script:images
+        },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          APP_KEY: import.meta.env.VITE_APP_KEY,
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
+        },
+      });
+      console.log(data);
+      setLoading(false)
+      onClose()
+    } catch (error) {
+      console.log(error);
+      setLoading(false)
+    }
+  }
   return (
     <Box pb={10}>
       <Carousel
@@ -244,7 +274,8 @@ const ProperitePage = () => {
           </Stack>
         </Flex>
       </Box>
-   <Script/>
+<BuyComponant paymentPlan={properity?.payment_plans} />
+   <Script data={properity} setError={setError} loading={loading} onSubmit={onSubmit}  error={error} images={images} setImages={setImages} isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
       <Tools payment_plans={properity?.payment_plans} master_plans={properity?.master_plans} images={properity?.images} floor_plans={properity?.floor_plans} />
     </Box>
   );

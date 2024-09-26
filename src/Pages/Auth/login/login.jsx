@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { loginAsync } from '../../../redux/thunck/userAsync';
 import { Link } from 'react-router-dom';
-
+import logo from '../../../assets/SVG/logo-V.svg';
 const Login = () => {
   const { error, isLoading } = useSelector((state) => state.user);
   const [email, setEmail] = useState('');
@@ -25,7 +25,8 @@ const Login = () => {
     <div className='grid grid-cols-2 h-screen'>
       <div className='bg-gray-200 flex items-center justify-center'>
         <img
-          src='https://resido.w-manage.org/assets/images/logo/logo.png'
+          src={logo}
+          width={200}
           alt='Resido Logo'
           className=' animate-bounce'
         />

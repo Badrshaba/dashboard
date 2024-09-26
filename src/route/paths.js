@@ -13,6 +13,7 @@ const paths = {
   inbox: '/broker/inbox',
   sales: '/sales',
   other: '/other',
+  requestEbrooker: '/request-ebrooker',
 };
 
 export default paths;

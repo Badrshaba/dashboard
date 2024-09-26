@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Layout, Menu, theme } from 'antd';
 import { genrateSidebarLinks } from '../utils/functions.jsx';
 import { Header } from '../componants';
-import img from '../../logo-removebg-preview.png';
+import img from '../assets/SVG/logo-icon-white.svg';
 import "./style.css"
 import useCheckConnection from '../hooks/useCheckConnection.jsx';
 const { Sider } = Layout;
 
 const DashboardLayout = () => {
+  const location=useLocation()
   const { user } = useSelector((state) => state.user);
   const [collapsed, setCollapsed] = useState(false);
   const [logoSize, setLogoSize] = useState(false);
+  const [cur,setCur]=useState(location.pathname)
   const isOnline = useCheckConnection()
-
+  useEffect(()=>{
+    const testtt=genrateSidebarLinks(user?.user?.role)?.map(ele=>ele.label.toLowerCase());
+  const pathname=location.pathname.split('/')[1]
+  console.log(pathname)
+  setCur(testtt?.indexOf(pathname))
+  },[location.pathname])
+console.log(cur)
+// console.log(testtt)
+// console.log(pathname  )
   return (
     <Layout
       style={{
@@ -40,14 +50,14 @@ const DashboardLayout = () => {
           <Link to={'/'}>
             <img
               src={img}
-              width={logoSize ? 120 : 60}
+              width={ 50}
               alt='logo'
             />
           </Link>
         </div>
         <Menu
           theme='light'
-          defaultSelectedKeys={['1']}
+selectedKeys={[cur?.toString()]}
           mode='inline'
           items={genrateSidebarLinks(user?.user?.role)}
         />

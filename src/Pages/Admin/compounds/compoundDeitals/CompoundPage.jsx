@@ -1,38 +1,60 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Carousel, Collapse, Typography } from 'antd';
+import { Carousel, Collapse, notification, Typography } from 'antd';
 import { NumericFormat } from 'react-number-format';
-import { Box, Button, Flex, Stack } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, useDisclosure } from '@chakra-ui/react';
 import { getProperityById } from '../../../../redux/thunck/crudProperites';
-import { getUsersApi } from '../../../../utils/api';
+import { baseURL, getUsersApi } from '../../../../utils/api';
 import Tools from './Tools';
 import { getCompoundById } from '../../../../redux/thunck/crudCompounds';
 import jsPDF from 'jspdf';
 import { ArrowBigDownDash, Eye } from 'lucide-react';
+import Script from '../../properites/properitesDeitals/Script';
+
 
 const CompoundPage = () => {
   const { compoundId } = useParams();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+const [error,setError] = useState(false)
  const {compound} = useSelector((state) => state.compounds)
+ const [images, setImages] = useState([])
+ const [loading, setLoading] = useState(false)
 const dispatch = useDispatch();
 useEffect(()=>{
   dispatch(getCompoundById(compoundId))
   },[])
+  const onSubmit = async(e)=>{
+    e.preventDefault();
+    if (images.length==0) return setError(true)
+    try {
+      let { data } = await baseURL({
+        method: 'post',
+        url: `/compounds/${compoundId}?_method=PUT`,
+        data: {
+          script:images
+        },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          APP_KEY: import.meta.env.VITE_APP_KEY,
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`.replaceAll('"', ''),
+        },
+      });
+      notification.success({
+        description: 'Successfully updated Script.!',
+        duration: 2,
+        showProgress: true,
+        message: 'Update Script',
+        placement: 'topRight',
+      });
+      setLoading(false)
+      onClose()
+    } catch (error) {
+      console.log(error);
+      setLoading(false)
+    }
+  }
 
-    /**
-     * Generates a PDF file and saves it to the user's computer
-     */
-    const generatePDF = (pdfData) => {
-      // Create a new PDF document
-      // const doc = new jsPDF();
-      
-      // // Add some text to the PDF
-      // doc.addImage(pdfData, 'png', 10, 10, 190, 100);
-      
-      // // Save the PDF with a filename
-      // doc.save('Script.png');
-    };
-    console.log(compound?.script);
   return (
     <Box pb={10}>
       <Carousel
@@ -122,23 +144,7 @@ useEffect(()=>{
       <a href={compound?.script} target='_blank'> <Button colorScheme='blue' >view</Button></a>
      <Button colorScheme='red' onClick={generatePDF} >download</Button>
       </div> */}
-      <form method='get' action={compound?.script} className='my-3 ml-7'>
-      <Typography.Text style={{ display: 'flex',gap: '5px',alignItems: 'center', fontWeight: 'bold' }}>
-              Script:{' '}
-              <Typography.Text style={{ fontWeight: 'bold', color: 'teal',display: 'flex', gap: '5px' }}>
-              <a href={compound?.script} target='_blank'> <Button size={'sm'} className='border border-black'   >
-              <div className='flex items-center gap-2 px-2 py-1'>
-              <Eye color='teal'  />
-              <p style={{marginBottom:'0'}} className='text-teal-700 mb-0 '>Show Script</p>
-                </div>
-                </Button> 
-                </a>
-              <Button size={"sm"} type='submit' className='border border-black'  >
-              <ArrowBigDownDash color='red' />
-                </Button>           
-              </Typography.Text>
-            </Typography.Text>
-      </form>
+   <Script data={compound} loading={loading} onSubmit={onSubmit} setError={setError} error={error} images={images} setImages={setImages} isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
      <Tools floorplancompound={compound?.floorplancompound} masterplancompound={compound?.masterplancompound}  modelcompound={compound?.modelcompound} imagecompound={compound?.imagecompound} paymentplancompound={compound?.paymentplancompound}/>
     </Box>
   );

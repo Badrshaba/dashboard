@@ -13,6 +13,7 @@ import StatusReducers from './slices/status';
 import authrization from './slices/authrization';
 import dashboardSlice from './slices/dashboard';
 import RequestEbrookerSlice from './slices/RequestEbrooker';
+import packages from './slices/packages';
 
 const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
     status:StatusReducers,
     authrization,
     RequestEbrooker:RequestEbrookerSlice,
+    packages
   },
 });
 

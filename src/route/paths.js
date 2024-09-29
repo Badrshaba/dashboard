@@ -14,6 +14,7 @@ const paths = {
   sales: '/sales',
   other: '/other',
   requestEbrooker: '/request-ebrooker',
+  package: '/package',
 };
 
 export default paths;

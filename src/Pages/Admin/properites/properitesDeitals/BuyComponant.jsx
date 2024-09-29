@@ -169,12 +169,18 @@ const BuyComponant = ({paymentPlan}) => {
               <FormControl isInvalid={errors.payment_plans_id} >
                 <FormLabel  >Payment Plan :
                 </FormLabel>
-         <div className='flex space-x-3 flex-wrap'>
+         <div className='flex flex-wrap gap-2'>
             {paymentPlan?.map((item)=>(
-            <div key={item?.id} onClick={()=>getPaymentById(item?.id)} className={paymentId==item?.id?'border-2 border-blue-700 p-2 rounded-lg w-fit':'border-2 hover:cursor-pointer hover:shadow-md p-2 rounded-lg w-fit'} >
-                <p> Year: {item?.year}</p>
-                <p> Start: {item?.start}</p>
-                <p> Price: {item?.price_of_month}</p>
+            // <div key={item?.id} onClick={()=>getPaymentById(item?.id)} className={paymentId==item?.id?'border-2 border-blue-700 p-2 rounded-lg w-fit':'border-2 hover:cursor-pointer hover:shadow-md p-2 rounded-lg w-fit'} >
+            //     <p> Year: {item?.year}</p>
+            //     <p> Start: {item?.start}</p>
+            //     <p> Price: {item?.price_of_month}</p>
+            // </div>
+            <div key={item?.id} onClick={()=>getPaymentById(item?.id)} className={paymentId==item?.id?'border-2 bg-[#e4ebf2] border-blue-700 py-5 px-2 rounded-lg w-fit flex flex-col justify-center items-center ':' px-2 flex items-center bg-[#e4ebf2] flex-col justify-center hover:cursor-pointer hover:shadow-md py-5 rounded-lg w-fit'} >
+                <p className='text-2xl mx-auto w-fit font-semibold text-[#1e4164]' >  {item?.start} % </p>
+                <p className='text-xs text-gray-500' > Down Payment</p>
+                <p className=' w-fit' > {item?.year} Year</p>
+                <p className=' w-fit text-xs text-gray-500 ' > {item?.price_of_month} price of month </p>
             </div>
             ))}
          </div>

@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import paths from '../route/paths';
 import { NavLink } from 'react-router-dom';
+import { BriefcaseBusiness } from 'lucide-react';
 
 function getItem(label, key, icon, children) {
   return {
@@ -90,6 +91,13 @@ const adminItems = [
     '10',
     <NavLink end to={paths.requestEbrooker}>
       <StarOutlined />
+    </NavLink>
+  ),
+  getItem(
+    'Package',
+    '11',
+    <NavLink end to={paths.package}>
+     <BriefcaseBusiness size={16} />
     </NavLink>
   ),
 ];

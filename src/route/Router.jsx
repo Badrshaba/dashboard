@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
 import LoadingSkeleton from '../componants/loading-skeleton/LoadingSkeleton';
 import DashboardLayout from '../Layout/DashboardLayout';
+const Package = lazy(()=>import( '../Pages/Admin/package/Package'));
 const PrivcyPolicy = lazy(()=>import('../Pages/Others/unauthorized/PrivcyPolicy'));
 const ProperitePage = lazy(() => import('../Pages/Admin/properites/ProperitePage'));
 const Dashboard = lazy(() => import('../Pages/Admin/dashboard/dashboard'));
@@ -178,6 +179,16 @@ const router = createBrowserRouter([
           <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <RequestEbrookerPage />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'package',
+        element: (
+          <ProtectedRoutes allowedRoles={['1']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <Package />
             </Suspense>
           </ProtectedRoutes>
         ),

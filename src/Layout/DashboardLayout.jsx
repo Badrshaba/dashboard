@@ -10,21 +10,27 @@ import useCheckConnection from '../hooks/useCheckConnection.jsx';
 const { Sider } = Layout;
 
 const DashboardLayout = () => {
-  const location=useLocation()
   const { user } = useSelector((state) => state.user);
   const [collapsed, setCollapsed] = useState(false);
   const [logoSize, setLogoSize] = useState(false);
-  const [cur,setCur]=useState(location.pathname)
   const isOnline = useCheckConnection()
-  useEffect(()=>{
-    const testtt=genrateSidebarLinks(user?.user?.role)?.map(ele=>ele.label.toLowerCase());
-  const pathname=location.pathname.split('/')[1]
-  console.log(pathname)
-  setCur(testtt?.indexOf(pathname))
-  },[location.pathname])
-console.log(cur)
-// console.log(testtt)
-// console.log(pathname  )
+  const path = {
+    '/':"1",
+    '/users':"2",
+    '/categories':"3",
+    '/sub-categories':"4",
+    '/properites':"5",
+    '/compounds':"6",
+    '/banners':"7",
+    '/features':"8",
+    '/other':"9",
+    '/request-ebrooker':'10',
+  }
+  const location = ()=>{
+    let local = window.location.pathname.split("/")
+    local.pop()
+     return path[window.location.pathname] || path[local.join("/")]
+  }
   return (
     <Layout
       style={{
@@ -33,20 +39,19 @@ console.log(cur)
     >
       <Sider
         theme='light'
-        collapsible
-        
+        collapsible        
         collapsed={collapsed}
         onCollapse={(value) => {
           setCollapsed(value);
-          setTimeout(
-            () => {
-              setLogoSize(!logoSize);
-            },
-            logoSize ? 0 : 500
-          );
+          // setTimeout(
+          //   () => {
+          //     setLogoSize(!logoSize);
+          //   },
+          //   logoSize ? 0 : 500
+          // );
         }}
       >
-        <div className='p-5 flex justify-center'>
+        <div className={collapsed?'p-5 fixed flex justify-center':'p-5 fixed left-12 flex justify-center'}>
           <Link to={'/'}>
             <img
               src={img}
@@ -57,7 +62,7 @@ console.log(cur)
         </div>
         <Menu
           theme='light'
-selectedKeys={[cur?.toString()]}
+          defaultSelectedKeys={[location() || '1']}
           mode='inline'
           items={genrateSidebarLinks(user?.user?.role)}
         />

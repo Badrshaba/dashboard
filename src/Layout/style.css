@@ -6,9 +6,11 @@
     position: fixed;
     width: 80px !important; 
     transition: 0.05s;
+    top: 100px;
 }
 .ant-menu-inline{
     position: fixed;
     width: 200px !important;
+    top: 100px;
 
 } 

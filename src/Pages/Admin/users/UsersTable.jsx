@@ -120,11 +120,11 @@ const UsersTable = () => {
           value: '2',
         },
         {
-          text: 'Sales',
+          text: 'Marketer',
           value: '3',
         },
         {
-          text: 'Marketer',
+          text: 'Sales',
           value: '4',
         },
         {

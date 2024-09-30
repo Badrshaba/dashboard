@@ -153,7 +153,7 @@ const salesItems = [
   ),
   getItem(
     'myWallet',
-    '9',
+    '13',
     <NavLink to={paths.myWallet}>
       <WalletMinimal size={16}  />
     </NavLink>

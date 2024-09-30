@@ -27,6 +27,8 @@ const DashboardLayout = () => {
     '/request-ebrooker':'10',
     '/package':"11",
     '/request-sales':"12",
+    '/my-wallet':"13",
+    
   }
   const location = ()=>{
     let local = window.location.pathname.split("/")

@@ -40,10 +40,10 @@ const MyWallet = () => {
             <div className=" w-2/6 h-52 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 p-5 flex flex-col justify-between " >
             <div className=" flex flex-col h-5/6 justify-between">
             <img src={logo} width={100} alt="logo" />
-            <h3 className=" text-white font-medium text-xl" >{wallet?.id}</h3>
+            <h3 className=" text-white font-semibold text-xl items-end" >{wallet?.amount.toFixed(2)}L.E</h3>
             </div>
             <div className=" flex  justify-between mt-5">
-            <h3 className=" text-white font-medium text-xl items-end" >{wallet?.amount}</h3>
+            <h3 className=" text-white font-medium text-xl" >{wallet?.id}</h3>
             <h3 className=" text-white font-medium text-xl items-end uppercase" >{wallet?.user?.name}</h3>
             </div>
             </div>

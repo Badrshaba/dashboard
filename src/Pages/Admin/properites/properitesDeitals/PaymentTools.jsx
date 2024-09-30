@@ -7,36 +7,84 @@ import PayComponant from "./PayComponant"
 import { getCompoundById } from "../../../../redux/thunck/crudCompounds"
 import { useDispatch, useSelector } from "react-redux"
 import { getProperityById } from "../../../../redux/thunck/crudProperites"
+import { notification } from "antd"
 
 
 const PaymentTools = ({paymentplancompound}) => {
   const { isOpen:isOpenPay, onOpen:onOpenPay, onClose:onClosePay } = useDisclosure()
   const {properiteId} = useParams()
   const [loading,setLoading] = useState(false)
-  const [year,setYear] = useState('')
-  const [price_of_month,setPrice_of_month] = useState('')
-  const [start,setStart] = useState('')
-  const [errorYear,setErrorYear] = useState('')
-  const [errorStart,setErrorStart] = useState('')
-  const [errorprice_of_month,setErrorPrice_of_month] = useState('')
+  const [formData,setFormData] = useState({
+    down_payment:"",
+    type_of_date:"",
+    receipt_payment:"",
+    maintenance_payment:"",
+    fixed_payment:""
+  })
+  const [errors,setErrors] = useState({
+    down_payment:"",
+    type_of_date:"",
+    receipt_payment:"",
+    maintenance_payment:"",
+    fixed_payment:""
+  })
   const dispatch = useDispatch();
   const { authButton } = useSelector((state) => state.authrization);
   const onSubmit = async(e)=>{
     e.preventDefault();
-  if(!year.length)return setErrorYear('year is requared')
-  if(!start.length)return setErrorStart('start is requared')
-  if(!price_of_month.length)return setErrorPrice_of_month('price of month is requared')
+  if(formData.down_payment=='')return setErrors((prevData)=>({
+    ...prevData,
+    down_payment:"down payment is requared"
+  }))
+  if(formData.type_of_date=='')return setErrors((prevData)=>({
+    ...prevData,
+    type_of_date:"type of date is requared"
+  }))
+  if(formData.receipt_payment=='')return setErrors((prevData)=>({
+    ...prevData,
+    receipt_payment:"receipt payment is requared"
+  }))
+  if(formData.maintenance_payment=='')return setErrors((prevData)=>({
+    ...prevData,
+    maintenance_payment:"maintenance payment is requared"
+  }))
+  if(formData.fixed_payment=='')return setErrors((prevData)=>({
+    ...prevData,
+    fixed_payment:"fixed payment is requared"
+  }))
     setLoading(true)
+ formData.apartment_id = properiteId
   try {
-    const {data} = await getUsersApi.post('/apartments/payment-plan',{start,year,price_of_month,apartment_id:properiteId});
+    const {data} = await getUsersApi.post('/apartments/payment-plan',formData);
+    notification.success({
+      description: 'Successfully Created New Payment Plan.!',
+      duration: 2,
+      showProgress: true,
+      message: 'Create Payment Plan',
+      placement: 'topRight',
+    });
     dispatch(getProperityById(properiteId))
     onClosePay()
     setLoading(false)
   } catch (error) {
       setLoading(false)
-        console.log(error);
+      console.log(error);
     }
+    setLoading(false)
 }
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  if ( value.length > 50) {
+   return setErrors((prevData)=>({
+      ...prevData,
+      [name]:"max length is 50 "
+    }))
+  }
+  setFormData((prevData) => ({
+    ...prevData,
+    [name]: value,
+  }));
+};
 const deletePayment = async(id)=>{
   try {
     await getUsersApi.delete(`/apartments/payment-plans/${id}`);
@@ -47,10 +95,22 @@ const deletePayment = async(id)=>{
 }
 
 const clearPayment = ()=>{
-  // setRate('')
-  // setYearly_rate('')
-  // setErrorRate('')
-  // setErrorYearly_rate('')
+  for (let key in formData) {
+    if (formData.hasOwnProperty(key)) {
+      setFormData((prevData) => ({
+        ...prevData,
+        [key]: '',
+      }))
+    }
+  }
+  for (let key in errors) {
+    if (errors.hasOwnProperty(key)) {
+      setErrors((prevData) => ({
+        ...prevData,
+        [key]: '',
+      }))
+    }
+  }
   onOpenPay()
 }
   return (
@@ -67,44 +127,59 @@ const clearPayment = ()=>{
       <form className=' w-full' onSubmit={onSubmit} >
         <VStack spacing={2}>
               <div className='w-full space-y-2'>
-                <FormControl isInvalid={errorYear}>
-                  <FormLabel>Year :</FormLabel>
+                <FormControl isInvalid={errors.down_payment}>
+                  <FormLabel>Down Payment :</FormLabel>
                   <Input
                     colorScheme={'red'}
                     type='number'
-                    value={year}
-                    onChange={(e)=>{
-                      if (e.target.value>999) return setErrorYear('max length is 999')
-                        setYear(e.target.value)
-                    }}
+                    name="down_payment"
+                    value={formData.down_payment}
+                    onChange={handleChange}
                   />
-              <FormErrorMessage>{errorYear}</FormErrorMessage>
+              <FormErrorMessage>{errors.down_payment}</FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={errorStart}>
-                  <FormLabel>Start :</FormLabel>
+                <FormControl isInvalid={errors.type_of_date}>
+                  <FormLabel>Type Of Date :</FormLabel>
                   <Input
                     colorScheme={'red'}
-                    type='number'
-                    value={start}
-                    onChange={(e)=>{
-                      if (e.target.value>999) return setErrorStart('max length is 999')
-                        setStart(e.target.value)
-                    }}
+                    name="type_of_date"
+                    value={formData.type_of_date}
+                    onChange={handleChange}
                   />
-              <FormErrorMessage>{errorStart}</FormErrorMessage>
+              <FormErrorMessage>{errors.type_of_date}</FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={errorprice_of_month} >
+                <FormControl isInvalid={errors.receipt_payment}>
+                  <FormLabel>Receipt Payment :</FormLabel>
+                  <Input
+                    colorScheme={'red'}
+                    name="receipt_payment"
+                    type='number'
+                    value={formData.receipt_payment}
+                    onChange={handleChange}
+                  />
+              <FormErrorMessage>{errors.receipt_payment}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={errors.maintenance_payment}>
+                  <FormLabel>Maintenance Payment :</FormLabel>
+                  <Input
+                    colorScheme={'red'}
+                    name="maintenance_payment"
+                    type='number'
+                    value={formData.maintenance_payment}
+                    onChange={handleChange}
+                  />
+              <FormErrorMessage>{errors.maintenance_payment}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={errors.fixed_payment} >
                   <FormLabel>Price Of Month :</FormLabel>
                   <Input
                     colorScheme={'red'}
                     type='number'
-                    value={price_of_month}
-                    onChange={(e)=>{
-                      if (e.target.value>999) return setErrorPrice_of_month('max length is 999')
-                        setPrice_of_month(e.target.value)
-                    }}
+                    name="fixed_payment"
+                    value={formData.fixed_payment}
+                    onChange={handleChange}
                     />
-                    <FormErrorMessage>{errorprice_of_month}</FormErrorMessage>
+                    <FormErrorMessage>{errors.fixed_payment}</FormErrorMessage>
                 </FormControl>
               </div>
         </VStack>
@@ -112,7 +187,7 @@ const clearPayment = ()=>{
           colorScheme='teal'
           className='w-full mb-1 mt-4'
           type='submit'
-         // isLoading={loading}
+          isLoading={loading}
         >
           Submit
         </Button>
@@ -121,7 +196,7 @@ const clearPayment = ()=>{
     </ModalContent>
   </Modal>
     </div>
-    {paymentplancompound?.length?  <div className=" flex flex-wrap space-x-2">
+    {paymentplancompound?.length?  <div className=" flex flex-wrap gap-2">
    { paymentplancompound?.map((e)=>(
     <PayComponant item={e} key={e.id} deletePayment={deletePayment}   />
     ))}

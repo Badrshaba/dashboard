@@ -3,6 +3,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
 import LoadingSkeleton from '../componants/loading-skeleton/LoadingSkeleton';
 import DashboardLayout from '../Layout/DashboardLayout';
+const  MyWallet  = lazy(()=>import( '../Pages/Admin/myWallet/MyWallet'));
+const RequestSalesPage = lazy(()=>import('../Pages/Admin/requestSales/RequestSalesPage'));
+const RequestSales = lazy(()=>import( '../Pages/Admin/requestSales/RequestSales'));
 const Package = lazy(()=>import( '../Pages/Admin/package/Package'));
 const PrivcyPolicy = lazy(()=>import('../Pages/Others/unauthorized/PrivcyPolicy'));
 const ProperitePage = lazy(() => import('../Pages/Admin/properites/ProperitePage'));
@@ -189,6 +192,36 @@ const router = createBrowserRouter([
           <ProtectedRoutes allowedRoles={['1']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <Package />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'request-sales',
+        element: (
+          <ProtectedRoutes allowedRoles={['1']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <RequestSales />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'request-sales/:requestId',
+        element: (
+          <ProtectedRoutes allowedRoles={['1']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <RequestSalesPage />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'my-wallet',
+        element: (
+          <ProtectedRoutes allowedRoles={['2','4']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <MyWallet />
             </Suspense>
           </ProtectedRoutes>
         ),

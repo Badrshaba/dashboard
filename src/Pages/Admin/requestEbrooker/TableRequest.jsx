@@ -11,7 +11,7 @@ import useSearchInTable from '../../../hooks/useSearchInTable';
 
 
 const TableRequest = ({ ebrooker }) => {
-    const { isLoading, error } = useSelector((state) => state.properites);
+    const { isLoading, error } = useSelector((state) => state.RequestEbrooker);
     const navigate = useNavigate();
     const getColumnSearchProps = useSearchInTable();
     const columns = [

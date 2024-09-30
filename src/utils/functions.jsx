@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import paths from '../route/paths';
 import { NavLink } from 'react-router-dom';
-import { BriefcaseBusiness } from 'lucide-react';
+import {Sparkle, BriefcaseBusiness, WalletMinimal } from 'lucide-react';
 
 function getItem(label, key, icon, children) {
   return {
@@ -100,6 +100,13 @@ const adminItems = [
      <BriefcaseBusiness size={16} />
     </NavLink>
   ),
+  getItem(
+    'requestSales',
+    '12',
+    <NavLink end to={paths.requestSales}>
+     <Sparkle size={16} />
+    </NavLink>
+  ),
 ];
 const salesItems = [
   getItem(
@@ -144,6 +151,13 @@ const salesItems = [
       <StarOutlined />
     </NavLink>
   ),
+  getItem(
+    'myWallet',
+    '9',
+    <NavLink to={paths.myWallet}>
+      <WalletMinimal size={16}  />
+    </NavLink>
+  ),
 
 ];
 const developerItems = [
@@ -185,7 +199,7 @@ export const genrateSidebarLinks = (role) => {
     case 1:
       return adminItems;
     case 2:
-      return brokerItems;
+      return salesItems;
     case 3:
       return adminItems; // Marketer
     case 4:

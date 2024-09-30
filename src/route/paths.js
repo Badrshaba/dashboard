@@ -15,6 +15,8 @@ const paths = {
   other: '/other',
   requestEbrooker: '/request-ebrooker',
   package: '/package',
+  requestSales: '/request-sales',
+  myWallet: '/my-wallet',
 };
 
 export default paths;

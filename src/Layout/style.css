@@ -7,10 +7,15 @@
     width: 80px !important; 
     transition: 0.05s;
     top: 100px;
+    height: 80%;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 .ant-menu-inline{
     position: fixed;
     width: 200px !important;
     top: 100px;
-
+    height: 80%;
+    overflow-y: auto;
+    scrollbar-width: thin;
 } 

@@ -26,12 +26,14 @@ const DashboardLayout = () => {
     '/other':"9",
     '/request-ebrooker':'10',
     '/package':"11",
+    '/request-sales':"12",
   }
   const location = ()=>{
     let local = window.location.pathname.split("/")
     local.pop()
      return path[window.location.pathname] || path[local.join("/")]
   }
+  
   return (
     <Layout
       style={{
@@ -56,7 +58,7 @@ const DashboardLayout = () => {
           <Link to={'/'}>
             <img
               src={img}
-              width={ 50}
+              width={50}
               alt='logo'
             />
           </Link>

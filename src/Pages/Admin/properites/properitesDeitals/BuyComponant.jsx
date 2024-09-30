@@ -104,10 +104,13 @@ const BuyComponant = ({paymentPlan}) => {
   return (
     <div className='my-3 ml-7'>
     <Typography.Text style={{ display: 'flex',gap: '5px',alignItems: 'center', fontWeight: 'bold' }}>
-            Script:{' '}
+            Request:{' '}
             <span style={{ fontWeight: 'bold',marginBottom: '0px', color: 'teal',display: 'flex', gap: '5px' }}>
-          <Button size={'sm'} onClick={clearInput}   >
-            approve
+          <Button size={'sm'} className='border flex gap-2 border-teal-700' onClick={clearInput}   >
+          <Plus color='teal' />
+          <span className='text-teal-700' >
+            Add Request
+          </span>
               </Button>           
                <Modal isOpen={isOpen}  onClose={onClose}>
   <ModalOverlay />
@@ -170,19 +173,20 @@ const BuyComponant = ({paymentPlan}) => {
                 <FormLabel  >Payment Plan :
                 </FormLabel>
          <div className='flex flex-wrap gap-2'>
-            {paymentPlan?.map((item)=>(
+            {paymentPlan?.length? paymentPlan?.map((item)=>(
             // <div key={item?.id} onClick={()=>getPaymentById(item?.id)} className={paymentId==item?.id?'border-2 border-blue-700 p-2 rounded-lg w-fit':'border-2 hover:cursor-pointer hover:shadow-md p-2 rounded-lg w-fit'} >
             //     <p> Year: {item?.year}</p>
             //     <p> Start: {item?.start}</p>
             //     <p> Price: {item?.price_of_month}</p>
             // </div>
             <div key={item?.id} onClick={()=>getPaymentById(item?.id)} className={paymentId==item?.id?'border-2 bg-[#e4ebf2] border-blue-700 py-5 px-2 rounded-lg w-fit flex flex-col justify-center items-center ':' px-2 flex items-center bg-[#e4ebf2] flex-col justify-center hover:cursor-pointer hover:shadow-md py-5 rounded-lg w-fit'} >
-                <p className='text-2xl mx-auto w-fit font-semibold text-[#1e4164]' >  {item?.start} % </p>
-                <p className='text-xs text-gray-500' > Down Payment</p>
-                <p className=' w-fit' > {item?.year} Year</p>
-                <p className=' w-fit text-xs text-gray-500 ' > {item?.price_of_month} price of month </p>
+                  <p className='text-2xl mx-auto w-fit font-semibold text-[#1e4164]' >  {item?.receipt_payment} % </p>
+                <p className='text-xs text-gray-500' >  {item?.down_payment} Down Payment</p>
+                <p className=' w-fit' > {item?.type_of_date}</p>
+                <p className=' w-fit text-xs text-gray-500 ' > {item?.maintenance_payment} maintenance payment </p>
+                <p className=' w-fit text-xs text-gray-500 ' > {item?.fixed_payment} fixed payment </p>
             </div>
-            ))}
+            )):<p>Empty</p>}
          </div>
             <FormErrorMessage>payment plans is requared</FormErrorMessage>
               </FormControl>

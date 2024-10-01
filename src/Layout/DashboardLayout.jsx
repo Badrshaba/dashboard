@@ -28,6 +28,7 @@ const DashboardLayout = () => {
     '/package':"11",
     '/request-sales':"12",
     '/my-wallet':"13",
+    '/content-us':"13",
     
   }
   const location = ()=>{
@@ -56,14 +57,12 @@ const DashboardLayout = () => {
           // );
         }}
       >
-        <div className={collapsed?'p-5 fixed flex justify-center':'p-5 fixed left-12 flex justify-center'}>
-          <Link to={'/'}>
+        <div className={collapsed?'p-5 fixed flex justify-center':'p-5 fixed left-12 flex justify-center'}>     
             <img
               src={img}
               width={50}
               alt='logo'
             />
-          </Link>
         </div>
         <Menu
           theme='light'

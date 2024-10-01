@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import paths from '../route/paths';
 import { NavLink } from 'react-router-dom';
-import {Sparkle, BriefcaseBusiness, WalletMinimal } from 'lucide-react';
+import {Sparkle, BriefcaseBusiness, WalletMinimal, Headset } from 'lucide-react';
 
 function getItem(label, key, icon, children) {
   return {
@@ -105,6 +105,13 @@ const adminItems = [
     '12',
     <NavLink end to={paths.requestSales}>
      <Sparkle size={16} />
+    </NavLink>
+  ),
+  getItem(
+    'contentUs',
+    '13',
+    <NavLink end to={paths.contentUs}>
+     <Headset size={16} />
     </NavLink>
   ),
 ];

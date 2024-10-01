@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoutes from '../componants/protected-routes/protected-routes';
 import LoadingSkeleton from '../componants/loading-skeleton/LoadingSkeleton';
 import DashboardLayout from '../Layout/DashboardLayout';
+const ContentUs = lazy(()=>import('../Pages/Admin/contentUs/ContentUs'));
 const  MyWallet  = lazy(()=>import( '../Pages/Admin/myWallet/MyWallet'));
 const RequestSalesPage = lazy(()=>import('../Pages/Admin/requestSales/RequestSalesPage'));
 const RequestSales = lazy(()=>import( '../Pages/Admin/requestSales/RequestSales'));
@@ -222,6 +223,16 @@ const router = createBrowserRouter([
           <ProtectedRoutes allowedRoles={['2','4']}>
             <Suspense fallback={<LoadingSkeleton />}>
               <MyWallet />
+            </Suspense>
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: 'content-us',
+        element: (
+          <ProtectedRoutes allowedRoles={['1']}>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <ContentUs />
             </Suspense>
           </ProtectedRoutes>
         ),

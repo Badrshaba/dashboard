@@ -17,6 +17,7 @@ const paths = {
   package: '/package',
   requestSales: '/request-sales',
   myWallet: '/my-wallet',
+  contentUs: '/content-us',
 };
 
 export default paths;

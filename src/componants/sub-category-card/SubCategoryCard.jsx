@@ -68,6 +68,7 @@ const SubCategoryCard = ({ subCate }) => {
             width={25}
           />
         }
+
         actions={[
           <Button
             icon={<Trash />}

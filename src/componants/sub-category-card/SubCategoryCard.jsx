@@ -62,6 +62,7 @@ const SubCategoryCard = ({ subCate }) => {
         authButton?<Card
         hoverable
         title={subCate.name}
+        
         extra={
           <Image
             src={subCate.image}
@@ -81,6 +82,7 @@ const SubCategoryCard = ({ subCate }) => {
           ></Button>,
         ]}
       >
+        {subCate.category?.name}
         <Flex flexDirection='row-reverse'>
           <Box dir='rtl'>
             <Text textAlign='right'>{}</Text>

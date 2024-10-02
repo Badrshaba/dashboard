@@ -14,6 +14,7 @@ const SubCategories = () => {
   useEffect(() => {
     dispatch(getAllSubCategories());
   }, []);
+
   return (
     <div className='users-page bg-white p-3 rounded-md'>
       <h3 className='text-3xl'>Sub Categories</h3>

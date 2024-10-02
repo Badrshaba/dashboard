@@ -70,7 +70,7 @@ console.log(user);
         </div>
       </div>
       <DeleteAlert
-         userInfo={obj}
+         info={obj}
          deleteFun={deleteFun}
         onClose={onClose}
         isOpen={isOpen}
